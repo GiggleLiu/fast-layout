@@ -11,6 +11,15 @@ pub enum Algorithm {
     Buchheim,
 }
 
+/// Stress optimizer. Majorization preserves the NetworkLayout.jl update contract.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum StressMethod {
+    #[default]
+    Majorization,
+    Sgd,
+}
+
 /// Zero-based edge list and layout options. Empty vectors select defaults.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(default, deny_unknown_fields)]
@@ -18,6 +27,7 @@ pub struct Request {
     pub nodes: usize,
     pub edges: Vec<[usize; 2]>,
     pub algorithm: Algorithm,
+    pub stress_method: StressMethod,
     pub dim: usize,
     pub seed: u64,
     pub iterations: usize,
@@ -40,6 +50,7 @@ impl Default for Request {
             nodes: 0,
             edges: Vec::new(),
             algorithm: Algorithm::Stress,
+            stress_method: StressMethod::Majorization,
             dim: 2,
             seed: 1,
             iterations: 100,
@@ -138,6 +149,9 @@ impl Request {
             .any(|p| !p.is_empty() && p.len() != self.dim)
         {
             return fail("each pin mask must be empty or have dim booleans");
+        }
+        if self.algorithm != Algorithm::Stress && self.stress_method != StressMethod::Majorization {
+            return fail("stress_method is only supported for stress");
         }
         let iterative = matches!(self.algorithm, Algorithm::Stress | Algorithm::Spring);
         if !iterative && (!self.initial.is_empty() || !self.pins.is_empty()) {
@@ -239,6 +253,7 @@ impl Rng {
     }
 }
 
+#[inline]
 pub(crate) fn distance_squared(a: &[f64], b: &[f64]) -> f64 {
     a.iter().zip(b).map(|(x, y)| (x - y) * (x - y)).sum()
 }

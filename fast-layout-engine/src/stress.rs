@@ -17,9 +17,17 @@ struct SolveGroup {
 }
 
 pub(crate) fn run(req: &Request) -> Result<Response, String> {
+    match req.dim {
+        2 => run_dim::<2>(req),
+        3 => run_dim::<3>(req),
+        _ => run_dim::<0>(req),
+    }
+}
+
+fn run_dim<const D: usize>(req: &Request) -> Result<Response, String> {
     let graph = Graph::new(req)?;
     let n = graph.n;
-    let dim = req.dim;
+    let dim = if D == 0 { req.dim } else { D };
     let mut positions = req.initial_positions();
     if n < 2 {
         return Ok(response(positions, dim, 0, true, Some(0.0)));
@@ -37,7 +45,7 @@ pub(crate) fn run(req: &Request) -> Result<Response, String> {
     }
     separate_coincident(req, &mut positions, &distances);
     let mut groups = prepare_solves(req, &weights, &positions)?;
-    let mut old_stress = objective(&positions, dim, &distances);
+    let mut old_stress = objective_dim::<D>(&positions, dim, &distances);
     if groups.is_empty() {
         return Ok(response(positions, dim, 0, true, Some(old_stress)));
     }
@@ -86,7 +94,7 @@ pub(crate) fn run(req: &Request) -> Result<Response, String> {
                 }
             }
         }
-        let new_stress = objective(&next, dim, &distances);
+        let new_stress = objective_dim::<D>(&next, dim, &distances);
         if !new_stress.is_finite() {
             return Err(
                 "fast-layout-engine: stress solve overflowed; reduce weight or coordinate ranges"
@@ -181,7 +189,7 @@ fn prepare_solves(
     Ok(groups)
 }
 
-fn separate_coincident(req: &Request, positions: &mut [f64], distances: &[f64]) {
+pub(crate) fn separate_coincident(req: &Request, positions: &mut [f64], distances: &[f64]) {
     let keys: Vec<Vec<u64>> = positions
         .chunks_exact(req.dim)
         .map(|point| {
@@ -209,6 +217,15 @@ fn separate_coincident(req: &Request, positions: &mut [f64], distances: &[f64]) 
 }
 
 pub(crate) fn objective(positions: &[f64], dim: usize, distances: &[f64]) -> f64 {
+    match dim {
+        2 => objective_dim::<2>(positions, dim, distances),
+        3 => objective_dim::<3>(positions, dim, distances),
+        _ => objective_dim::<0>(positions, dim, distances),
+    }
+}
+
+fn objective_dim<const D: usize>(positions: &[f64], dim: usize, distances: &[f64]) -> f64 {
+    let dim = if D == 0 { dim } else { D };
     let n = positions.len() / dim;
     let mut total = 0.0;
     for i in 0..n {

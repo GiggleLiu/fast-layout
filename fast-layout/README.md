@@ -2,9 +2,10 @@
 
 Graph coordinates from pure Rust, available as a native library and a bundled
 Typst WASM plugin. No Julia, Python, Graphviz, or native math runtime is needed.
-Drawing belongs to the calling document.
+Drawing belongs to the calling document. The manual and examples use
+[CeTZ](https://typst.app/universe/package/cetz/) 0.5.2 for rendering.
 
-Algorithms and behavioral tests are adapted from
+The original algorithms and behavioral tests are adapted from
 [NetworkLayout.jl](https://github.com/JuliaGraphs/NetworkLayout.jl) 0.4.10.
 We thank its contributors and retain their [MIT license](NETWORKLAYOUT-LICENSE.md)
 and attribution in [third-party notices](THIRD_PARTY-NOTICES.md).
@@ -28,15 +29,16 @@ count preserves isolated nodes. Inputs are edge pairs, with no DOT syntax.
 
 | `algorithm` | Dimensions | Method |
 | --- | --- | --- |
-| `"stress"` | 1–4096 | Exact weighted stress majorization with reusable constrained Cholesky solves |
+| `"stress"` | 1–4096 | Weighted stress; default majorization with constrained Cholesky solves, or pairwise SGD |
 | `"spring"` | 1–4096 | Fruchterman–Reingold; Barnes–Hut acceleration in 2D and 3D |
 | `"spectral"` | 1–4096 | Generalized Laplacian eigenvectors; sparse partial iteration for larger graphs |
 | `"shell"` or `"circular"` | 2 | Equally spaced circular shells |
 | `"buchheim"` | 2 | Ordered tidy tree with variable node sizes |
 
-Stress and spectral currently accept at most 4096 nodes. Stress stores dense
+Stress and spectral currently accept at most 4096 nodes. Stress majorization stores dense
 pair matrices and factors a dense Laplacian, so its setup costs O(n³) time and
-O(n²) memory. Spectral uses a dense solve below 128 nodes or when requesting
+O(n²) memory. SGD stores O(n²) pairs and distances and spends
+O(iterations × n² × dim) time on updates, after shortest-path initialization. Spectral uses a dense solve below 128 nodes or when requesting
 many dimensions; otherwise it computes a small subspace using sparse shifted
 solves. Spring uses exact pair forces outside 2D and 3D.
 
@@ -47,8 +49,9 @@ Typst names use hyphens. Rust and CBOR use underscores.
 | Option | Default | Meaning |
 | --- | --- | --- |
 | `algorithm` | `"stress"` | One of the names above |
+| `stress-method` | `"majorization"` | Stress optimizer: `"majorization"` or `"sgd"` |
 | `dim` | `2` | Coordinates per node |
-| `seed` | `1` | Deterministic initialization and collision handling |
+| `seed` | `1` | Deterministic initialization, collision handling, and SGD pair order |
 | `iterations` | `100` | Maximum numerical updates, from 1 to 100000 |
 | `tolerance` | `1e-5` | Algorithm-specific stopping threshold, described below |
 | `initial` | `()` | Stress/spring positions in node order; `none` or omitted entries use seeded coordinates in [-1, 1] |
@@ -75,6 +78,20 @@ For example, this holds node 0 fixed and holds only node 1's x coordinate:
   initial: ((0, 0), (2, 1), none),
   pins: ((true, true), (true, false)),
   edge-weights: (2, 1),
+)
+```
+
+Majorization remains the default stress method with 100 updates. It uses
+constrained global solves and enforces a non-increasing objective. SGD updates
+shuffled node pairs on a decaying schedule and may reach a lower objective on
+some graphs. A useful low-cost recipe is 15 SGD updates:
+
+```typst
+#let quick = layout(
+  100, edges,
+  algorithm: "stress",
+  stress-method: "sgd",
+  iterations: 15,
 )
 ```
 
@@ -108,11 +125,14 @@ The result contains `positions`, `iterations`, `converged`, and `objective`.
 `iterations` counts actual numerical updates, excluding initialization. Hitting
 the work limit returns `converged: false`.
 
-Stress stops when the relative objective change or the norm of the coordinate
-change meets `tolerance`. Its objective sums `(euclidean / target - 1)^2` over
-unordered node pairs. It solves with pins as constraints and checks that the
-objective does not increase beyond roundoff. Coincident free positions receive
-a small seeded perturbation before solving.
+Stress majorization stops when the relative objective change or the norm of the
+coordinate change meets `tolerance`. SGD may stop after its schedule no longer
+clips pair steps and the largest pair-endpoint movement meets `tolerance`.
+With `tolerance: 0`, nontrivial SGD runs with movable coordinates use the
+requested budget and report `converged: false`. Both stress methods return
+zero updates and convergence when every coordinate is pinned. The stress objective sums `(euclidean / target - 1)^2` over
+unordered node pairs. Both methods preserve pins. Coincident free positions
+receive a small seeded perturbation.
 
 Spring stops when the largest node movement meets `tolerance`. Its objective is
 the exact spring energy, or `none` for Barnes–Hut runs to avoid a quadratic
@@ -133,7 +153,7 @@ numerical tolerances rather than byte comparison.
 
 The boundary caps inputs at 1 million nodes, 2 million edges, 4 million output
 coordinates, and 32 MiB of encoded CBOR. These are allocation guards, not promises
-of interactive runtime. Stress additionally caps its pair/factor matrices at
+of interactive runtime. Stress majorization additionally caps its pair/factor matrices at
 512 MB; other buffers add memory. Extreme weight ratios may return a numerical
 conditioning error even when individual weights are valid.
 
@@ -146,5 +166,7 @@ Pinned stress uses a constrained solve; Julia restores pins after a free solve.
 Disconnected and undersized spectral graphs also have explicit behavior here.
 See the repository's `docs/test-port-map.md` and `upstream/NetworkLayout.jl/UPSTREAM.md` for the full map.
 
-[The compiled manual](manual.pdf) and [layout gallery](examples/manual.pdf) demonstrate native Typst drawing. The package includes
+[The compiled manual](manual.pdf), [layout gallery](examples/manual.pdf), and
+[small path example](examples/path.typ) use CeTZ canvases. CeTZ stays in the
+document layer; the engine still returns coordinates only. The package includes
 its compiled WASM and dependency licenses. Rebuild with `make plugin`.

@@ -4,7 +4,7 @@ Pure Rust stress, spring, spectral, circular/shell, and Buchheim tree layouts,
 with a bundled WASM plugin for Typst. Numerical layouts accept configurable
 dimensions, including 2D, 3D, and higher dimensions.
 
-The algorithms and behavioral tests are adapted from
+The original algorithms and behavioral tests are adapted from
 [NetworkLayout.jl](https://github.com/JuliaGraphs/NetworkLayout.jl) 0.4.10,
 created by Abhijith Anilkumar and other contributors. Its [MIT license](fast-layout/NETWORKLAYOUT-LICENSE.md)
 and [source attribution](THIRD_PARTY-NOTICES.md) are retained.
@@ -22,9 +22,38 @@ let result = compute(&request)?;
 
 ## Benchmarks
 
-Complete rendered Typst documents, median of three fresh compilations. Each
-method receives the same connected graph with about two edges per node. Lower
-is faster. Measured on an Intel Xeon Gold 6226R, Typst 0.15.1, against
+For interactive 2D stress layouts, start with the 15-epoch SGD method:
+
+```typst
+#let result = layout(100, edges, algorithm: "stress",
+  stress-method: "sgd", iterations: 15)
+```
+
+See the [CeTZ examples and compiled manual](fast-layout/README.md#reference-and-examples)
+for turning the returned coordinates into a figure.
+
+On the 100-node connected random benchmark, its first plugin call took 28.5 ms
+and later uncached calls in the same document took 21.0 ms. Five epochs took
+17.7 ms and 10.2 ms respectively, but this shorter schedule has no recorded
+quality comparison. Exact stress majorization remains the default.
+
+| 100 nodes, plugin call | Before, first | Current, first | Current, warm uncached |
+| --- | ---: | ---: | ---: |
+| Stress majorization, 100 updates | 200.5 ms | 147.2 ms | 139.9 ms |
+| Spring, 100 updates | 159.3 ms | 53.1 ms | 46.9 ms |
+| Spectral | 75.1 ms | 75.2 ms | 67.7 ms |
+| Shell | 4.2 ms | 4.7 ms | 0.5 ms |
+| Stress SGD, 15 epochs | n/a | 28.5 ms | 21.0 ms |
+
+[The 100-node performance report](docs/performance-100.md) explains first-call
+cost, warm uncached calls, native comparisons, quality, and reproduction.
+
+### Historical rendered-document comparison
+
+The table below predates the current stress and spring optimizations. It times
+complete rendered Typst documents, not the coordinate-only plugin calls above.
+Each method received the same connected graph with about two edges per node.
+Measurements used an Intel Xeon Gold 6226R, Typst 0.15.1, and
 [diagraph 0.3.7](https://typst.app/universe/package/diagraph/).
 
 | Nodes | fast-layout Stress | fast-layout Spring | diagraph `neato` | diagraph `sfdp` |

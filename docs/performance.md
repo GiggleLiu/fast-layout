@@ -1,5 +1,10 @@
 # Performance measurements
 
+For current, controlled 100-node measurements, including the SGD stress method,
+see [the 100-node performance report](performance-100.md). The larger-size and
+rendered-document measurements below predate the latest stress and spring
+optimizations; their hashes are preserved with the raw results.
+
 The original measurements below used the package name `graph-layout`, before
 the rename to `fast-layout`. Their recorded hashes remain unchanged. See
 [the diagraph comparison](diagraph-comparison.md) for measurements of the renamed build.

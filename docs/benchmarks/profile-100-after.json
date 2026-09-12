@@ -1,0 +1,4458 @@
+{
+  "machine": {
+    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "Intel(R) Xeon(R) Gold 6226R CPU @ 2.90GHz",
+    "python": "3.12.8",
+    "typst": "typst 0.15.1 (unknown commit)"
+  },
+  "git_revision": "fec01a446d5865b12679d42ba1b1692fe60d6cef",
+  "typst_source_sha256": "bd69054c6be5cab83efa4057cd0e49a73b6e4f7b955d1ffa7327537f9595e556",
+  "wasm_sha256": "74fde0643c5c399dc21cd8cf8c7b18c9e6ab1b2cf2ccae30ae8f02e021f61e24",
+  "wasm_bytes": 285138,
+  "settings": {
+    "repeats": 3,
+    "repeated_calls": 5,
+    "timeout": 30.0,
+    "output": "docs/benchmarks/profile-100-after.json"
+  },
+  "method": {
+    "process": "fresh Typst process per sample; cases run round-robin",
+    "output": "all documents render the same blank one-page PDF and assert 100 positions",
+    "repeated_calls": "distinct seeds prevent Typst memoization",
+    "timing": "raw wall and trace event durations; no baseline subtraction",
+    "trace_limitation": "Typst 0.15.1 names plugin exports only as 'call plugin'; export identity is inferred from each controlled document"
+  },
+  "results": {
+    "no-plugin": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 16.496743075549603,
+          "stderr": "",
+          "trace": "_bench/profile-100/no-plugin/run-1/timings-0.json",
+          "trace_event_count": 440,
+          "events_ms": {
+            "compile once": [
+              6.852809000000001
+            ],
+            "load plugin": [],
+            "create plugin instance": [],
+            "call plugin": []
+          },
+          "event_totals_ms": {
+            "compile once": 6.852809000000001,
+            "load plugin": 0,
+            "create plugin instance": 0,
+            "call plugin": 0
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 16.959139029495418,
+          "stderr": "",
+          "trace": "_bench/profile-100/no-plugin/run-2/timings-0.json",
+          "trace_event_count": 440,
+          "events_ms": {
+            "compile once": [
+              6.5020739999999995
+            ],
+            "load plugin": [],
+            "create plugin instance": [],
+            "call plugin": []
+          },
+          "event_totals_ms": {
+            "compile once": 6.5020739999999995,
+            "load plugin": 0,
+            "create plugin instance": 0,
+            "call plugin": 0
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 10.380524909123778,
+          "stderr": "",
+          "trace": "_bench/profile-100/no-plugin/run-3/timings-0.json",
+          "trace_event_count": 440,
+          "events_ms": {
+            "compile once": [
+              4.4765690000000005
+            ],
+            "load plugin": [],
+            "create plugin instance": [],
+            "call plugin": []
+          },
+          "event_totals_ms": {
+            "compile once": 4.4765690000000005,
+            "load plugin": 0,
+            "create plugin instance": 0,
+            "call plugin": 0
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 16.496743075549603,
+        "compile_once_total_ms": 6.5020739999999995,
+        "load_plugin_total_ms": 0,
+        "create_plugin_instance_total_ms": 0,
+        "call_plugin_total_ms": 0,
+        "call_plugin_count": 0,
+        "call_plugin_individual_median_ms": null,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "import-only": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 21.416835952550173,
+          "stderr": "",
+          "trace": "_bench/profile-100/import-only/run-1/timings-0.json",
+          "trace_event_count": 458,
+          "events_ms": {
+            "compile once": [
+              12.940451999999999
+            ],
+            "load plugin": [
+              5.482616
+            ],
+            "create plugin instance": [
+              0.6456109999999998
+            ],
+            "call plugin": []
+          },
+          "event_totals_ms": {
+            "compile once": 12.940451999999999,
+            "load plugin": 5.482616,
+            "create plugin instance": 0.6456109999999998,
+            "call plugin": 0
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 26.296055992133915,
+          "stderr": "",
+          "trace": "_bench/profile-100/import-only/run-2/timings-0.json",
+          "trace_event_count": 458,
+          "events_ms": {
+            "compile once": [
+              16.466859
+            ],
+            "load plugin": [
+              7.89759
+            ],
+            "create plugin instance": [
+              0.7440319999999992
+            ],
+            "call plugin": []
+          },
+          "event_totals_ms": {
+            "compile once": 16.466859,
+            "load plugin": 7.89759,
+            "create plugin instance": 0.7440319999999992,
+            "call plugin": 0
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 22.83420297317207,
+          "stderr": "",
+          "trace": "_bench/profile-100/import-only/run-3/timings-0.json",
+          "trace_event_count": 458,
+          "events_ms": {
+            "compile once": [
+              13.478449000000001
+            ],
+            "load plugin": [
+              6.096649
+            ],
+            "create plugin instance": [
+              0.7123870000000007
+            ],
+            "call plugin": []
+          },
+          "event_totals_ms": {
+            "compile once": 13.478449000000001,
+            "load plugin": 6.096649,
+            "create plugin instance": 0.7123870000000007,
+            "call plugin": 0
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 22.83420297317207,
+        "compile_once_total_ms": 13.478449000000001,
+        "load_plugin_total_ms": 6.096649,
+        "create_plugin_instance_total_ms": 0.7123870000000007,
+        "call_plugin_total_ms": 0,
+        "call_plugin_count": 0,
+        "call_plugin_individual_median_ms": null,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "engine-version": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 26.450959034264088,
+          "stderr": "",
+          "trace": "_bench/profile-100/engine-version/run-1/timings-0.json",
+          "trace_event_count": 468,
+          "events_ms": {
+            "compile once": [
+              15.965913
+            ],
+            "load plugin": [
+              7.0251980000000005
+            ],
+            "create plugin instance": [
+              0.7563870000000006
+            ],
+            "call plugin": [
+              0.3825950000000012
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 15.965913,
+            "load plugin": 7.0251980000000005,
+            "create plugin instance": 0.7563870000000006,
+            "call plugin": 0.3825950000000012
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 23.962321924045682,
+          "stderr": "",
+          "trace": "_bench/profile-100/engine-version/run-2/timings-0.json",
+          "trace_event_count": 468,
+          "events_ms": {
+            "compile once": [
+              14.497914000000002
+            ],
+            "load plugin": [
+              6.316008999999999
+            ],
+            "create plugin instance": [
+              0.7798069999999989
+            ],
+            "call plugin": [
+              0.3833580000000002
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 14.497914000000002,
+            "load plugin": 6.316008999999999,
+            "create plugin instance": 0.7798069999999989,
+            "call plugin": 0.3833580000000002
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 20.344218937680125,
+          "stderr": "",
+          "trace": "_bench/profile-100/engine-version/run-3/timings-0.json",
+          "trace_event_count": 468,
+          "events_ms": {
+            "compile once": [
+              13.343396
+            ],
+            "load plugin": [
+              6.706466999999999
+            ],
+            "create plugin instance": [
+              0.7039719999999997
+            ],
+            "call plugin": [
+              0.3525599999999995
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 13.343396,
+            "load plugin": 6.706466999999999,
+            "create plugin instance": 0.7039719999999997,
+            "call plugin": 0.3525599999999995
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 23.962321924045682,
+        "compile_once_total_ms": 14.497914000000002,
+        "load_plugin_total_ms": 6.706466999999999,
+        "create_plugin_instance_total_ms": 0.7563870000000006,
+        "call_plugin_total_ms": 0.3825950000000012,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 0.3825950000000012,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "shell-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 28.532885015010834,
+          "stderr": "",
+          "trace": "_bench/profile-100/shell-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              18.707169
+            ],
+            "load plugin": [
+              6.522677
+            ],
+            "create plugin instance": [
+              0.7827770000000001
+            ],
+            "call plugin": [
+              4.618436
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 18.707169,
+            "load plugin": 6.522677,
+            "create plugin instance": 0.7827770000000001,
+            "call plugin": 4.618436
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 25.97657300066203,
+          "stderr": "",
+          "trace": "_bench/profile-100/shell-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              19.076242999999998
+            ],
+            "load plugin": [
+              5.2846020000000005
+            ],
+            "create plugin instance": [
+              0.6221959999999999
+            ],
+            "call plugin": [
+              6.913123
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 19.076242999999998,
+            "load plugin": 5.2846020000000005,
+            "create plugin instance": 0.6221959999999999,
+            "call plugin": 6.913123
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 29.650617972947657,
+          "stderr": "",
+          "trace": "_bench/profile-100/shell-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              20.594862000000003
+            ],
+            "load plugin": [
+              8.316232
+            ],
+            "create plugin instance": [
+              0.785173999999999
+            ],
+            "call plugin": [
+              4.7236499999999975
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 20.594862000000003,
+            "load plugin": 8.316232,
+            "create plugin instance": 0.785173999999999,
+            "call plugin": 4.7236499999999975
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 28.532885015010834,
+        "compile_once_total_ms": 19.076242999999998,
+        "load_plugin_total_ms": 6.522677,
+        "create_plugin_instance_total_ms": 0.7827770000000001,
+        "call_plugin_total_ms": 4.7236499999999975,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 4.7236499999999975,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "shell-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 20.043796044774354,
+          "stderr": "",
+          "trace": "_bench/profile-100/shell-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 130,
+          "events_ms": {
+            "compile once": [
+              13.71275
+            ],
+            "load plugin": [
+              4.477076
+            ],
+            "create plugin instance": [
+              0.6075640000000003
+            ],
+            "call plugin": [
+              2.7293219999999994,
+              0.30633100000000013,
+              0.31976600000000144,
+              0.2975550000000003,
+              0.2969480000000003
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 13.71275,
+            "load plugin": 4.477076,
+            "create plugin instance": 0.6075640000000003,
+            "call plugin": 3.9499220000000017
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 31.94525302387774,
+          "stderr": "",
+          "trace": "_bench/profile-100/shell-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 130,
+          "events_ms": {
+            "compile once": [
+              22.880729
+            ],
+            "load plugin": [
+              8.161451999999999
+            ],
+            "create plugin instance": [
+              0.6967420000000002
+            ],
+            "call plugin": [
+              4.508342999999999,
+              0.5637960000000003,
+              0.5489670000000005,
+              0.5334470000000001,
+              2.0571139999999977
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 22.880729,
+            "load plugin": 8.161451999999999,
+            "create plugin instance": 0.6967420000000002,
+            "call plugin": 8.211666999999998
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 32.00696292333305,
+          "stderr": "",
+          "trace": "_bench/profile-100/shell-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 130,
+          "events_ms": {
+            "compile once": [
+              22.222284
+            ],
+            "load plugin": [
+              8.149404
+            ],
+            "create plugin instance": [
+              0.7447520000000004
+            ],
+            "call plugin": [
+              4.514431,
+              0.5487630000000008,
+              0.5328169999999991,
+              0.5294049999999988,
+              0.5332770000000019
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 22.222284,
+            "load plugin": 8.149404,
+            "create plugin instance": 0.7447520000000004,
+            "call plugin": 6.658693
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 31.94525302387774,
+        "compile_once_total_ms": 22.222284,
+        "load_plugin_total_ms": 8.149404,
+        "create_plugin_instance_total_ms": 0.6967420000000002,
+        "call_plugin_total_ms": 6.658693,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 0.5334470000000001,
+        "call_plugin_warmed_median_ms": 0.5330470000000005
+      }
+    },
+    "spectral-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 99.49684794992208,
+          "stderr": "",
+          "trace": "_bench/profile-100/spectral-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              89.968005
+            ],
+            "load plugin": [
+              7.725625
+            ],
+            "create plugin instance": [
+              0.9786520000000001
+            ],
+            "call plugin": [
+              75.154243
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 89.968005,
+            "load plugin": 7.725625,
+            "create plugin instance": 0.9786520000000001,
+            "call plugin": 75.154243
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 99.01967400219291,
+          "stderr": "",
+          "trace": "_bench/profile-100/spectral-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              89.40049499999999
+            ],
+            "load plugin": [
+              7.905245999999999
+            ],
+            "create plugin instance": [
+              0.6483049999999985
+            ],
+            "call plugin": [
+              74.574682
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 89.40049499999999,
+            "load plugin": 7.905245999999999,
+            "create plugin instance": 0.6483049999999985,
+            "call plugin": 74.574682
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 100.91540508437902,
+          "stderr": "",
+          "trace": "_bench/profile-100/spectral-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              91.47097500000001
+            ],
+            "load plugin": [
+              8.045121
+            ],
+            "create plugin instance": [
+              0.8099309999999986
+            ],
+            "call plugin": [
+              75.956191
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 91.47097500000001,
+            "load plugin": 8.045121,
+            "create plugin instance": 0.8099309999999986,
+            "call plugin": 75.956191
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 99.49684794992208,
+        "compile_once_total_ms": 89.968005,
+        "load_plugin_total_ms": 7.905245999999999,
+        "create_plugin_instance_total_ms": 0.8099309999999986,
+        "call_plugin_total_ms": 75.154243,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 75.154243,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "spectral-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 359.8914820468053,
+          "stderr": "",
+          "trace": "_bench/profile-100/spectral-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 130,
+          "events_ms": {
+            "compile once": [
+              354.382569
+            ],
+            "load plugin": [
+              3.251072
+            ],
+            "create plugin instance": [
+              0.43156800000000023
+            ],
+            "call plugin": [
+              71.671367,
+              67.684073,
+              68.14017500000001,
+              68.08077100000001,
+              69.46234799999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 354.382569,
+            "load plugin": 3.251072,
+            "create plugin instance": 0.43156800000000023,
+            "call plugin": 345.03873400000003
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 370.2432749560103,
+          "stderr": "",
+          "trace": "_bench/profile-100/spectral-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 130,
+          "events_ms": {
+            "compile once": [
+              361.21652
+            ],
+            "load plugin": [
+              7.304139999999999
+            ],
+            "create plugin instance": [
+              0.737482
+            ],
+            "call plugin": [
+              75.15181600000001,
+              67.763774,
+              67.710228,
+              67.67583299999998,
+              67.783027
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 361.21652,
+            "load plugin": 7.304139999999999,
+            "create plugin instance": 0.737482,
+            "call plugin": 346.084678
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 359.8878529155627,
+          "stderr": "",
+          "trace": "_bench/profile-100/spectral-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 130,
+          "events_ms": {
+            "compile once": [
+              353.975332
+            ],
+            "load plugin": [
+              4.57827
+            ],
+            "create plugin instance": [
+              0.5987159999999995
+            ],
+            "call plugin": [
+              73.65454,
+              67.84161300000001,
+              67.47497,
+              67.13497,
+              67.453353
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 353.975332,
+            "load plugin": 4.57827,
+            "create plugin instance": 0.5987159999999995,
+            "call plugin": 343.559446
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 359.8914820468053,
+        "compile_once_total_ms": 354.382569,
+        "load_plugin_total_ms": 4.57827,
+        "create_plugin_instance_total_ms": 0.5987159999999995,
+        "call_plugin_total_ms": 345.03873400000003,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 67.783027,
+        "call_plugin_warmed_median_ms": 67.73700099999999
+      }
+    },
+    "stress-iter-1-tol-default-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 38.40091289021075,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-1-tol-default-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              29.695301999999998
+            ],
+            "load plugin": [
+              6.1647739999999995
+            ],
+            "create plugin instance": [
+              0.7413450000000011
+            ],
+            "call plugin": [
+              16.242320999999997
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 29.695301999999998,
+            "load plugin": 6.1647739999999995,
+            "create plugin instance": 0.7413450000000011,
+            "call plugin": 16.242320999999997
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 27.78343402314931,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-1-tol-default-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              22.341713
+            ],
+            "load plugin": [
+              4.277418
+            ],
+            "create plugin instance": [
+              0.545165
+            ],
+            "call plugin": [
+              12.927708
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 22.341713,
+            "load plugin": 4.277418,
+            "create plugin instance": 0.545165,
+            "call plugin": 12.927708
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 27.956287027336657,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-1-tol-default-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              22.238339
+            ],
+            "load plugin": [
+              4.270524999999999
+            ],
+            "create plugin instance": [
+              0.5472269999999999
+            ],
+            "call plugin": [
+              12.961133999999998
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 22.238339,
+            "load plugin": 4.270524999999999,
+            "create plugin instance": 0.5472269999999999,
+            "call plugin": 12.961133999999998
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 27.956287027336657,
+        "compile_once_total_ms": 22.341713,
+        "load_plugin_total_ms": 4.277418,
+        "create_plugin_instance_total_ms": 0.5472269999999999,
+        "call_plugin_total_ms": 12.961133999999998,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 12.961133999999998,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "stress-iter-1-tol-default-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 65.93759905081242,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-1-tol-default-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              60.849067000000005
+            ],
+            "load plugin": [
+              3.5036750000000003
+            ],
+            "create plugin instance": [
+              0.44946799999999987
+            ],
+            "call plugin": [
+              13.668689999999998,
+              9.635006,
+              9.611747999999995,
+              9.668222000000002,
+              9.656929000000003
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 60.849067000000005,
+            "load plugin": 3.5036750000000003,
+            "create plugin instance": 0.44946799999999987,
+            "call plugin": 52.240595
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 80.75377100612968,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-1-tol-default-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              71.97800500000001
+            ],
+            "load plugin": [
+              8.253482
+            ],
+            "create plugin instance": [
+              0.6886399999999994
+            ],
+            "call plugin": [
+              17.580982000000002,
+              9.809586999999999,
+              9.672715000000004,
+              9.621052000000004,
+              9.661987000000002
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 71.97800500000001,
+            "load plugin": 8.253482,
+            "create plugin instance": 0.6886399999999994,
+            "call plugin": 56.34632300000001
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 78.72670807410032,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-1-tol-default-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              69.751509
+            ],
+            "load plugin": [
+              6.886638
+            ],
+            "create plugin instance": [
+              0.741634
+            ],
+            "call plugin": [
+              16.68496,
+              9.676617999999998,
+              9.644288999999997,
+              9.467271999999998,
+              9.680637000000003
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 69.751509,
+            "load plugin": 6.886638,
+            "create plugin instance": 0.741634,
+            "call plugin": 55.15377599999999
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 78.72670807410032,
+        "compile_once_total_ms": 69.751509,
+        "load_plugin_total_ms": 6.886638,
+        "create_plugin_instance_total_ms": 0.6886399999999994,
+        "call_plugin_total_ms": 55.15377599999999,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 9.668222000000002,
+        "call_plugin_warmed_median_ms": 9.659458000000003
+      }
+    },
+    "stress-iter-1-tol-zero-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 39.291954948566854,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-1-tol-zero-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              30.215955
+            ],
+            "load plugin": [
+              6.470445999999999
+            ],
+            "create plugin instance": [
+              0.7632090000000007
+            ],
+            "call plugin": [
+              16.561876000000005
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 30.215955,
+            "load plugin": 6.470445999999999,
+            "create plugin instance": 0.7632090000000007,
+            "call plugin": 16.561876000000005
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 28.443109011277556,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-1-tol-zero-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              23.193039000000002
+            ],
+            "load plugin": [
+              4.313751999999999
+            ],
+            "create plugin instance": [
+              0.5883870000000007
+            ],
+            "call plugin": [
+              13.481217
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 23.193039000000002,
+            "load plugin": 4.313751999999999,
+            "create plugin instance": 0.5883870000000007,
+            "call plugin": 13.481217
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 33.68694300297648,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-1-tol-zero-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              27.341873
+            ],
+            "load plugin": [
+              6.432289000000001
+            ],
+            "create plugin instance": [
+              0.6668299999999999
+            ],
+            "call plugin": [
+              15.328243000000002
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 27.341873,
+            "load plugin": 6.432289000000001,
+            "create plugin instance": 0.6668299999999999,
+            "call plugin": 15.328243000000002
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 33.68694300297648,
+        "compile_once_total_ms": 27.341873,
+        "load_plugin_total_ms": 6.432289000000001,
+        "create_plugin_instance_total_ms": 0.6668299999999999,
+        "call_plugin_total_ms": 15.328243000000002,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 15.328243000000002,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "stress-iter-1-tol-zero-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 77.8205229435116,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-1-tol-zero-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              68.621519
+            ],
+            "load plugin": [
+              6.3416049999999995
+            ],
+            "create plugin instance": [
+              0.7571560000000008
+            ],
+            "call plugin": [
+              16.297159,
+              9.675241000000002,
+              9.661173999999999,
+              9.645678,
+              9.681348999999996
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 68.621519,
+            "load plugin": 6.3416049999999995,
+            "create plugin instance": 0.7571560000000008,
+            "call plugin": 54.960601
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 82.12515199556947,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-1-tol-zero-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              73.245867
+            ],
+            "load plugin": [
+              8.388879000000001
+            ],
+            "create plugin instance": [
+              0.7157430000000004
+            ],
+            "call plugin": [
+              18.849664,
+              9.636804,
+              9.659036999999996,
+              9.447705000000001,
+              9.522615999999994
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 73.245867,
+            "load plugin": 8.388879000000001,
+            "create plugin instance": 0.7157430000000004,
+            "call plugin": 57.11582599999999
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 77.15062203351408,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-1-tol-zero-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              68.55716000000001
+            ],
+            "load plugin": [
+              6.02202
+            ],
+            "create plugin instance": [
+              0.7317540000000008
+            ],
+            "call plugin": [
+              16.160757999999998,
+              9.789012999999999,
+              9.749900999999998,
+              9.684332999999999,
+              9.710459000000002
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 68.55716000000001,
+            "load plugin": 6.02202,
+            "create plugin instance": 0.7317540000000008,
+            "call plugin": 55.094463999999995
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 77.8205229435116,
+        "compile_once_total_ms": 68.621519,
+        "load_plugin_total_ms": 6.3416049999999995,
+        "create_plugin_instance_total_ms": 0.7317540000000008,
+        "call_plugin_total_ms": 55.094463999999995,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 9.681348999999996,
+        "call_plugin_warmed_median_ms": 9.668207500000001
+      }
+    },
+    "stress-iter-5-tol-default-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 45.88088300079107,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-5-tol-default-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              36.150358999999995
+            ],
+            "load plugin": [
+              7.096020999999999
+            ],
+            "create plugin instance": [
+              0.8528389999999999
+            ],
+            "call plugin": [
+              22.251267999999996
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 36.150358999999995,
+            "load plugin": 7.096020999999999,
+            "create plugin instance": 0.8528389999999999,
+            "call plugin": 22.251267999999996
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 47.25205700378865,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-5-tol-default-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              38.175513
+            ],
+            "load plugin": [
+              8.147499
+            ],
+            "create plugin instance": [
+              0.9467250000000004
+            ],
+            "call plugin": [
+              23.024521999999997
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 38.175513,
+            "load plugin": 8.147499,
+            "create plugin instance": 0.9467250000000004,
+            "call plugin": 23.024521999999997
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 46.20350000914186,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-5-tol-default-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              37.117641000000006
+            ],
+            "load plugin": [
+              7.212185
+            ],
+            "create plugin instance": [
+              0.742844000000001
+            ],
+            "call plugin": [
+              22.582310999999997
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 37.117641000000006,
+            "load plugin": 7.212185,
+            "create plugin instance": 0.742844000000001,
+            "call plugin": 22.582310999999997
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 46.20350000914186,
+        "compile_once_total_ms": 37.117641000000006,
+        "load_plugin_total_ms": 7.212185,
+        "create_plugin_instance_total_ms": 0.8528389999999999,
+        "call_plugin_total_ms": 22.582310999999997,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 22.582310999999997,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "stress-iter-5-tol-default-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 94.21705408021808,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-5-tol-default-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              88.880891
+            ],
+            "load plugin": [
+              3.8300599999999996
+            ],
+            "create plugin instance": [
+              0.47160000000000035
+            ],
+            "call plugin": [
+              19.342251,
+              14.953869999999998,
+              14.799818000000007,
+              14.97456199999999,
+              14.850687999999995
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 88.880891,
+            "load plugin": 3.8300599999999996,
+            "create plugin instance": 0.47160000000000035,
+            "call plugin": 78.921189
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 106.71554505825043,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-5-tol-default-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              97.69570200000001
+            ],
+            "load plugin": [
+              7.801217
+            ],
+            "create plugin instance": [
+              0.7205659999999989
+            ],
+            "call plugin": [
+              22.782536,
+              14.781215000000003,
+              14.897681999999993,
+              14.896957999999998,
+              14.899078999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 97.69570200000001,
+            "load plugin": 7.801217,
+            "create plugin instance": 0.7205659999999989,
+            "call plugin": 82.25747
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 96.84106195345521,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-5-tol-default-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              90.506816
+            ],
+            "load plugin": [
+              5.509543000000001
+            ],
+            "create plugin instance": [
+              0.5003870000000006
+            ],
+            "call plugin": [
+              18.960241999999997,
+              15.057162,
+              14.959949,
+              14.949887999999993,
+              14.883764999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 90.506816,
+            "load plugin": 5.509543000000001,
+            "create plugin instance": 0.5003870000000006,
+            "call plugin": 78.81100599999999
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 96.84106195345521,
+        "compile_once_total_ms": 90.506816,
+        "load_plugin_total_ms": 5.509543000000001,
+        "create_plugin_instance_total_ms": 0.5003870000000006,
+        "call_plugin_total_ms": 78.921189,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 14.949887999999993,
+        "call_plugin_warmed_median_ms": 14.898380499999995
+      }
+    },
+    "stress-iter-5-tol-zero-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 45.91723904013634,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-5-tol-zero-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              36.971199999999996
+            ],
+            "load plugin": [
+              7.297256999999999
+            ],
+            "create plugin instance": [
+              0.752969000000001
+            ],
+            "call plugin": [
+              22.326613000000005
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 36.971199999999996,
+            "load plugin": 7.297256999999999,
+            "create plugin instance": 0.752969000000001,
+            "call plugin": 22.326613000000005
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 45.919602969661355,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-5-tol-zero-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              36.935735
+            ],
+            "load plugin": [
+              6.68254
+            ],
+            "create plugin instance": [
+              0.7443160000000008
+            ],
+            "call plugin": [
+              22.826852
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 36.935735,
+            "load plugin": 6.68254,
+            "create plugin instance": 0.7443160000000008,
+            "call plugin": 22.826852
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 43.570135021582246,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-5-tol-zero-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              34.518263
+            ],
+            "load plugin": [
+              6.047079000000001
+            ],
+            "create plugin instance": [
+              0.7174989999999998
+            ],
+            "call plugin": [
+              21.116536
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 34.518263,
+            "load plugin": 6.047079000000001,
+            "create plugin instance": 0.7174989999999998,
+            "call plugin": 21.116536
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 45.91723904013634,
+        "compile_once_total_ms": 36.935735,
+        "load_plugin_total_ms": 6.68254,
+        "create_plugin_instance_total_ms": 0.7443160000000008,
+        "call_plugin_total_ms": 22.326613000000005,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 22.326613000000005,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "stress-iter-5-tol-zero-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 93.50362198892981,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-5-tol-zero-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              88.43807000000001
+            ],
+            "load plugin": [
+              3.6603209999999997
+            ],
+            "create plugin instance": [
+              0.5078870000000006
+            ],
+            "call plugin": [
+              19.507457000000002,
+              15.144290000000002,
+              15.003752,
+              15.065121999999995,
+              15.008379000000001
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 88.43807000000001,
+            "load plugin": 3.6603209999999997,
+            "create plugin instance": 0.5078870000000006,
+            "call plugin": 79.729
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 93.88681396376342,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-5-tol-zero-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              88.46299400000001
+            ],
+            "load plugin": [
+              5.508662
+            ],
+            "create plugin instance": [
+              0.5145140000000001
+            ],
+            "call plugin": [
+              17.703701,
+              14.915028999999999,
+              14.94697,
+              14.919943999999996,
+              14.951767999999996
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 88.46299400000001,
+            "load plugin": 5.508662,
+            "create plugin instance": 0.5145140000000001,
+            "call plugin": 77.437412
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 95.60178907122463,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-5-tol-zero-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              89.66167
+            ],
+            "load plugin": [
+              4.133178
+            ],
+            "create plugin instance": [
+              0.5147129999999998
+            ],
+            "call plugin": [
+              19.796488999999998,
+              15.055642,
+              14.990756999999999,
+              15.026189000000006,
+              15.009352
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 89.66167,
+            "load plugin": 4.133178,
+            "create plugin instance": 0.5147129999999998,
+            "call plugin": 79.878429
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 93.88681396376342,
+        "compile_once_total_ms": 88.46299400000001,
+        "load_plugin_total_ms": 4.133178,
+        "create_plugin_instance_total_ms": 0.5145140000000001,
+        "call_plugin_total_ms": 79.729,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 15.009352,
+        "call_plugin_warmed_median_ms": 15.006065500000002
+      }
+    },
+    "stress-iter-20-tol-default-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 64.93469700217247,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-20-tol-default-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              55.980469
+            ],
+            "load plugin": [
+              7.1272009999999995
+            ],
+            "create plugin instance": [
+              0.8354300000000003
+            ],
+            "call plugin": [
+              41.965084000000004
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 55.980469,
+            "load plugin": 7.1272009999999995,
+            "create plugin instance": 0.8354300000000003,
+            "call plugin": 41.965084000000004
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 63.414798001758754,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-20-tol-default-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              54.206107
+            ],
+            "load plugin": [
+              6.399321
+            ],
+            "create plugin instance": [
+              0.7876689999999998
+            ],
+            "call plugin": [
+              40.97233
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 54.206107,
+            "load plugin": 6.399321,
+            "create plugin instance": 0.7876689999999998,
+            "call plugin": 40.97233
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 64.58529108203948,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-20-tol-default-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              55.606631
+            ],
+            "load plugin": [
+              7.030825
+            ],
+            "create plugin instance": [
+              0.7415150000000013
+            ],
+            "call plugin": [
+              41.375871
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 55.606631,
+            "load plugin": 7.030825,
+            "create plugin instance": 0.7415150000000013,
+            "call plugin": 41.375871
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 64.58529108203948,
+        "compile_once_total_ms": 55.606631,
+        "load_plugin_total_ms": 7.030825,
+        "create_plugin_instance_total_ms": 0.7876689999999998,
+        "call_plugin_total_ms": 41.375871,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 41.375871,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "stress-iter-20-tol-default-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 191.16358703467995,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-20-tol-default-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              185.864312
+            ],
+            "load plugin": [
+              4.239183
+            ],
+            "create plugin instance": [
+              0.5287449999999999
+            ],
+            "call plugin": [
+              38.975789,
+              34.534895000000006,
+              34.52291099999999,
+              34.08265299999999,
+              33.84455499999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 185.864312,
+            "load plugin": 4.239183,
+            "create plugin instance": 0.5287449999999999,
+            "call plugin": 175.960803
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 192.15587491635233,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-20-tol-default-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              186.692859
+            ],
+            "load plugin": [
+              4.285247999999999
+            ],
+            "create plugin instance": [
+              0.5474750000000004
+            ],
+            "call plugin": [
+              38.761377,
+              34.39346999999999,
+              34.332510000000006,
+              34.684938999999986,
+              34.61340400000001
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 186.692859,
+            "load plugin": 4.285247999999999,
+            "create plugin instance": 0.5474750000000004,
+            "call plugin": 176.7857
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 196.71213894616812,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-20-tol-default-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              191.00126699999998
+            ],
+            "load plugin": [
+              4.157975
+            ],
+            "create plugin instance": [
+              0.46207700000000024
+            ],
+            "call plugin": [
+              38.927400999999996,
+              35.814899000000004,
+              35.361319,
+              35.370012,
+              35.76124100000001
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 191.00126699999998,
+            "load plugin": 4.157975,
+            "create plugin instance": 0.46207700000000024,
+            "call plugin": 181.23487200000002
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 192.15587491635233,
+        "compile_once_total_ms": 186.692859,
+        "load_plugin_total_ms": 4.239183,
+        "create_plugin_instance_total_ms": 0.5287449999999999,
+        "call_plugin_total_ms": 176.7857,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 34.684938999999986,
+        "call_plugin_warmed_median_ms": 34.574149500000004
+      }
+    },
+    "stress-iter-20-tol-zero-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 66.8755630031228,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-20-tol-zero-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              61.875141000000006
+            ],
+            "load plugin": [
+              3.485304
+            ],
+            "create plugin instance": [
+              0.4502619999999997
+            ],
+            "call plugin": [
+              53.505559999999996
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 61.875141000000006,
+            "load plugin": 3.485304,
+            "create plugin instance": 0.4502619999999997,
+            "call plugin": 53.505559999999996
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 53.266957052983344,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-20-tol-zero-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              48.324812
+            ],
+            "load plugin": [
+              4.276788
+            ],
+            "create plugin instance": [
+              0.5439210000000003
+            ],
+            "call plugin": [
+              38.943971999999995
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 48.324812,
+            "load plugin": 4.276788,
+            "create plugin instance": 0.5439210000000003,
+            "call plugin": 38.943971999999995
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 65.38939196616411,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-20-tol-zero-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              56.123629
+            ],
+            "load plugin": [
+              7.024565000000001
+            ],
+            "create plugin instance": [
+              0.7573009999999994
+            ],
+            "call plugin": [
+              41.800363
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 56.123629,
+            "load plugin": 7.024565000000001,
+            "create plugin instance": 0.7573009999999994,
+            "call plugin": 41.800363
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 65.38939196616411,
+        "compile_once_total_ms": 56.123629,
+        "load_plugin_total_ms": 4.276788,
+        "create_plugin_instance_total_ms": 0.5439210000000003,
+        "call_plugin_total_ms": 41.800363,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 41.800363,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "stress-iter-20-tol-zero-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 191.92258303519338,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-20-tol-zero-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              186.866887
+            ],
+            "load plugin": [
+              3.4276409999999995
+            ],
+            "create plugin instance": [
+              0.45802999999999977
+            ],
+            "call plugin": [
+              38.83713,
+              34.654858,
+              34.473951,
+              35.392963,
+              34.707812000000004
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 186.866887,
+            "load plugin": 3.4276409999999995,
+            "create plugin instance": 0.45802999999999977,
+            "call plugin": 178.066714
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 203.66402191575617,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-20-tol-zero-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              194.601592
+            ],
+            "load plugin": [
+              6.799249999999999
+            ],
+            "create plugin instance": [
+              0.7392559999999994
+            ],
+            "call plugin": [
+              41.709061,
+              34.758835999999995,
+              34.33126000000001,
+              34.615102000000014,
+              34.57602100000001
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 194.601592,
+            "load plugin": 6.799249999999999,
+            "create plugin instance": 0.7392559999999994,
+            "call plugin": 179.99028000000004
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 193.2227349607274,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-20-tol-zero-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              187.593066
+            ],
+            "load plugin": [
+              4.133166999999999
+            ],
+            "create plugin instance": [
+              0.477076
+            ],
+            "call plugin": [
+              39.046082999999996,
+              34.703886,
+              34.70703899999999,
+              34.715577,
+              34.79799099999998
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 187.593066,
+            "load plugin": 4.133166999999999,
+            "create plugin instance": 0.477076,
+            "call plugin": 177.97057599999997
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 193.2227349607274,
+        "compile_once_total_ms": 187.593066,
+        "load_plugin_total_ms": 4.133166999999999,
+        "create_plugin_instance_total_ms": 0.477076,
+        "call_plugin_total_ms": 178.066714,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 34.707812000000004,
+        "call_plugin_warmed_median_ms": 34.705462499999996
+      }
+    },
+    "stress-iter-100-tol-default-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 171.524008968845,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-100-tol-default-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              162.237211
+            ],
+            "load plugin": [
+              7.436820000000001
+            ],
+            "create plugin instance": [
+              0.7418469999999997
+            ],
+            "call plugin": [
+              147.423179
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 162.237211,
+            "load plugin": 7.436820000000001,
+            "create plugin instance": 0.7418469999999997,
+            "call plugin": 147.423179
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 158.14933693036437,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-100-tol-default-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              153.22868499999998
+            ],
+            "load plugin": [
+              4.282140999999999
+            ],
+            "create plugin instance": [
+              0.5329409999999998
+            ],
+            "call plugin": [
+              143.72099099999997
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 153.22868499999998,
+            "load plugin": 4.282140999999999,
+            "create plugin instance": 0.5329409999999998,
+            "call plugin": 143.72099099999997
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 173.04574605077505,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-100-tol-default-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              163.60063699999998
+            ],
+            "load plugin": [
+              7.9736329999999995
+            ],
+            "create plugin instance": [
+              0.7246710000000003
+            ],
+            "call plugin": [
+              147.238304
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 163.60063699999998,
+            "load plugin": 7.9736329999999995,
+            "create plugin instance": 0.7246710000000003,
+            "call plugin": 147.238304
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 171.524008968845,
+        "compile_once_total_ms": 162.237211,
+        "load_plugin_total_ms": 7.436820000000001,
+        "create_plugin_instance_total_ms": 0.7246710000000003,
+        "call_plugin_total_ms": 147.238304,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 147.238304,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "stress-iter-100-tol-default-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 731.0403450392187,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-100-tol-default-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              721.765597
+            ],
+            "load plugin": [
+              6.0906080000000005
+            ],
+            "create plugin instance": [
+              0.723300000000001
+            ],
+            "call plugin": [
+              146.71938,
+              143.167553,
+              139.170898,
+              139.169162,
+              139.470669
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 721.765597,
+            "load plugin": 6.0906080000000005,
+            "create plugin instance": 0.723300000000001,
+            "call plugin": 707.697662
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 725.6204460281879,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-100-tol-default-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              718.6722070000001
+            ],
+            "load plugin": [
+              3.9786180000000004
+            ],
+            "create plugin instance": [
+              0.41078300000000034
+            ],
+            "call plugin": [
+              143.643081,
+              141.22124800000003,
+              141.332588,
+              141.511761,
+              141.23176199999997
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 718.6722070000001,
+            "load plugin": 3.9786180000000004,
+            "create plugin instance": 0.41078300000000034,
+            "call plugin": 708.94044
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 730.2133609773591,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-100-tol-default-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              724.544812
+            ],
+            "load plugin": [
+              5.679596999999999
+            ],
+            "create plugin instance": [
+              0.706362
+            ],
+            "call plugin": [
+              145.760275,
+              139.491298,
+              139.61577000000003,
+              139.681721,
+              140.06460900000005
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 724.544812,
+            "load plugin": 5.679596999999999,
+            "create plugin instance": 0.706362,
+            "call plugin": 704.6136730000001
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 730.2133609773591,
+        "compile_once_total_ms": 721.765597,
+        "load_plugin_total_ms": 5.679596999999999,
+        "create_plugin_instance_total_ms": 0.706362,
+        "call_plugin_total_ms": 707.697662,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 141.22124800000003,
+        "call_plugin_warmed_median_ms": 139.87316500000003
+      }
+    },
+    "stress-iter-100-tol-zero-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 170.3842729330063,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-100-tol-zero-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              161.287792
+            ],
+            "load plugin": [
+              7.405991
+            ],
+            "create plugin instance": [
+              0.7486759999999995
+            ],
+            "call plugin": [
+              146.42133
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 161.287792,
+            "load plugin": 7.405991,
+            "create plugin instance": 0.7486759999999995,
+            "call plugin": 146.42133
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 171.20741691906005,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-100-tol-zero-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              162.03526399999998
+            ],
+            "load plugin": [
+              7.307139000000001
+            ],
+            "create plugin instance": [
+              0.7547330000000002
+            ],
+            "call plugin": [
+              147.275125
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 162.03526399999998,
+            "load plugin": 7.307139000000001,
+            "create plugin instance": 0.7547330000000002,
+            "call plugin": 147.275125
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 176.51622695848346,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-100-tol-zero-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              167.238518
+            ],
+            "load plugin": [
+              6.377232
+            ],
+            "create plugin instance": [
+              0.7225739999999987
+            ],
+            "call plugin": [
+              153.636011
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 167.238518,
+            "load plugin": 6.377232,
+            "create plugin instance": 0.7225739999999987,
+            "call plugin": 153.636011
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 171.20741691906005,
+        "compile_once_total_ms": 162.03526399999998,
+        "load_plugin_total_ms": 7.307139000000001,
+        "create_plugin_instance_total_ms": 0.7486759999999995,
+        "call_plugin_total_ms": 147.275125,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 147.275125,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "stress-iter-100-tol-zero-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 731.6622090293095,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-100-tol-zero-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              726.341833
+            ],
+            "load plugin": [
+              5.580703
+            ],
+            "create plugin instance": [
+              0.5643760000000002
+            ],
+            "call plugin": [
+              146.00619999999998,
+              141.514202,
+              142.781609,
+              142.69455000000005,
+              141.88029999999992
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 726.341833,
+            "load plugin": 5.580703,
+            "create plugin instance": 0.5643760000000002,
+            "call plugin": 714.876861
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 721.5167479589581,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-100-tol-zero-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              715.689208
+            ],
+            "load plugin": [
+              4.972957999999999
+            ],
+            "create plugin instance": [
+              0.5390039999999999
+            ],
+            "call plugin": [
+              144.089742,
+              140.28159700000003,
+              139.88568800000002,
+              140.19565999999998,
+              140.20489500000002
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 715.689208,
+            "load plugin": 4.972957999999999,
+            "create plugin instance": 0.5390039999999999,
+            "call plugin": 704.657582
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 730.1368589978665,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-iter-100-tol-zero-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              720.983072
+            ],
+            "load plugin": [
+              8.065797
+            ],
+            "create plugin instance": [
+              0.7249719999999997
+            ],
+            "call plugin": [
+              147.568406,
+              139.366554,
+              139.103931,
+              139.91069100000004,
+              139.34830099999996
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 720.983072,
+            "load plugin": 8.065797,
+            "create plugin instance": 0.7249719999999997,
+            "call plugin": 705.297883
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 730.1368589978665,
+        "compile_once_total_ms": 720.983072,
+        "load_plugin_total_ms": 5.580703,
+        "create_plugin_instance_total_ms": 0.5643760000000002,
+        "call_plugin_total_ms": 705.297883,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 140.28159700000003,
+        "call_plugin_warmed_median_ms": 140.2002775
+      }
+    },
+    "spring-iter-1-tol-default-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 30.81892291083932,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-1-tol-default-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              21.782511
+            ],
+            "load plugin": [
+              6.744129000000001
+            ],
+            "create plugin instance": [
+              0.7255249999999996
+            ],
+            "call plugin": [
+              7.540896999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 21.782511,
+            "load plugin": 6.744129000000001,
+            "create plugin instance": 0.7255249999999996,
+            "call plugin": 7.540896999999999
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 32.02788601629436,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-1-tol-default-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              23.040605
+            ],
+            "load plugin": [
+              7.641176000000001
+            ],
+            "create plugin instance": [
+              0.726710000000001
+            ],
+            "call plugin": [
+              7.982949999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 23.040605,
+            "load plugin": 7.641176000000001,
+            "create plugin instance": 0.726710000000001,
+            "call plugin": 7.982949999999999
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 23.25056295376271,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-1-tol-default-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              17.588493999999997
+            ],
+            "load plugin": [
+              4.564547
+            ],
+            "create plugin instance": [
+              0.5885949999999993
+            ],
+            "call plugin": [
+              7.749477999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 17.588493999999997,
+            "load plugin": 4.564547,
+            "create plugin instance": 0.5885949999999993,
+            "call plugin": 7.749477999999999
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 30.81892291083932,
+        "compile_once_total_ms": 21.782511,
+        "load_plugin_total_ms": 6.744129000000001,
+        "create_plugin_instance_total_ms": 0.7255249999999996,
+        "call_plugin_total_ms": 7.749477999999999,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 7.749477999999999,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "spring-iter-1-tol-default-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 31.110917101614177,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-1-tol-default-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              25.364053
+            ],
+            "load plugin": [
+              5.28218
+            ],
+            "create plugin instance": [
+              0.44195799999999963
+            ],
+            "call plugin": [
+              5.115385,
+              2.577065999999999,
+              2.3640320000000012,
+              2.3757220000000014,
+              2.356815999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 25.364053,
+            "load plugin": 5.28218,
+            "create plugin instance": 0.44195799999999963,
+            "call plugin": 14.789021
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 44.4069110089913,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-1-tol-default-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              35.207471
+            ],
+            "load plugin": [
+              7.835585999999999
+            ],
+            "create plugin instance": [
+              0.7070799999999999
+            ],
+            "call plugin": [
+              8.481362,
+              2.9355430000000013,
+              2.940868999999999,
+              2.9361520000000016,
+              2.331244999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 35.207471,
+            "load plugin": 7.835585999999999,
+            "create plugin instance": 0.7070799999999999,
+            "call plugin": 19.625171
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 42.844170005992055,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-1-tol-default-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              32.618125
+            ],
+            "load plugin": [
+              6.6007240000000005
+            ],
+            "create plugin instance": [
+              0.7525130000000009
+            ],
+            "call plugin": [
+              7.441681999999999,
+              2.9760499999999994,
+              3.013966999999997,
+              2.596674000000003,
+              2.225513999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 32.618125,
+            "load plugin": 6.6007240000000005,
+            "create plugin instance": 0.7525130000000009,
+            "call plugin": 18.253887
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 42.844170005992055,
+        "compile_once_total_ms": 32.618125,
+        "load_plugin_total_ms": 6.6007240000000005,
+        "create_plugin_instance_total_ms": 0.7070799999999999,
+        "call_plugin_total_ms": 18.253887,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 2.9355430000000013,
+        "call_plugin_warmed_median_ms": 2.586870000000001
+      }
+    },
+    "spring-iter-1-tol-zero-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 31.310640973970294,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-1-tol-zero-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              21.813703
+            ],
+            "load plugin": [
+              6.8956800000000005
+            ],
+            "create plugin instance": [
+              0.7434560000000001
+            ],
+            "call plugin": [
+              7.613233
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 21.813703,
+            "load plugin": 6.8956800000000005,
+            "create plugin instance": 0.7434560000000001,
+            "call plugin": 7.613233
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 31.94510901812464,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-1-tol-zero-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              22.892474
+            ],
+            "load plugin": [
+              7.417568
+            ],
+            "create plugin instance": [
+              0.7355480000000006
+            ],
+            "call plugin": [
+              8.095120000000001
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 22.892474,
+            "load plugin": 7.417568,
+            "create plugin instance": 0.7355480000000006,
+            "call plugin": 8.095120000000001
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 31.41748800408095,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-1-tol-zero-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              22.417705
+            ],
+            "load plugin": [
+              7.736673
+            ],
+            "create plugin instance": [
+              0.9913400000000001
+            ],
+            "call plugin": [
+              7.4016860000000015
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 22.417705,
+            "load plugin": 7.736673,
+            "create plugin instance": 0.9913400000000001,
+            "call plugin": 7.4016860000000015
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 31.41748800408095,
+        "compile_once_total_ms": 22.417705,
+        "load_plugin_total_ms": 7.417568,
+        "create_plugin_instance_total_ms": 0.7434560000000001,
+        "call_plugin_total_ms": 7.613233,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 7.613233,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "spring-iter-1-tol-zero-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 32.88333595264703,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-1-tol-zero-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              25.264645
+            ],
+            "load plugin": [
+              4.083219
+            ],
+            "create plugin instance": [
+              0.46896300000000063
+            ],
+            "call plugin": [
+              5.1048420000000005,
+              2.55818,
+              3.5531149999999996,
+              2.381201000000001,
+              2.3350249999999977
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 25.264645,
+            "load plugin": 4.083219,
+            "create plugin instance": 0.46896300000000063,
+            "call plugin": 15.932362999999999
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 43.46721200272441,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-1-tol-zero-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              33.980577
+            ],
+            "load plugin": [
+              7.2770470000000005
+            ],
+            "create plugin instance": [
+              0.775014000000001
+            ],
+            "call plugin": [
+              7.8300360000000016,
+              2.8967109999999994,
+              2.986137999999999,
+              2.7916260000000004,
+              2.423729000000003
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 33.980577,
+            "load plugin": 7.2770470000000005,
+            "create plugin instance": 0.775014000000001,
+            "call plugin": 18.928240000000002
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 44.28640392143279,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-1-tol-zero-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              35.317595000000004
+            ],
+            "load plugin": [
+              8.08898
+            ],
+            "create plugin instance": [
+              0.7574049999999989
+            ],
+            "call plugin": [
+              8.381283999999999,
+              2.905066999999999,
+              2.9065329999999996,
+              2.870540000000001,
+              2.3238760000000003
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 35.317595000000004,
+            "load plugin": 8.08898,
+            "create plugin instance": 0.7574049999999989,
+            "call plugin": 19.3873
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 43.46721200272441,
+        "compile_once_total_ms": 33.980577,
+        "load_plugin_total_ms": 7.2770470000000005,
+        "create_plugin_instance_total_ms": 0.7574049999999989,
+        "call_plugin_total_ms": 18.928240000000002,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 2.8967109999999994,
+        "call_plugin_warmed_median_ms": 2.8310830000000005
+      }
+    },
+    "spring-iter-5-tol-default-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 31.59067896194756,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-5-tol-default-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              22.80716
+            ],
+            "load plugin": [
+              6.003597
+            ],
+            "create plugin instance": [
+              0.7230900000000001
+            ],
+            "call plugin": [
+              9.333687
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 22.80716,
+            "load plugin": 6.003597,
+            "create plugin instance": 0.7230900000000001,
+            "call plugin": 9.333687
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 22.47553097549826,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-5-tol-default-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              17.39848
+            ],
+            "load plugin": [
+              4.298227
+            ],
+            "create plugin instance": [
+              0.5655439999999998
+            ],
+            "call plugin": [
+              7.962835999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 17.39848,
+            "load plugin": 4.298227,
+            "create plugin instance": 0.5655439999999998,
+            "call plugin": 7.962835999999999
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 32.46240399312228,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-5-tol-default-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              23.610951
+            ],
+            "load plugin": [
+              6.456892
+            ],
+            "create plugin instance": [
+              0.7453460000000014
+            ],
+            "call plugin": [
+              9.747751999999998
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 23.610951,
+            "load plugin": 6.456892,
+            "create plugin instance": 0.7453460000000014,
+            "call plugin": 9.747751999999998
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 31.59067896194756,
+        "compile_once_total_ms": 22.80716,
+        "load_plugin_total_ms": 6.003597,
+        "create_plugin_instance_total_ms": 0.7230900000000001,
+        "call_plugin_total_ms": 9.333687,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 9.333687,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "spring-iter-5-tol-default-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 38.664310006424785,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-5-tol-default-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              34.018465
+            ],
+            "load plugin": [
+              3.6259800000000006
+            ],
+            "create plugin instance": [
+              0.4899760000000006
+            ],
+            "call plugin": [
+              7.694019999999999,
+              4.1394519999999995,
+              5.0796790000000005,
+              4.136184000000001,
+              4.155406000000003
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 34.018465,
+            "load plugin": 3.6259800000000006,
+            "create plugin instance": 0.4899760000000006,
+            "call plugin": 25.204741000000002
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 51.92158999852836,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-5-tol-default-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              42.495443
+            ],
+            "load plugin": [
+              6.711646999999999
+            ],
+            "create plugin instance": [
+              0.7387399999999997
+            ],
+            "call plugin": [
+              9.98017,
+              5.2688130000000015,
+              4.321790000000001,
+              4.291313999999998,
+              4.325118999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 42.495443,
+            "load plugin": 6.711646999999999,
+            "create plugin instance": 0.7387399999999997,
+            "call plugin": 28.187206
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 39.44437997415662,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-5-tol-default-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              34.221343
+            ],
+            "load plugin": [
+              4.133845
+            ],
+            "create plugin instance": [
+              0.46609900000000015
+            ],
+            "call plugin": [
+              7.531242,
+              4.366387000000002,
+              4.506296999999998,
+              4.113725000000002,
+              4.117502999999997
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 34.221343,
+            "load plugin": 4.133845,
+            "create plugin instance": 0.46609900000000015,
+            "call plugin": 24.635154
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 39.44437997415662,
+        "compile_once_total_ms": 34.221343,
+        "load_plugin_total_ms": 4.133845,
+        "create_plugin_instance_total_ms": 0.4899760000000006,
+        "call_plugin_total_ms": 25.204741000000002,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 4.325118999999999,
+        "call_plugin_warmed_median_ms": 4.306552
+      }
+    },
+    "spring-iter-5-tol-zero-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 32.45666204020381,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-5-tol-zero-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              23.626432
+            ],
+            "load plugin": [
+              6.6197750000000015
+            ],
+            "create plugin instance": [
+              0.7422330000000001
+            ],
+            "call plugin": [
+              9.824453
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 23.626432,
+            "load plugin": 6.6197750000000015,
+            "create plugin instance": 0.7422330000000001,
+            "call plugin": 9.824453
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 21.834538085386157,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-5-tol-zero-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              17.038791
+            ],
+            "load plugin": [
+              4.242697
+            ],
+            "create plugin instance": [
+              0.5203890000000001
+            ],
+            "call plugin": [
+              7.862215999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 17.038791,
+            "load plugin": 4.242697,
+            "create plugin instance": 0.5203890000000001,
+            "call plugin": 7.862215999999999
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 35.0315150571987,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-5-tol-zero-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              26.021447
+            ],
+            "load plugin": [
+              8.022302
+            ],
+            "create plugin instance": [
+              0.718518
+            ],
+            "call plugin": [
+              10.69437
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 26.021447,
+            "load plugin": 8.022302,
+            "create plugin instance": 0.718518,
+            "call plugin": 10.69437
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 32.45666204020381,
+        "compile_once_total_ms": 23.626432,
+        "load_plugin_total_ms": 6.6197750000000015,
+        "create_plugin_instance_total_ms": 0.718518,
+        "call_plugin_total_ms": 9.824453,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 9.824453,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "spring-iter-5-tol-zero-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 37.87335800006986,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-5-tol-zero-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              33.134696000000005
+            ],
+            "load plugin": [
+              3.435107
+            ],
+            "create plugin instance": [
+              0.4464370000000008
+            ],
+            "call plugin": [
+              7.2379180000000005,
+              4.204043999999998,
+              4.111966999999997,
+              5.133130000000001,
+              4.129683000000001
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 33.134696000000005,
+            "load plugin": 3.435107,
+            "create plugin instance": 0.4464370000000008,
+            "call plugin": 24.816741999999998
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 51.50283803232014,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-5-tol-zero-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              42.475125999999996
+            ],
+            "load plugin": [
+              6.869884999999999
+            ],
+            "create plugin instance": [
+              0.7279310000000005
+            ],
+            "call plugin": [
+              10.053582,
+              5.1254599999999995,
+              4.472482,
+              4.149937000000001,
+              4.122006000000002
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 42.475125999999996,
+            "load plugin": 6.869884999999999,
+            "create plugin instance": 0.7279310000000005,
+            "call plugin": 27.923467000000002
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 50.21266802214086,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-5-tol-zero-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              41.217251
+            ],
+            "load plugin": [
+              6.390242
+            ],
+            "create plugin instance": [
+              0.7569560000000002
+            ],
+            "call plugin": [
+              9.663666000000001,
+              5.101741000000001,
+              4.12568,
+              4.085514999999996,
+              4.1543060000000045
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 41.217251,
+            "load plugin": 6.390242,
+            "create plugin instance": 0.7569560000000002,
+            "call plugin": 27.130908
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 50.21266802214086,
+        "compile_once_total_ms": 41.217251,
+        "load_plugin_total_ms": 6.390242,
+        "create_plugin_instance_total_ms": 0.7279310000000005,
+        "call_plugin_total_ms": 27.130908,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 4.204043999999998,
+        "call_plugin_warmed_median_ms": 4.152121500000003
+      }
+    },
+    "spring-iter-20-tol-default-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 40.40003404952586,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-20-tol-default-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              31.441786
+            ],
+            "load plugin": [
+              6.766386
+            ],
+            "create plugin instance": [
+              0.7115120000000006
+            ],
+            "call plugin": [
+              17.571094
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 31.441786,
+            "load plugin": 6.766386,
+            "create plugin instance": 0.7115120000000006,
+            "call plugin": 17.571094
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 41.545237065292895,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-20-tol-default-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              32.50856
+            ],
+            "load plugin": [
+              7.243795000000001
+            ],
+            "create plugin instance": [
+              0.7518279999999995
+            ],
+            "call plugin": [
+              17.942947
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 32.50856,
+            "load plugin": 7.243795000000001,
+            "create plugin instance": 0.7518279999999995,
+            "call plugin": 17.942947
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 40.615494013763964,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-20-tol-default-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              31.108603
+            ],
+            "load plugin": [
+              6.376798999999999
+            ],
+            "create plugin instance": [
+              0.7798400000000002
+            ],
+            "call plugin": [
+              17.015990000000002
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 31.108603,
+            "load plugin": 6.376798999999999,
+            "create plugin instance": 0.7798400000000002,
+            "call plugin": 17.015990000000002
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 40.615494013763964,
+        "compile_once_total_ms": 31.441786,
+        "load_plugin_total_ms": 6.766386,
+        "create_plugin_instance_total_ms": 0.7518279999999995,
+        "call_plugin_total_ms": 17.571094,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 17.571094,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "spring-iter-20-tol-default-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 89.53678200487047,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-20-tol-default-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              80.59884299999999
+            ],
+            "load plugin": [
+              7.914607
+            ],
+            "create plugin instance": [
+              0.7506899999999986
+            ],
+            "call plugin": [
+              18.320464,
+              10.982735999999997,
+              10.891273000000002,
+              12.06678,
+              13.012260999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 80.59884299999999,
+            "load plugin": 7.914607,
+            "create plugin instance": 0.7506899999999986,
+            "call plugin": 65.273514
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 86.96807594969869,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-20-tol-default-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              77.927174
+            ],
+            "load plugin": [
+              7.620571
+            ],
+            "create plugin instance": [
+              0.7540519999999997
+            ],
+            "call plugin": [
+              18.250155,
+              11.058412,
+              11.073362999999997,
+              11.081423999999998,
+              11.175542999999998
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 77.927174,
+            "load plugin": 7.620571,
+            "create plugin instance": 0.7540519999999997,
+            "call plugin": 62.63889699999999
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 86.86363196466118,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-20-tol-default-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              77.171258
+            ],
+            "load plugin": [
+              7.991785
+            ],
+            "create plugin instance": [
+              0.698473
+            ],
+            "call plugin": [
+              18.27197,
+              11.058111,
+              10.918220999999997,
+              10.855279999999999,
+              10.879535999999993
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 77.171258,
+            "load plugin": 7.991785,
+            "create plugin instance": 0.698473,
+            "call plugin": 61.98311799999999
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 86.96807594969869,
+        "compile_once_total_ms": 77.927174,
+        "load_plugin_total_ms": 7.914607,
+        "create_plugin_instance_total_ms": 0.7506899999999986,
+        "call_plugin_total_ms": 62.63889699999999,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 11.073362999999997,
+        "call_plugin_warmed_median_ms": 11.0582615
+      }
+    },
+    "spring-iter-20-tol-zero-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 29.718242003582418,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-20-tol-zero-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              24.832182
+            ],
+            "load plugin": [
+              4.237718
+            ],
+            "create plugin instance": [
+              0.5261229999999996
+            ],
+            "call plugin": [
+              15.885620000000001
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 24.832182,
+            "load plugin": 4.237718,
+            "create plugin instance": 0.5261229999999996,
+            "call plugin": 15.885620000000001
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 40.44602299109101,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-20-tol-zero-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              31.018105
+            ],
+            "load plugin": [
+              6.503483999999999
+            ],
+            "create plugin instance": [
+              0.768101999999999
+            ],
+            "call plugin": [
+              17.198593000000002
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 31.018105,
+            "load plugin": 6.503483999999999,
+            "create plugin instance": 0.768101999999999,
+            "call plugin": 17.198593000000002
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 39.6818988956511,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-20-tol-zero-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              30.645955
+            ],
+            "load plugin": [
+              6.316564
+            ],
+            "create plugin instance": [
+              0.7703359999999994
+            ],
+            "call plugin": [
+              17.163944
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 30.645955,
+            "load plugin": 6.316564,
+            "create plugin instance": 0.7703359999999994,
+            "call plugin": 17.163944
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 39.6818988956511,
+        "compile_once_total_ms": 30.645955,
+        "load_plugin_total_ms": 6.316564,
+        "create_plugin_instance_total_ms": 0.768101999999999,
+        "call_plugin_total_ms": 17.163944,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 17.163944,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "spring-iter-20-tol-zero-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 83.4472990827635,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-20-tol-zero-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              74.282039
+            ],
+            "load plugin": [
+              6.345803999999999
+            ],
+            "create plugin instance": [
+              0.7731910000000007
+            ],
+            "call plugin": [
+              17.213074,
+              10.901371,
+              10.867243000000002,
+              10.911299999999995,
+              10.774528000000005
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 74.282039,
+            "load plugin": 6.345803999999999,
+            "create plugin instance": 0.7731910000000007,
+            "call plugin": 60.667516
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 73.22684803511947,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-20-tol-zero-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              67.89009399999999
+            ],
+            "load plugin": [
+              4.281823
+            ],
+            "create plugin instance": [
+              0.5558139999999994
+            ],
+            "call plugin": [
+              13.723593000000001,
+              11.330993,
+              10.914181999999997,
+              10.979169000000002,
+              11.091805999999997
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 67.89009399999999,
+            "load plugin": 4.281823,
+            "create plugin instance": 0.5558139999999994,
+            "call plugin": 58.039742999999994
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 84.068160969764,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-20-tol-zero-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              75.00307600000001
+            ],
+            "load plugin": [
+              7.14673
+            ],
+            "create plugin instance": [
+              0.8737750000000014
+            ],
+            "call plugin": [
+              17.165106,
+              10.931818999999999,
+              10.754585999999996,
+              10.903524999999995,
+              10.739901999999995
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 75.00307600000001,
+            "load plugin": 7.14673,
+            "create plugin instance": 0.8737750000000014,
+            "call plugin": 60.49493799999999
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 83.4472990827635,
+        "compile_once_total_ms": 74.282039,
+        "load_plugin_total_ms": 6.345803999999999,
+        "create_plugin_instance_total_ms": 0.7731910000000007,
+        "call_plugin_total_ms": 60.49493799999999,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 10.914181999999997,
+        "call_plugin_warmed_median_ms": 10.907412499999996
+      }
+    },
+    "spring-iter-100-tol-default-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 81.85075793880969,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-100-tol-default-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              76.809057
+            ],
+            "load plugin": [
+              4.282095
+            ],
+            "create plugin instance": [
+              0.5328869999999997
+            ],
+            "call plugin": [
+              67.236634
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 76.809057,
+            "load plugin": 4.282095,
+            "create plugin instance": 0.5328869999999997,
+            "call plugin": 67.236634
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 75.47507993876934,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-100-tol-default-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              66.525743
+            ],
+            "load plugin": [
+              6.331333000000001
+            ],
+            "create plugin instance": [
+              0.7487190000000009
+            ],
+            "call plugin": [
+              53.11471900000001
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 66.525743,
+            "load plugin": 6.331333000000001,
+            "create plugin instance": 0.7487190000000009,
+            "call plugin": 53.11471900000001
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 69.71464597154409,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-100-tol-default-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              63.938131
+            ],
+            "load plugin": [
+              6.715798
+            ],
+            "create plugin instance": [
+              0.7162849999999998
+            ],
+            "call plugin": [
+              51.349993000000005
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 63.938131,
+            "load plugin": 6.715798,
+            "create plugin instance": 0.7162849999999998,
+            "call plugin": 51.349993000000005
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 75.47507993876934,
+        "compile_once_total_ms": 66.525743,
+        "load_plugin_total_ms": 6.331333000000001,
+        "create_plugin_instance_total_ms": 0.7162849999999998,
+        "call_plugin_total_ms": 53.11471900000001,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 53.11471900000001,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "spring-iter-100-tol-default-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 273.5454309731722,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-100-tol-default-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              267.727255
+            ],
+            "load plugin": [
+              3.8139920000000003
+            ],
+            "create plugin instance": [
+              0.5533140000000003
+            ],
+            "call plugin": [
+              52.94905899999999,
+              47.951063,
+              47.728843999999995,
+              49.353026000000014,
+              59.648041
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 267.727255,
+            "load plugin": 3.8139920000000003,
+            "create plugin instance": 0.5533140000000003,
+            "call plugin": 257.630033
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 265.3578739846125,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-100-tol-default-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              255.900444
+            ],
+            "load plugin": [
+              7.911881000000001
+            ],
+            "create plugin instance": [
+              0.7449250000000011
+            ],
+            "call plugin": [
+              53.944061000000005,
+              46.652604999999994,
+              46.624219,
+              46.506236,
+              46.589280999999986
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 255.900444,
+            "load plugin": 7.911881000000001,
+            "create plugin instance": 0.7449250000000011,
+            "call plugin": 240.31640199999998
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 264.26823099609464,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-100-tol-default-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              254.961228
+            ],
+            "load plugin": [
+              6.426755000000001
+            ],
+            "create plugin instance": [
+              0.7368600000000006
+            ],
+            "call plugin": [
+              53.292493,
+              46.839625999999996,
+              46.69121899999998,
+              46.933641,
+              46.89194500000001
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 254.961228,
+            "load plugin": 6.426755000000001,
+            "create plugin instance": 0.7368600000000006,
+            "call plugin": 240.648924
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 265.3578739846125,
+        "compile_once_total_ms": 255.900444,
+        "load_plugin_total_ms": 6.426755000000001,
+        "create_plugin_instance_total_ms": 0.7368600000000006,
+        "call_plugin_total_ms": 240.648924,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 46.933641,
+        "call_plugin_warmed_median_ms": 46.8657855
+      }
+    },
+    "spring-iter-100-tol-zero-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 76.36098703369498,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-100-tol-zero-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              67.141133
+            ],
+            "load plugin": [
+              6.362649
+            ],
+            "create plugin instance": [
+              0.7852810000000009
+            ],
+            "call plugin": [
+              53.479816
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 67.141133,
+            "load plugin": 6.362649,
+            "create plugin instance": 0.7852810000000009,
+            "call plugin": 53.479816
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 70.19038498401642,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-100-tol-zero-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              64.407245
+            ],
+            "load plugin": [
+              6.7542550000000015
+            ],
+            "create plugin instance": [
+              0.7113829999999998
+            ],
+            "call plugin": [
+              52.075436
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 64.407245,
+            "load plugin": 6.7542550000000015,
+            "create plugin instance": 0.7113829999999998,
+            "call plugin": 52.075436
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 77.79660797677934,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-100-tol-zero-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              68.86028200000001
+            ],
+            "load plugin": [
+              8.089042
+            ],
+            "create plugin instance": [
+              0.9807200000000011
+            ],
+            "call plugin": [
+              53.707707
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 68.86028200000001,
+            "load plugin": 8.089042,
+            "create plugin instance": 0.9807200000000011,
+            "call plugin": 53.707707
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 76.36098703369498,
+        "compile_once_total_ms": 67.141133,
+        "load_plugin_total_ms": 6.7542550000000015,
+        "create_plugin_instance_total_ms": 0.7852810000000009,
+        "call_plugin_total_ms": 53.479816,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 53.479816,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "spring-iter-100-tol-zero-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 265.06389502901584,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-100-tol-zero-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              255.813464
+            ],
+            "load plugin": [
+              7.152387000000001
+            ],
+            "create plugin instance": [
+              0.898280999999999
+            ],
+            "call plugin": [
+              54.195139000000005,
+              46.66832900000001,
+              46.95045899999999,
+              46.613733999999994,
+              46.763312000000006
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 255.813464,
+            "load plugin": 7.152387000000001,
+            "create plugin instance": 0.898280999999999,
+            "call plugin": 241.19097299999999
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 266.40008005779237,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-100-tol-zero-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              257.18933400000003
+            ],
+            "load plugin": [
+              8.018515
+            ],
+            "create plugin instance": [
+              0.7359110000000001
+            ],
+            "call plugin": [
+              54.3773,
+              46.735111,
+              46.616231,
+              46.85779200000002,
+              46.73269099999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 257.18933400000003,
+            "load plugin": 8.018515,
+            "create plugin instance": 0.7359110000000001,
+            "call plugin": 241.319125
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 252.45100795291364,
+          "stderr": "",
+          "trace": "_bench/profile-100/spring-iter-100-tol-zero-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              246.926748
+            ],
+            "load plugin": [
+              4.558844
+            ],
+            "create plugin instance": [
+              0.4553600000000006
+            ],
+            "call plugin": [
+              49.736585999999996,
+              46.940459,
+              46.829956,
+              46.74352300000002,
+              46.348301000000006
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 246.926748,
+            "load plugin": 4.558844,
+            "create plugin instance": 0.4553600000000006,
+            "call plugin": 236.59882500000003
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 265.06389502901584,
+        "compile_once_total_ms": 255.813464,
+        "load_plugin_total_ms": 7.152387000000001,
+        "create_plugin_instance_total_ms": 0.7359110000000001,
+        "call_plugin_total_ms": 241.19097299999999,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 46.763312000000006,
+        "call_plugin_warmed_median_ms": 46.739317000000014
+      }
+    },
+    "stress-sgd-iter-5-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 29.223132063634694,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-sgd-iter-5-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              23.839993999999997
+            ],
+            "load plugin": [
+              5.731504
+            ],
+            "create plugin instance": [
+              0.523
+            ],
+            "call plugin": [
+              13.045022999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 23.839993999999997,
+            "load plugin": 5.731504,
+            "create plugin instance": 0.523,
+            "call plugin": 13.045022999999999
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 41.52884799987078,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-sgd-iter-5-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              32.375573
+            ],
+            "load plugin": [
+              7.323041999999999
+            ],
+            "create plugin instance": [
+              0.7822569999999996
+            ],
+            "call plugin": [
+              17.655007
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 32.375573,
+            "load plugin": 7.323041999999999,
+            "create plugin instance": 0.7822569999999996,
+            "call plugin": 17.655007
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 42.83463105093688,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-sgd-iter-5-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              33.901802
+            ],
+            "load plugin": [
+              8.387444
+            ],
+            "create plugin instance": [
+              0.7344529999999995
+            ],
+            "call plugin": [
+              18.475714
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 33.901802,
+            "load plugin": 8.387444,
+            "create plugin instance": 0.7344529999999995,
+            "call plugin": 18.475714
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 41.52884799987078,
+        "compile_once_total_ms": 32.375573,
+        "load_plugin_total_ms": 7.323041999999999,
+        "create_plugin_instance_total_ms": 0.7344529999999995,
+        "call_plugin_total_ms": 17.655007,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 17.655007,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "stress-sgd-iter-5-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 84.95757495984435,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-sgd-iter-5-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              75.557739
+            ],
+            "load plugin": [
+              8.280613
+            ],
+            "create plugin instance": [
+              0.7114780000000009
+            ],
+            "call plugin": [
+              18.331260999999998,
+              10.289916999999997,
+              10.183853000000003,
+              10.122915,
+              10.076199
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 75.557739,
+            "load plugin": 8.280613,
+            "create plugin instance": 0.7114780000000009,
+            "call plugin": 59.004145
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 71.10604201443493,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-sgd-iter-5-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              66.00107799999999
+            ],
+            "load plugin": [
+              4.608895
+            ],
+            "create plugin instance": [
+              0.5944809999999998
+            ],
+            "call plugin": [
+              14.984985,
+              10.211234000000001,
+              10.228425999999999,
+              10.141702000000004,
+              10.164012000000003
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 66.00107799999999,
+            "load plugin": 4.608895,
+            "create plugin instance": 0.5944809999999998,
+            "call plugin": 55.73035900000001
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 73.40150501113385,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-sgd-iter-5-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              67.56917299999999
+            ],
+            "load plugin": [
+              6.610438
+            ],
+            "create plugin instance": [
+              0.8219090000000006
+            ],
+            "call plugin": [
+              14.334079,
+              10.133013000000002,
+              10.132595999999998,
+              10.131072999999997,
+              10.147972999999999
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 67.56917299999999,
+            "load plugin": 6.610438,
+            "create plugin instance": 0.8219090000000006,
+            "call plugin": 54.878733999999994
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 73.40150501113385,
+        "compile_once_total_ms": 67.56917299999999,
+        "load_plugin_total_ms": 6.610438,
+        "create_plugin_instance_total_ms": 0.7114780000000009,
+        "call_plugin_total_ms": 55.73035900000001,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 10.164012000000003,
+        "call_plugin_warmed_median_ms": 10.144837500000001
+      }
+    },
+    "stress-sgd-iter-15-one": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 54.29054400883615,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-sgd-iter-15-one/run-1/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              45.082506
+            ],
+            "load plugin": [
+              8.045561000000001
+            ],
+            "create plugin instance": [
+              0.687201000000001
+            ],
+            "call plugin": [
+              30.084263
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 45.082506,
+            "load plugin": 8.045561000000001,
+            "create plugin instance": 0.687201000000001,
+            "call plugin": 30.084263
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 51.81400605943054,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-sgd-iter-15-one/run-2/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              42.70263
+            ],
+            "load plugin": [
+              7.027057999999999
+            ],
+            "create plugin instance": [
+              0.756119999999999
+            ],
+            "call plugin": [
+              28.47229
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 42.70263,
+            "load plugin": 7.027057999999999,
+            "create plugin instance": 0.756119999999999,
+            "call plugin": 28.47229
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 51.746047916822135,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-sgd-iter-15-one/run-3/timings-0.json",
+          "trace_event_count": 74,
+          "events_ms": {
+            "compile once": [
+              42.810066
+            ],
+            "load plugin": [
+              8.00707
+            ],
+            "create plugin instance": [
+              0.864976999999999
+            ],
+            "call plugin": [
+              28.016535
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 42.810066,
+            "load plugin": 8.00707,
+            "create plugin instance": 0.864976999999999,
+            "call plugin": 28.016535
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 51.81400605943054,
+        "compile_once_total_ms": 42.810066,
+        "load_plugin_total_ms": 8.00707,
+        "create_plugin_instance_total_ms": 0.756119999999999,
+        "call_plugin_total_ms": 28.47229,
+        "call_plugin_count": 1,
+        "call_plugin_individual_median_ms": 28.47229,
+        "call_plugin_warmed_median_ms": null
+      }
+    },
+    "stress-sgd-iter-15-repeat-5": {
+      "samples": [
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 125.05786202382296,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-sgd-iter-15-repeat-5/run-1/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              119.46400299999999
+            ],
+            "load plugin": [
+              3.9132309999999997
+            ],
+            "create plugin instance": [
+              0.4797129999999997
+            ],
+            "call plugin": [
+              25.649150000000002,
+              21.108118,
+              21.249630000000003,
+              20.868852999999987,
+              21.037941000000007
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 119.46400299999999,
+            "load plugin": 3.9132309999999997,
+            "create plugin instance": 0.4797129999999997,
+            "call plugin": 109.913692
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 124.83526102732867,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-sgd-iter-15-repeat-5/run-2/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              119.384505
+            ],
+            "load plugin": [
+              4.272432000000001
+            ],
+            "create plugin instance": [
+              0.5469530000000005
+            ],
+            "call plugin": [
+              24.780889,
+              20.9171,
+              21.135244,
+              21.035907999999996,
+              20.988222999999998
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 119.384505,
+            "load plugin": 4.272432000000001,
+            "create plugin instance": 0.5469530000000005,
+            "call plugin": 108.85736399999999
+          }
+        },
+        {
+          "status": "ok",
+          "returncode": 0,
+          "wall_ms": 128.0469170305878,
+          "stderr": "",
+          "trace": "_bench/profile-100/stress-sgd-iter-15-repeat-5/run-3/timings-0.json",
+          "trace_event_count": 138,
+          "events_ms": {
+            "compile once": [
+              121.767115
+            ],
+            "load plugin": [
+              5.722507
+            ],
+            "create plugin instance": [
+              0.714643
+            ],
+            "call plugin": [
+              26.010939,
+              20.892258,
+              20.946772999999993,
+              20.933975000000007,
+              20.933815000000003
+            ]
+          },
+          "event_totals_ms": {
+            "compile once": 121.767115,
+            "load plugin": 5.722507,
+            "create plugin instance": 0.714643,
+            "call plugin": 109.71776
+          }
+        }
+      ],
+      "median": {
+        "wall_ms": 125.05786202382296,
+        "compile_once_total_ms": 119.46400299999999,
+        "load_plugin_total_ms": 4.272432000000001,
+        "create_plugin_instance_total_ms": 0.5469530000000005,
+        "call_plugin_total_ms": 109.71776,
+        "call_plugin_count": 5,
+        "call_plugin_individual_median_ms": 21.035907999999996,
+        "call_plugin_warmed_median_ms": 20.967497999999996
+      }
+    }
+  }
+}

@@ -13,13 +13,17 @@ mod shell;
 mod spectral;
 mod spring;
 mod stress;
-pub use schema::{Algorithm, Request, Response};
+mod stress_sgd;
+pub use schema::{Algorithm, Request, Response, StressMethod};
 
 /// Compute positions in node-index order without a serialization round trip.
 pub fn compute(request: &Request) -> Result<Response, String> {
     request.validate()?;
     let response = match request.algorithm {
-        Algorithm::Stress => stress::run(request),
+        Algorithm::Stress => match request.stress_method {
+            StressMethod::Majorization => stress::run(request),
+            StressMethod::Sgd => stress_sgd::run(request),
+        },
         Algorithm::Spring => spring::run(request),
         Algorithm::Spectral => spectral::run(request),
         Algorithm::Shell => shell::run(request),

@@ -42,6 +42,20 @@
 #close(distance(stress.positions.at(1), stress.positions.at(2)), 2.0)
 #close(distance(stress.positions.at(0), stress.positions.at(2)), 3.0)
 
+// SGD uses the same weighted stress objective and preserves exact pins.
+#let sgd = layout(
+  3, ((0, 1), (1, 2)),
+  stress-method: "sgd", iterations: 15, tolerance: 0.0, dim: 3,
+  edge-weights: (1.0, 2.0),
+  initial: ((0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (3.0, 0.0, 0.0)),
+  pins: ((true, true, true), (), ()),
+)
+#assert.eq(sgd.positions.at(0), (0.0, 0.0, 0.0))
+#close(distance(sgd.positions.at(0), sgd.positions.at(2)), 3.0)
+#close(sgd.objective, 0.0)
+#assert.eq(sgd.iterations, 15)
+#assert(not sgd.converged)
+
 // A four-cycle's spectral embedding is a square, independent of rotation or reflection.
 #let spectral = layout(4, ((0, 1), (1, 2), (2, 3), (3, 0)), algorithm: "spectral")
 #let side = distance(spectral.positions.at(0), spectral.positions.at(1))

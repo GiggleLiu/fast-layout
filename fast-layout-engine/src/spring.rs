@@ -7,8 +7,16 @@ use crate::{
 };
 
 pub(crate) fn run(req: &Request) -> Result<Response, String> {
+    match req.dim {
+        2 => run_dim::<2>(req),
+        3 => run_dim::<3>(req),
+        _ => run_dim::<0>(req),
+    }
+}
+
+fn run_dim<const D: usize>(req: &Request) -> Result<Response, String> {
     let graph = Graph::new(req)?;
-    let dim = req.dim;
+    let dim = if D == 0 { req.dim } else { D };
     let n = req.nodes;
     let mut p = req.initial_positions();
     if n < 2 {
@@ -23,7 +31,7 @@ pub(crate) fn run(req: &Request) -> Result<Response, String> {
         None
     };
     let mut forces = vec![0.; p.len()];
-    let mut pair = vec![0.; dim];
+    let mut pair = (D != 2).then(|| vec![0.; dim]);
     let mut converged = false;
     let mut iterations = 0;
     for iteration in 1..=req.iterations {
@@ -31,11 +39,14 @@ pub(crate) fn run(req: &Request) -> Result<Response, String> {
         if let Some(tree) = tree.as_mut() {
             tree.rebuild(&p);
             tree.forces(&p, k * k, theta, req.seed, &mut forces);
+        } else if D == 2 {
+            repel_exact_2d(&p, k * k, req.seed, &mut forces);
         } else {
+            let pair = pair.as_mut().unwrap();
             for i in 0..n {
                 for j in i + 1..n {
                     pair.fill(0.);
-                    repel(&p, dim, i, j, k * k, req.seed, &mut pair);
+                    repel(&p, dim, i, j, k * k, req.seed, pair);
                     for d in 0..dim {
                         forces[i * dim + d] += pair[d];
                         forces[j * dim + d] -= pair[d];
@@ -97,6 +108,35 @@ pub(crate) fn run(req: &Request) -> Result<Response, String> {
     Ok(response(p, dim, iterations, converged, energy))
 }
 
+fn repel_exact_2d(points: &[f64], k2: f64, seed: u64, forces: &mut [f64]) {
+    let (points, point_remainder) = points.as_chunks::<2>();
+    let (forces, force_remainder) = forces.as_chunks_mut::<2>();
+    debug_assert!(point_remainder.is_empty() && force_remainder.is_empty());
+
+    for (i, &[x, y]) in points.iter().enumerate() {
+        let (head, tail) = forces.split_at_mut(i + 1);
+        let force_i = &mut head[i];
+        for (offset, force_j) in tail.iter_mut().enumerate() {
+            let j = i + offset + 1;
+            let dx = x - points[j][0];
+            let dy = y - points[j][1];
+            let dist2 = dx.powi(2) + dy.powi(2);
+            let pair = if dist2 == 0. {
+                let mut pair = [0.; 2];
+                repel(points.as_flattened(), 2, i, j, k2, seed, &mut pair);
+                pair
+            } else {
+                let scale = k2 / dist2;
+                [scale * dx, scale * dy]
+            };
+            force_i[0] += pair[0];
+            force_i[1] += pair[1];
+            force_j[0] -= pair[0];
+            force_j[1] -= pair[1];
+        }
+    }
+}
+
 fn energy(p: &[f64], dim: usize, graph: &Graph, k: f64) -> f64 {
     let mut energy = 0.;
     for i in 0..graph.n {
@@ -116,7 +156,29 @@ fn energy(p: &[f64], dim: usize, graph: &Graph, k: f64) -> f64 {
 
 #[cfg(test)]
 mod tests {
+    use super::repel_exact_2d;
+    use crate::barnes_hut::repel;
     use crate::{compute, Algorithm, Request};
+
+    #[test]
+    fn exact_2d_forces_match_generic_including_coincident_pairs() {
+        let points = [0., 0., 2., -1., 0., 0., -3., 4.];
+        let mut expected = [0.; 8];
+        for i in 0..4 {
+            for j in i + 1..4 {
+                let mut pair = [0.; 2];
+                repel(&points, 2, i, j, 1.7, 42, &mut pair);
+                for d in 0..2 {
+                    expected[i * 2 + d] += pair[d];
+                    expected[j * 2 + d] -= pair[d];
+                }
+            }
+        }
+        let mut actual = [0.; 8];
+        repel_exact_2d(&points, 1.7, 42, &mut actual);
+        assert_eq!(actual, expected);
+    }
+
     #[test]
     fn isolated_coincident_nodes_separate_with_pins_and_higher_dimensions() {
         let mut req = Request::new(4, vec![], Algorithm::Spring);

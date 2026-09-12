@@ -1,11 +1,16 @@
 # Third-party notices
 
-The layout algorithms are ports of NetworkLayout.jl 0.4.10 at commit
+The original layout implementations are ports of NetworkLayout.jl 0.4.10 at commit
 `073192ac737ff3309d7a1204fdd99ea361232d2b`. NetworkLayout.jl is
 Copyright (c) 2016 Abhijith Anilkumar and other contributors under the MIT
 Expat License. `NETWORKLAYOUT-LICENSE.md` reproduces its complete notice,
 including the notices it carries for GraphLayout.jl, PlotRecipes.jl, and
 GraphPlot.jl.
+
+The optional stress SGD optimizer is independently implemented from Zheng,
+Pawar, and Goodman, [Graph Drawing by Stochastic Gradient Descent](https://arxiv.org/abs/1710.04626)
+(2019). The authors' [C++ `(sgd)²` implementation](https://github.com/jxz12/s_gd2)
+is used as a benchmark reference. Its source is not included in this package.
 
 The build, CBOR bridge, and Typst package structure were adapted from chalks,
 Copyright (c) 2026 Jinguo Liu, under the MIT License.

@@ -63,3 +63,27 @@ The static site is one self-contained HTML file. Browser checks covered all five
 selectors, keyboard navigation, selected-tab state, and desktop/mobile layouts.
 The circular example uses uniform coordinate scaling so circles stay circular.
 NetworkLayout.jl attribution appears in the website and both READMEs.
+
+## 100-node speed and CeTZ revision
+
+A fresh reviewer checked the new SGD solver, dimension specializations, exact
+2D spring kernel, CBOR API, tests, benchmark scripts and records, and manuals.
+No material numerical defect was found. The review confirmed source and WASM
+hashes, native comparisons, and warm timings that exclude the first call.
+
+The profiler now decodes timeout diagnostics before writing JSON. A focused
+reproducer verified that non-UTF-8 diagnostics remain serializable. Documentation
+now distinguishes majorization's Cholesky setup from SGD pair updates, explains
+SGD's stopping rule, and scopes the zero-update fully pinned case to stress.
+
+Validation passed for 43 native tests plus the separate release jagmesh case,
+Rust formatting, Clippy with warnings denied, Typst numerical/error tests on
+0.14.2 and 0.15.1, and the Typst package checker. All CeTZ documents compiled on
+both Typst versions. The four-page manual and gallery were visually inspected;
+the manual's complete CeTZ snippet was also extracted and compiled independently.
+A clean-target rebuild produced the identical 285,138-byte WASM recorded in
+[the 100-node report](performance-100.md).
+
+The Git audit skill remains unavailable, so there is no delegated audit gate
+result. Read-only artifact inspection found the expected WASM, compiled manuals,
+and benchmark records. GitHub metadata confirms the repository remains private.

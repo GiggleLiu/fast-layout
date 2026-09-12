@@ -170,6 +170,7 @@ impl Tree {
     }
 }
 
+#[inline]
 pub(crate) fn repel(
     p: &[f64],
     dim: usize,

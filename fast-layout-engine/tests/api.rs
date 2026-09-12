@@ -1,4 +1,4 @@
-use fast_layout_engine::{compute, layout, Algorithm, Request, Response};
+use fast_layout_engine::{compute, layout, Algorithm, Request, Response, StressMethod};
 
 fn path_request(algorithm: Algorithm) -> Request {
     Request::new(4, vec![[0, 1], [1, 2], [2, 3]], algorithm)
@@ -58,15 +58,31 @@ fn rejects_adversarial_inputs_before_allocating() {
 
 #[test]
 fn cbor_matches_native_and_is_byte_deterministic() {
-    let request = path_request(Algorithm::Stress);
-    let native = compute(&request).unwrap();
+    for stress_method in [StressMethod::Majorization, StressMethod::Sgd] {
+        let mut request = path_request(Algorithm::Stress);
+        request.stress_method = stress_method;
+        let native = compute(&request).unwrap();
+        let mut input = Vec::new();
+        ciborium::into_writer(&request, &mut input).unwrap();
+        let first = layout(&input).unwrap();
+        let second = layout(&input).unwrap();
+        assert_eq!(first, second);
+        let decoded: Response = ciborium::from_reader(first.as_slice()).unwrap();
+        assert_eq!(decoded, native);
+    }
+}
+
+#[test]
+fn rejects_unknown_or_inapplicable_stress_methods() {
+    let mut request = path_request(Algorithm::Spring);
+    request.stress_method = StressMethod::Sgd;
+    assert!(compute(&request)
+        .unwrap_err()
+        .contains("stress_method is only supported for stress"));
+    let value = serde_json::json!({"nodes": 1, "stress_method": "typo"});
     let mut input = Vec::new();
-    ciborium::into_writer(&request, &mut input).unwrap();
-    let first = layout(&input).unwrap();
-    let second = layout(&input).unwrap();
-    assert_eq!(first, second);
-    let decoded: Response = ciborium::from_reader(first.as_slice()).unwrap();
-    assert_eq!(decoded, native);
+    ciborium::into_writer(&value, &mut input).unwrap();
+    assert!(layout(&input).unwrap_err().contains("unknown variant"));
 }
 
 #[test]

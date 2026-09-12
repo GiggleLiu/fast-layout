@@ -1,4 +1,4 @@
-use fast_layout_engine::{compute, layout, Algorithm, Request, Response};
+use fast_layout_engine::{compute, layout, Algorithm, Request, Response, StressMethod};
 use serde::Serialize;
 use std::env;
 use std::time::{Duration, Instant};
@@ -13,6 +13,7 @@ struct Row {
     iterations_requested: usize,
     repeats: usize,
     tolerance: f64,
+    stress_method: String,
     theta: Option<f64>,
     min_ms: f64,
     median_ms: f64,
@@ -33,6 +34,8 @@ struct Args {
     theta: f64,
     format: String,
     output: Option<String>,
+    graph_file: Option<String>,
+    stress_method: StressMethod,
 }
 
 fn values(value: &str) -> impl Iterator<Item = &str> {
@@ -61,6 +64,8 @@ fn parse_args() -> Args {
         theta: 0.7,
         format: "csv".into(),
         output: None,
+        graph_file: None,
+        stress_method: StressMethod::Majorization,
     };
     let mut input = env::args().skip(1);
     while let Some(flag) = input.next() {
@@ -84,6 +89,14 @@ fn parse_args() -> Args {
             "--theta" => args.theta = value.parse().expect("invalid theta"),
             "--format" => args.format = value,
             "--output" => args.output = Some(value),
+            "--graph-file" => args.graph_file = Some(value),
+            "--stress-method" => {
+                args.stress_method = match value.as_str() {
+                    "majorization" => StressMethod::Majorization,
+                    "sgd" => StressMethod::Sgd,
+                    _ => panic!("unknown stress method {value}"),
+                }
+            }
             _ => panic!("unknown option {flag}"),
         }
     }
@@ -114,10 +127,15 @@ fn connected_edges(n: usize) -> Vec<[usize; 2]> {
 }
 
 fn request(n: usize, algorithm: Algorithm, args: &Args) -> Request {
-    let edges = match algorithm {
-        Algorithm::Shell => Vec::new(),
-        Algorithm::Buchheim => (1..n).map(|i| [(i - 1) / 2, i]).collect(),
-        _ => connected_edges(n),
+    let edges = if let Some(path) = &args.graph_file {
+        serde_json::from_slice(&std::fs::read(path).expect("cannot read graph file"))
+            .expect("graph file must be a JSON edge list")
+    } else {
+        match algorithm {
+            Algorithm::Shell => Vec::new(),
+            Algorithm::Buchheim => (1..n).map(|i| [(i - 1) / 2, i]).collect(),
+            _ => connected_edges(n),
+        }
     };
     let dim = if matches!(algorithm, Algorithm::Shell | Algorithm::Buchheim) {
         2
@@ -145,6 +163,11 @@ fn request(n: usize, algorithm: Algorithm, args: &Args) -> Request {
         dim,
         iterations: args.iterations,
         tolerance: args.tolerance,
+        stress_method: if algorithm == Algorithm::Stress {
+            args.stress_method
+        } else {
+            StressMethod::Majorization
+        },
         initial,
         theta: (algorithm == Algorithm::Spring).then_some(args.theta),
         ..Request::new(n, edges, algorithm)
@@ -196,6 +219,7 @@ fn row(
         iterations_requested: request.iterations,
         repeats,
         tolerance: request.tolerance,
+        stress_method: format!("{:?}", request.stress_method).to_lowercase(),
         theta: request.theta,
         min_ms,
         median_ms,
@@ -263,10 +287,10 @@ fn main() {
         }
         print!("{output}");
     } else {
-        println!("method,algorithm,nodes,edges,dim,iterations_requested,repeats,tolerance,theta,min_ms,median_ms,max_ms,iterations,converged,objective,quality_energy");
+        println!("method,algorithm,nodes,edges,dim,iterations_requested,repeats,tolerance,stress_method,theta,min_ms,median_ms,max_ms,iterations,converged,objective,quality_energy");
         for r in rows {
             println!(
-                "{},{},{},{},{},{},{},{},{},{:.6},{:.6},{:.6},{},{},{},{}",
+                "{},{},{},{},{},{},{},{},{},{},{:.6},{:.6},{:.6},{},{},{},{}",
                 r.method,
                 r.algorithm,
                 r.nodes,
@@ -275,6 +299,7 @@ fn main() {
                 r.iterations_requested,
                 r.repeats,
                 r.tolerance,
+                r.stress_method,
                 r.theta.map_or(String::new(), |x| x.to_string()),
                 r.min_ms,
                 r.median_ms,
