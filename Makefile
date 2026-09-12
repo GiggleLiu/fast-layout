@@ -1,4 +1,4 @@
-.PHONY: all pkgroot test rust-test examples plugin install clean bench bench-typst bench-incremental
+.PHONY: all pkgroot test rust-test manual plugin install clean bench bench-typst bench-incremental
 
 export TYPST_PACKAGE_PATH := $(CURDIR)/_pkgroot
 
@@ -15,8 +15,8 @@ rust-test:
 test: pkgroot rust-test
 	@$(MAKE) -C fast-layout test
 
-examples: pkgroot
-	@$(MAKE) -C fast-layout examples
+manual: pkgroot
+	@$(MAKE) -C fast-layout manual
 
 plugin:
 	@$(MAKE) -C fast-layout plugin

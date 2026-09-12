@@ -8,4 +8,4 @@ description = "Compute graph and tree coordinates."
 compiler = "0.14.0"
 categories = ["visualization"]
 keywords = ["graph", "layout", "network", "tree"]
-exclude = ["/tests/*", "/examples/*", "/manual.typ", "/manual.pdf", "/Makefile"]
+exclude = ["/tests/*", "/manual.typ", "/manual.pdf", "/Makefile"]

@@ -2,8 +2,10 @@
 
 Graph coordinates from pure Rust, available as a native library and a bundled
 Typst WASM plugin. No Julia, Python, Graphviz, or native math runtime is needed.
-Drawing belongs to the calling document. The manual and examples use
+Drawing belongs to the calling document. The manual uses
 [CeTZ](https://typst.app/universe/package/cetz/) 0.5.2 for rendering.
+
+[Manual (PDF)](manual.pdf) · [Download](https://github.com/GiggleLiu/fast-layout/raw/refs/heads/main/fast-layout/manual.pdf)
 
 The original algorithms and behavioral tests are adapted from
 [NetworkLayout.jl](https://github.com/JuliaGraphs/NetworkLayout.jl) 0.4.10.
@@ -156,17 +158,3 @@ coordinates, and 32 MiB of encoded CBOR. These are allocation guards, not promis
 of interactive runtime. Stress majorization additionally caps its pair/factor matrices at
 512 MB; other buffers add memory. Extreme weight ratios may return a numerical
 conditioning error even when individual weights are valid.
-
-## Reference and examples
-
-The selected algorithms and translated behavioral tests come from
-NetworkLayout.jl 0.4.10. Julia is needed only to regenerate reference fixtures.
-Rust counts updates explicitly and fixes Julia's callable/iterator discrepancy.
-Pinned stress uses a constrained solve; Julia restores pins after a free solve.
-Disconnected and undersized spectral graphs also have explicit behavior here.
-See the repository's `docs/test-port-map.md` and `upstream/NetworkLayout.jl/UPSTREAM.md` for the full map.
-
-[The compiled manual](manual.pdf), [layout gallery](examples/manual.pdf), and
-[small path example](examples/path.typ) use CeTZ canvases. CeTZ stays in the
-document layer; the engine still returns coordinates only. The package includes
-its compiled WASM and dependency licenses. Rebuild with `make plugin`.

@@ -3,6 +3,5 @@ _pkgroot/
 _bench/
 *.pdf
 !fast-layout/manual.pdf
-!fast-layout/examples/manual.pdf
 .DS_Store
 __pycache__/

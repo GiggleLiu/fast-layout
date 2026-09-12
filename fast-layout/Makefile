@@ -1,9 +1,8 @@
-.PHONY: all test examples plugin clean manual
+.PHONY: all test plugin clean manual
 
 TYPST = typst compile --root .
 TESTS := $(wildcard tests/test-*.typ)
 ERROR_TESTS := $(wildcard tests/errors/*.typ)
-EXAMPLES := $(wildcard examples/*.typ)
 
 all: test
 
@@ -24,12 +23,6 @@ test: plugin manual
 	  echo "$$out" | grep -F -- "$$expected" >/dev/null || { echo "$$out"; exit 1; }; \
 	done
 
-examples:
-	@for f in $(EXAMPLES); do \
-	  echo "== $$f"; \
-	  $(TYPST) $$f $${f%.typ}.pdf || exit 1; \
-	done
-
 WASM_OUT = plugin/fast_layout_engine.wasm
 RUST_SYSROOT = $(shell rustc --print sysroot)
 RUST_COMMIT = $(shell rustc -vV | sed -n 's/^commit-hash: //p')
@@ -43,4 +36,4 @@ plugin:
 	cp ../target/wasm32-unknown-unknown/release/fast_layout_engine.wasm $(WASM_OUT)
 
 clean:
-	rm -f tests/*.pdf tests/errors/*.pdf examples/*.pdf manual.pdf
+	rm -f tests/*.pdf tests/errors/*.pdf manual.pdf
