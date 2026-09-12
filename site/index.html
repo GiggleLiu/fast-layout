@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Fast graph and tree layout coordinates for Typst and Rust.">
+  <title>fast-layout — graph coordinates for Typst</title>
+  <style>
+    :root {
+      --paper: #f4f0e6;
+      --paper-2: #ebe5d8;
+      --ink: #10243b;
+      --muted: #657080;
+      --blue: #145cff;
+      --line: #c9c4b8;
+      --white: #fffdf7;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-underline-offset: .2em; }
+    a:hover { color: var(--blue); }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+    .wrap { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
+    header {
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--paper) 92%, transparent);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    nav { min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { font: 700 18px/1 ui-monospace, SFMono-Regular, Consolas, monospace; text-decoration: none; letter-spacing: -.04em; }
+    .nav-links { display: flex; align-items: center; gap: 24px; font-size: 14px; }
+    .nav-links a { text-decoration: none; }
+    .repo-link { padding: 9px 14px; border: 1px solid var(--ink); }
+
+    .hero { padding: clamp(72px, 10vw, 140px) 0 clamp(64px, 9vw, 110px); border-bottom: 1px solid var(--line); overflow: hidden; }
+    .eyebrow { margin: 0 0 20px; color: var(--blue); font: 700 12px/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .13em; text-transform: uppercase; }
+    h1 { max-width: 950px; margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(54px, 8.3vw, 116px); font-weight: 400; line-height: .91; letter-spacing: -.055em; }
+    h1 em { color: var(--blue); font-weight: 400; }
+    .hero-foot { display: grid; grid-template-columns: 1fr minmax(280px, 430px); gap: 44px; align-items: end; margin-top: 52px; }
+    .hero-rule { height: 1px; background: var(--ink); margin-bottom: 9px; position: relative; }
+    .hero-rule::after { content: ""; position: absolute; right: 0; top: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--blue); }
+    .hero-label { color: var(--muted); font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .lede { margin: 0; font-size: clamp(18px, 2vw, 24px); line-height: 1.42; letter-spacing: -.02em; }
+
+    .explorer { padding: clamp(70px, 9vw, 112px) 0; }
+    .section-head { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; margin-bottom: 36px; }
+    h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(38px, 5vw, 66px); font-weight: 400; line-height: 1; letter-spacing: -.035em; }
+    .section-head p { margin: 0; max-width: 560px; color: var(--muted); }
+    .layout-tabs { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--line); border-bottom: 0; }
+    .layout-tabs button {
+      min-height: 58px;
+      padding: 12px 8px;
+      border: 0;
+      border-right: 1px solid var(--line);
+      color: var(--ink);
+      background: transparent;
+      font: 650 13px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+      cursor: pointer;
+    }
+    .layout-tabs button:last-child { border-right: 0; }
+    .layout-tabs button[aria-selected="true"] { color: var(--white); background: var(--blue); }
+    .layout-tabs button:hover:not([aria-selected="true"]) { background: var(--paper-2); }
+    .layout-panel { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(300px, .75fr); min-height: 550px; border: 1px solid var(--line); background: var(--white); }
+    .plot { position: relative; min-height: 550px; border-right: 1px solid var(--line); overflow: hidden; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 32px 32px; background-position: -1px -1px; }
+    .plot::after { content: "ENGINE FIXTURE / XY PROJECTION"; position: absolute; left: 22px; bottom: 18px; color: var(--muted); font: 10px ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .08em; }
+    #graph { width: 100%; height: 100%; min-height: 550px; display: block; }
+    .edge { stroke: #9ca5af; stroke-width: 1.6; vector-effect: non-scaling-stroke; transition: opacity .2s; }
+    .node { fill: var(--blue); stroke: var(--white); stroke-width: 2.2; vector-effect: non-scaling-stroke; transition: cx .52s cubic-bezier(.2,.8,.2,1), cy .52s cubic-bezier(.2,.8,.2,1), r .3s; }
+    .node-label { fill: var(--white); font: 700 11px ui-monospace, monospace; text-anchor: middle; dominant-baseline: central; pointer-events: none; transition: x .52s cubic-bezier(.2,.8,.2,1), y .52s cubic-bezier(.2,.8,.2,1); }
+    .details { padding: clamp(28px, 4vw, 52px); display: flex; flex-direction: column; }
+    .details h3 { margin: 0 0 12px; font-family: Georgia, "Times New Roman", serif; font-size: 42px; font-weight: 400; letter-spacing: -.035em; }
+    .details .summary { margin: 0 0 34px; color: var(--muted); font-size: 16px; }
+    .facts { margin: auto 0 0; }
+    .fact { padding: 18px 0; border-top: 1px solid var(--line); }
+    .fact dt { color: var(--blue); font: 700 10px/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .fact dd { margin: 8px 0 0; font-size: 14px; }
+    .fixture { margin-top: 20px; color: var(--muted); font: 11px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; }
+
+    .use { padding: clamp(70px, 9vw, 112px) 0; color: var(--white); background: var(--ink); }
+    .use-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(48px, 9vw, 130px); }
+    .use h2 { max-width: 420px; }
+    .use p { color: #b9c3cf; }
+    .steps { display: grid; gap: 42px; }
+    .step { display: grid; grid-template-columns: 28px 1fr; gap: 18px; }
+    .step-num { color: #79a2ff; font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .step h3 { margin: 0 0 8px; font-size: 18px; }
+    .step p { margin: 0; max-width: 610px; }
+    pre { margin: 36px 0 0; padding: 24px; overflow: auto; color: #dfe8f6; background: #09192b; border-left: 3px solid var(--blue); font: 13px/1.7 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    code .blue { color: #79a2ff; }
+    code .sand { color: #e6ca91; }
+
+    .limits { padding: clamp(70px, 9vw, 110px) 0; }
+    .limit-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 42px; border-top: 1px solid var(--ink); }
+    .limit { padding: 26px 28px 18px 0; border-bottom: 1px solid var(--line); }
+    .limit strong { display: block; margin-bottom: 8px; font-family: Georgia, "Times New Roman", serif; font-size: 30px; font-weight: 400; }
+    .limit span { color: var(--muted); font-size: 14px; }
+    .bench-link { display: inline-block; margin-top: 30px; color: var(--blue); font-weight: 650; }
+
+    footer { padding: 46px 0; border-top: 1px solid var(--line); background: var(--paper-2); }
+    .footer-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; }
+    footer p { margin: 0; color: var(--muted); font-size: 14px; }
+    footer strong { color: var(--ink); }
+    .fine { margin-top: 18px; font-size: 12px; }
+
+    @media (max-width: 800px) {
+      .wrap { width: min(100% - 28px, 680px); }
+      .nav-links > a:first-child { display: none; }
+      .hero-foot, .section-head, .use-grid, .footer-grid { grid-template-columns: 1fr; }
+      .hero-rule { display: none; }
+      .layout-tabs { grid-template-columns: repeat(2, 1fr); border-bottom: 1px solid var(--line); }
+      .layout-tabs button { border-bottom: 1px solid var(--line); }
+      .layout-panel { grid-template-columns: 1fr; }
+      .plot { min-height: 390px; border-right: 0; border-bottom: 1px solid var(--line); }
+      #graph { min-height: 390px; }
+      .limit-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .node, .node-label { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="wrap" aria-label="Primary navigation">
+      <a class="brand" href="#top">fast-layout</a>
+      <div class="nav-links">
+        <a href="#layouts">Layouts</a>
+        <a href="#use">Use it</a>
+        <a class="repo-link" href="https://github.com/GiggleLiu/fast-layout">GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Typst package + native Rust engine</p>
+        <h1>Give every node<br>a place to <em>land.</em></h1>
+        <div class="hero-foot">
+          <div aria-hidden="true"><div class="hero-rule"></div><div class="hero-label">graphs in / coordinates out</div></div>
+          <p class="lede">Five deterministic graph and tree layouts. You draw the marks; fast-layout computes their coordinates.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="explorer" id="layouts">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Choose the geometry.</h2>
+          <p>Each example uses reference coordinates checked against the Rust engine. Switch methods to see their structure, purpose, and limits.</p>
+        </div>
+        <div class="layout-tabs" role="tablist" aria-label="Layout algorithm">
+          <button id="tab-stress" role="tab" aria-selected="true" aria-controls="layout-detail" data-key="stress">Stress</button>
+          <button id="tab-spring" role="tab" aria-selected="false" aria-controls="layout-detail" tabindex="-1" data-key="spring">Spring</button>
+          <button id="tab-spectral" role="tab" aria-selected="false" aria-controls="layout-detail" tabindex="-1" data-key="spectral">Spectral</button>
+          <button id="tab-shell" role="tab" aria-selected="false" aria-controls="layout-detail" tabindex="-1" data-key="shell">Circular / shell</button>
+          <button id="tab-buchheim" role="tab" aria-selected="false" aria-controls="layout-detail" tabindex="-1" data-key="buchheim">Buchheim</button>
+        </div>
+        <div class="layout-panel" id="layout-detail" role="tabpanel" aria-labelledby="tab-stress">
+          <div class="plot">
+            <svg id="graph" viewBox="0 0 720 550" role="img" aria-labelledby="graph-title graph-desc">
+              <title id="graph-title">Stress layout</title>
+              <desc id="graph-desc">A five-node weighted graph arranged with stress majorization.</desc>
+              <g id="edges"></g><g id="nodes"></g>
+            </svg>
+          </div>
+          <article class="details" aria-live="polite">
+            <p class="eyebrow" id="kind">Numerical layout</p>
+            <h3 id="name">Stress</h3>
+            <p class="summary" id="summary"></p>
+            <dl class="facts">
+              <div class="fact"><dt>Method</dt><dd id="method"></dd></div>
+              <div class="fact"><dt>Use when</dt><dd id="usecase"></dd></div>
+              <div class="fact"><dt>Tradeoff</dt><dd id="tradeoff"></dd></div>
+              <div class="fact"><dt>Dimensions</dt><dd id="dims"></dd></div>
+            </dl>
+            <div class="fixture" id="fixture"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="use" id="use">
+      <div class="wrap use-grid">
+        <div>
+          <p class="eyebrow">Small API, explicit drawing</p>
+          <h2>Coordinates are the contract.</h2>
+          <p>Node index in, coordinate at the same index out. Typst keeps control of lines, circles, labels, and edge routing.</p>
+        </div>
+        <div>
+          <div class="steps">
+            <div class="step"><span class="step-num">01</span><div><h3>Install the local preview package</h3><p>Run <code>make install</code> from the repository. Version 0.1.0 is not yet published to Typst Universe.</p></div></div>
+            <div class="step"><span class="step-num">02</span><div><h3>Pass a node count and zero-based edges</h3><p>Choose an algorithm, then set numerical dimensions, seed, iteration limit, weights, pins, or method-specific options as needed.</p></div></div>
+            <div class="step"><span class="step-num">03</span><div><h3>Draw with native Typst primitives</h3><p>Read <code>result.positions</code> and map the returned coordinates into your figure.</p></div></div>
+          </div>
+          <pre aria-label="Typst example"><code><span class="blue">#import</span> <span class="sand">"@preview/fast-layout:0.1.0"</span>: layout
+
+#let edges = ((0, 1), (1, 2), (2, 3))
+#let result = layout(
+  4, edges,
+  algorithm: <span class="sand">"stress"</span>, dim: 3, seed: 42,
+)
+#result.positions</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="limits">
+      <div class="wrap">
+        <p class="eyebrow">Range and boundaries</p>
+        <h2>Built for more than the page.</h2>
+        <div class="limit-grid">
+          <div class="limit"><strong>1–4096D</strong><span>Configurable output dimensions for stress, spring, and spectral.</span></div>
+          <div class="limit"><strong>2D</strong><span>Fixed geometry for circular/shell and Buchheim tree layouts.</span></div>
+          <div class="limit"><strong>4096 nodes</strong><span>Current cap for stress and spectral; spring supports larger inputs within global allocation guards.</span></div>
+        </div>
+        <a class="bench-link" href="https://github.com/GiggleLiu/fast-layout#benchmarks">See the measured benchmarks in the repository →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <a class="brand" href="#top">fast-layout 0.1.0</a>
+      <div>
+        <p><strong>Adapted from <a href="https://github.com/JuliaGraphs/NetworkLayout.jl">NetworkLayout.jl 0.4.10</a></strong>, created by Abhijith Anilkumar and other contributors. The examples above use its reference fixtures, checked against the Rust engine.</p>
+        <p class="fine">fast-layout and NetworkLayout.jl are available under the MIT License. Attribution and copied-code notices are retained in the repository. The linked fast-layout repository may require access.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const layouts = {
+      stress: {
+        name: "Stress", kind: "Numerical layout",
+        summary: "Preserves graph-theoretic distances by minimizing mismatch between target and drawn distances.",
+        method: "Exact weighted stress majorization with reusable constrained Cholesky solves.",
+        usecase: "Distance structure matters, including weighted or disconnected graphs.",
+        tradeoff: "Dense setup costs O(n³) time and O(n²) memory.", dims: "1–4096",
+        fixture: "stress_weighted_connected_2d · 5 nodes · 6 updates",
+        positions: [[.7565,1.149],[.4168,.1961],[.355,-1.0993],[-.2934,-.5562],[-1.2349,.3104]],
+        edges: [[0,1],[1,2],[2,3],[3,4],[0,4],[1,3]]
+      },
+      spring: {
+        name: "Spring", kind: "Force-directed layout",
+        summary: "Balances attraction along edges with repulsion between nodes to reveal a graph's overall shape.",
+        method: "Fruchterman–Reingold, with Barnes–Hut acceleration in 2D and 3D.",
+        usecase: "You want an organic overview or need to handle graphs beyond the stress and spectral node cap.",
+        tradeoff: "Iterative results depend on spacing, temperature, and convergence settings.", dims: "1–4096",
+        fixture: "spring_exact_2d · 5 nodes · 8 updates",
+        positions: [[-1.566,-.6116],[-2.6684,.1586],[-.4116,-1.0051],[1.812,-.2273],[.1179,1.0326]],
+        edges: [[0,1],[1,2],[2,3],[3,4],[4,0],[0,2]]
+      },
+      spectral: {
+        name: "Spectral", kind: "Numerical layout",
+        summary: "Uses Laplacian eigenvectors to expose low-frequency structure and separate connected components.",
+        method: "Generalized Laplacian eigenvectors, with sparse partial iteration for larger graphs.",
+        usecase: "Clusters and broad topology matter more than local force balance.",
+        tradeoff: "Capped at 4096 nodes; repeated eigenvalues can rotate or reflect equivalent embeddings.", dims: "1–4096",
+        fixture: "spectral_weighted_2d · 5 nodes · weighted affinities",
+        positions: [[.1408,-.3072],[.3308,-.0849],[.1228,.482],[-.2341,.0188],[-.5805,-.101]],
+        edges: [[0,1],[0,2],[0,3],[1,2],[2,3],[3,4]]
+      },
+      shell: {
+        name: "Circular / shell", kind: "Geometric layout",
+        summary: "Places chosen node groups on concentric circles, then puts unlisted nodes on the outer shell.",
+        method: "Equally spaced circular shells, ordered from inner to outer.",
+        usecase: "Layers, roles, or radial hierarchy are already known.",
+        tradeoff: "Ignores connectivity; shell membership carries the structure.", dims: "2 only",
+        fixture: "shell_geometry · 7 nodes · shells ((2), (0, 4))",
+        positions: [[1,0],[2,0],[0,0],[0,2],[-1,0],[-2,0],[0,-2]],
+        edges: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6]]
+      },
+      buchheim: {
+        name: "Buchheim", kind: "Ordered tree layout",
+        summary: "Arranges a rooted ordered tree into tidy levels while respecting sibling order and node sizes.",
+        method: "Linear-time Buchheim tidy-tree construction with variable node diameters.",
+        usecase: "The input is a parent-to-child tree and order must stay legible.",
+        tradeoff: "Requires one connected rooted tree; cycles and multiple parents are invalid.", dims: "2 only",
+        fixture: "buchheim_varying_size · 7 nodes · root 0",
+        positions: [[0,0],[-2.25,-4],[.75,-4],[2.25,-4],[-2.5,-6],[-2,-6],[.75,-6]],
+        sizes: [1,2,1.5,3,.5,1,1],
+        edges: [[0,1],[0,2],[0,3],[1,4],[1,5],[2,6]]
+      }
+    };
+
+    const svgNS = "http://www.w3.org/2000/svg";
+    const tabs = [...document.querySelectorAll('[role="tab"]')];
+    const fields = ["name", "kind", "summary", "method", "usecase", "tradeoff", "dims", "fixture"];
+    const title = document.getElementById("graph-title");
+    const desc = document.getElementById("graph-desc");
+
+    function scale(points) {
+      const xs = points.map(p => p[0]), ys = points.map(p => p[1]);
+      const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+      const spanX = Math.max(maxX - minX, .001), spanY = Math.max(maxY - minY, .001);
+      const factor = Math.min(540 / spanX, 390 / spanY);
+      const left = 360 - spanX * factor / 2, top = 265 - spanY * factor / 2;
+      return points.map(([x,y]) => [left + (x-minX)*factor, top + (maxY-y)*factor]);
+    }
+
+    function render(key) {
+      const data = layouts[key], points = scale(data.positions);
+      fields.forEach(id => document.getElementById(id).textContent = data[id]);
+      title.textContent = `${data.name} layout`;
+      desc.textContent = `${data.name} arrangement of ${points.length} numbered nodes using verified engine output.`;
+      document.getElementById("layout-detail").setAttribute("aria-labelledby", `tab-${key}`);
+      const edgeLayer = document.getElementById("edges"), nodeLayer = document.getElementById("nodes");
+      edgeLayer.replaceChildren(); nodeLayer.replaceChildren();
+      data.edges.forEach(([a,b]) => {
+        const line = document.createElementNS(svgNS, "line");
+        line.setAttribute("class", "edge");
+        line.setAttribute("x1", points[a][0]); line.setAttribute("y1", points[a][1]);
+        line.setAttribute("x2", points[b][0]); line.setAttribute("y2", points[b][1]);
+        edgeLayer.append(line);
+      });
+      points.forEach(([x,y], i) => {
+        const circle = document.createElementNS(svgNS, "circle");
+        const radius = data.sizes ? 12 + data.sizes[i] * 4 : 18;
+        circle.setAttribute("class", "node"); circle.setAttribute("cx", x); circle.setAttribute("cy", y); circle.setAttribute("r", radius);
+        const label = document.createElementNS(svgNS, "text");
+        label.setAttribute("class", "node-label"); label.setAttribute("x", x); label.setAttribute("y", y); label.textContent = i;
+        nodeLayer.append(circle, label);
+      });
+    }
+
+    function select(tab) {
+      tabs.forEach(item => {
+        const active = item === tab;
+        item.setAttribute("aria-selected", active); item.tabIndex = active ? 0 : -1;
+      });
+      render(tab.dataset.key);
+    }
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => select(tab));
+      tab.addEventListener("keydown", event => {
+        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+        event.preventDefault();
+        const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+        tabs[next].focus(); select(tabs[next]);
+      });
+    });
+    render("stress");
+  </script>
+</body>
+</html>

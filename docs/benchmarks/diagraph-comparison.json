@@ -1,0 +1,477 @@
+{
+  "machine": {
+    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu": "Intel(R) Xeon(R) Gold 6226R CPU @ 2.90GHz",
+    "python": "3.12.8",
+    "typst": "typst 0.15.1 (unknown commit)"
+  },
+  "wasm_sha256": "12c5351b62ab808cf3dd8ad9b92a0f61c090050a7a67ee273457d796ae9b2d08",
+  "settings": {
+    "sizes": "100,500,1000",
+    "algorithms": "stress,spring",
+    "repeats": 3,
+    "timeout": 20.0,
+    "compare": false,
+    "compare_render": true,
+    "output": "docs/benchmarks/diagraph-comparison.json"
+  },
+  "results": [
+    {
+      "case": "baseline",
+      "document": "_bench/docs/baseline.typ",
+      "samples": [
+        {
+          "seconds": 0.2630788639653474,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 0.2510660579428077,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 0.264441363979131,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "stress-100",
+      "document": "_bench/docs/stress-100.typ",
+      "samples": [
+        {
+          "seconds": 0.21964683197438717,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 0.207625217968598,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 0.23076460207812488,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "spring-100",
+      "document": "_bench/docs/spring-100.typ",
+      "samples": [
+        {
+          "seconds": 0.19120217894669622,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 0.19153635296970606,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 0.1918014930561185,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "fast-layout-render-stress-100",
+      "document": "_bench/docs/fast-layout-render-stress-100.typ",
+      "samples": [
+        {
+          "seconds": 0.22747517097741365,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 0.21219013899099082,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 0.22284270892851055,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "fast-layout-render-spring-100",
+      "document": "_bench/docs/fast-layout-render-spring-100.typ",
+      "samples": [
+        {
+          "seconds": 0.19929071597289294,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 0.19255718193016946,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 0.20080605801194906,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "diagraph-render-neato-100",
+      "document": "_bench/docs/diagraph-render-neato-100.typ",
+      "samples": [
+        {
+          "seconds": 1.7447991140652448,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 1.6024079939816147,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 1.6270295550348237,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "diagraph-render-sfdp-100",
+      "document": "_bench/docs/diagraph-render-sfdp-100.typ",
+      "samples": [
+        {
+          "seconds": 0.8286067210137844,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 0.8321353199426085,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 0.8516224030172452,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "stress-500",
+      "document": "_bench/docs/stress-500.typ",
+      "samples": [
+        {
+          "seconds": 4.962960691074841,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 5.051737685920671,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 4.978659266023897,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "spring-500",
+      "document": "_bench/docs/spring-500.typ",
+      "samples": [
+        {
+          "seconds": 1.8886979160597548,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 1.8434150048997253,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 1.8506381110055372,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "fast-layout-render-stress-500",
+      "document": "_bench/docs/fast-layout-render-stress-500.typ",
+      "samples": [
+        {
+          "seconds": 5.202473112032749,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 5.065485178958625,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 5.2507783910259604,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "fast-layout-render-spring-500",
+      "document": "_bench/docs/fast-layout-render-spring-500.typ",
+      "samples": [
+        {
+          "seconds": 2.028518110048026,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 1.9003096029628068,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 1.8573213600320742,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "diagraph-render-neato-500",
+      "document": "_bench/docs/diagraph-render-neato-500.typ",
+      "samples": [
+        {
+          "seconds": 20.032661130069755,
+          "status": "timeout",
+          "returncode": null,
+          "stderr": ""
+        },
+        {
+          "seconds": 20.03315946389921,
+          "status": "timeout",
+          "returncode": null,
+          "stderr": ""
+        },
+        {
+          "seconds": 20.032581083942205,
+          "status": "timeout",
+          "returncode": null,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "diagraph-render-sfdp-500",
+      "document": "_bench/docs/diagraph-render-sfdp-500.typ",
+      "samples": [
+        {
+          "seconds": 5.4077363489195704,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 5.384469324024394,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 5.445405032020062,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "stress-1000",
+      "document": "_bench/docs/stress-1000.typ",
+      "samples": [
+        {
+          "seconds": 20.023773349937983,
+          "status": "timeout",
+          "returncode": null,
+          "stderr": ""
+        },
+        {
+          "seconds": 20.023936866084114,
+          "status": "timeout",
+          "returncode": null,
+          "stderr": ""
+        },
+        {
+          "seconds": 20.023889664909802,
+          "status": "timeout",
+          "returncode": null,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "spring-1000",
+      "document": "_bench/docs/spring-1000.typ",
+      "samples": [
+        {
+          "seconds": 4.318229838041589,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 4.419597569969483,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 4.183249154011719,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "fast-layout-render-stress-1000",
+      "document": "_bench/docs/fast-layout-render-stress-1000.typ",
+      "samples": [
+        {
+          "seconds": 20.023507929057814,
+          "status": "timeout",
+          "returncode": null,
+          "stderr": ""
+        },
+        {
+          "seconds": 20.02390805503819,
+          "status": "timeout",
+          "returncode": null,
+          "stderr": ""
+        },
+        {
+          "seconds": 20.024068253929727,
+          "status": "timeout",
+          "returncode": null,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "fast-layout-render-spring-1000",
+      "document": "_bench/docs/fast-layout-render-spring-1000.typ",
+      "samples": [
+        {
+          "seconds": 4.262772751972079,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 4.26376523100771,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 4.377812833059579,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "diagraph-render-neato-1000",
+      "document": "_bench/docs/diagraph-render-neato-1000.typ",
+      "samples": [
+        {
+          "seconds": 20.036712695029564,
+          "status": "timeout",
+          "returncode": null,
+          "stderr": ""
+        },
+        {
+          "seconds": 20.031551724066958,
+          "status": "timeout",
+          "returncode": null,
+          "stderr": ""
+        },
+        {
+          "seconds": 20.03701748000458,
+          "status": "timeout",
+          "returncode": null,
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "case": "diagraph-render-sfdp-1000",
+      "document": "_bench/docs/diagraph-render-sfdp-1000.typ",
+      "samples": [
+        {
+          "seconds": 16.061607163050212,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 15.810737656080164,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        },
+        {
+          "seconds": 15.92659818707034,
+          "status": "ok",
+          "returncode": 0,
+          "stderr": ""
+        }
+      ]
+    }
+  ]
+}

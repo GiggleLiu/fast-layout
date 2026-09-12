@@ -1,0 +1,11 @@
+[package]
+name = "fast-layout"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["Jinguo Liu <@GiggleLiu>"]
+license = "MIT"
+description = "Compute graph and tree coordinates."
+compiler = "0.14.0"
+categories = ["visualization"]
+keywords = ["graph", "layout", "network", "tree"]
+exclude = ["/tests/*", "/examples/*", "/manual.typ", "/manual.pdf", "/Makefile"]

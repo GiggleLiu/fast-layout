@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-12",
+  "rust": "1.93.1",
+  "target": "wasm32-unknown-unknown",
+  "wasm_bytes": 254241,
+  "wasm_sha256": "12c5351b62ab808cf3dd8ad9b92a0f61c090050a7a67ee273457d796ae9b2d08",
+  "clean_target_rebuild_byte_identical": true,
+  "release": {
+    "opt_level": 3,
+    "lto": true,
+    "codegen_units": 1,
+    "strip": true
+  },
+  "package": "fast-layout"
+}
