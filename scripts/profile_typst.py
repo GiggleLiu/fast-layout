@@ -58,6 +58,10 @@ def cases(repeated_calls):
             '#assert.eq(engine-version(), "fast-layout-engine 0.1.0")\n',
         ),
     }
+    result["stress-default-one"] = layout_source("stress")
+    result[f"stress-default-repeat-{repeated_calls}"] = layout_source(
+        "stress", calls=repeated_calls
+    )
     for algorithm in ("shell", "spectral"):
         result[f"{algorithm}-one"] = layout_source(algorithm)
         result[f"{algorithm}-repeat-{repeated_calls}"] = layout_source(
@@ -68,10 +72,12 @@ def cases(repeated_calls):
             for tolerance_name, tolerance in (("default", None), ("zero", 0.0)):
                 stem = f"{algorithm}-iter-{iterations}-tol-{tolerance_name}"
                 result[f"{stem}-one"] = layout_source(
-                    algorithm, iterations, tolerance
+                    algorithm, iterations, tolerance,
+                    stress_method="majorization" if algorithm == "stress" else None,
                 )
                 result[f"{stem}-repeat-{repeated_calls}"] = layout_source(
-                    algorithm, iterations, tolerance, repeated_calls
+                    algorithm, iterations, tolerance, repeated_calls,
+                    stress_method="majorization" if algorithm == "stress" else None,
                 )
     for iterations in (5, 15):
         stem = f"stress-sgd-iter-{iterations}"
@@ -183,7 +189,7 @@ def main():
     parser.add_argument("--repeated-calls", type=int, default=5)
     parser.add_argument("--timeout", type=float, default=30.0)
     parser.add_argument(
-        "--output", default="docs/benchmarks/profile-100-after.json"
+        "--output", default="docs/benchmarks/profile-100-current.json"
     )
     args = parser.parse_args()
     if args.repeats < 1 or args.repeated_calls < 2 or args.timeout <= 0:

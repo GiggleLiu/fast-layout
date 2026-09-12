@@ -50,14 +50,14 @@ fn optimize<const D: usize>(req: &Request) -> Result<Response, String> {
     // epsilon=0.1 is the paper's fixed-budget recommendation, not a convergence test.
     let eta_max = 1. / min_weight;
     let eta_min = 0.1 / max_weight;
-    let decay = if req.iterations > 1 {
-        (eta_min / eta_max).ln() / (req.iterations - 1) as f64
+    let decay = if req.iteration_limit() > 1 {
+        (eta_min / eta_max).ln() / (req.iteration_limit() - 1) as f64
     } else {
         0.
     };
     let mut iterations = 0;
     let mut converged = false;
-    for iteration in 0..req.iterations {
+    for iteration in 0..req.iteration_limit() {
         for k in (1..order.len()).rev() {
             let j = (rng.uniform() * (k + 1) as f64) as usize;
             order.swap(k, j);
@@ -160,7 +160,7 @@ mod tests {
                 req.initial = vec![Some(vec![0.; dim]); 2];
                 req.pins = vec![vec![false; dim]; 2];
                 req.pins[pin].fill(true);
-                req.iterations = 15;
+                req.iterations = Some(15);
                 let result = compute(&req).unwrap();
                 assert_eq!(result.positions[pin], vec![0.; dim]);
                 assert!(result.objective.unwrap() < 1e-20);
@@ -176,7 +176,7 @@ mod tests {
             Algorithm::Stress,
         );
         req.stress_method = StressMethod::Sgd;
-        req.iterations = 15;
+        req.iterations = Some(15);
         req.tolerance = 0.;
         let result = compute(&req).unwrap();
         assert_eq!(result.iterations, 15);
@@ -195,7 +195,7 @@ mod tests {
             req.initial[2].as_mut().unwrap()[0] = 5.;
             req.pins = vec![vec![true; dim], vec![false; dim], vec![false; dim]];
             req.pins[2][0] = true;
-            req.iterations = 100;
+            req.iterations = Some(100);
             let result = compute(&req).unwrap();
             assert_eq!(result.positions[0], vec![0.; dim]);
             assert_eq!(result.positions[2][0], 5.);

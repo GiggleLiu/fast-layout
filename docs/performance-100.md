@@ -1,24 +1,24 @@
 # 100-node performance
 
-This report measures the current 285,138-byte WASM plugin on a controlled
+This report measures the current 285,605-byte WASM plugin on a controlled
 100-node connected random graph with 194 edges. It separates the first plugin
 call in a fresh Typst process from later calls that reuse the loaded module but
 still compute a new layout. Lower is faster.
 
 ## Typst plugin calls
 
-| Method | Before, first | Before, warm uncached | Current, first | Current, warm uncached |
+| Method | Older build, first | Older build, warm uncached | Current, first | Current, warm uncached |
 | --- | ---: | ---: | ---: | ---: |
-| Shell | 4.200 ms | 0.558 ms | 4.724 ms | 0.533 ms |
-| Spectral | 75.093 ms | 67.798 ms | 75.154 ms | 67.737 ms |
-| Stress majorization, 100 updates | 200.455 ms | 192.162 ms | 147.238 ms | 139.873 ms |
-| Spring, 100 updates | 159.299 ms | 156.932 ms | 53.115 ms | 46.866 ms |
-| Stress SGD, 5 epochs | n/a | n/a | 17.655 ms | 10.145 ms |
-| Stress SGD, 15 epochs | n/a | n/a | 28.472 ms | 20.967 ms |
+| Shell | 4.200 ms | 0.558 ms | 4.306 ms | 0.345 ms |
+| Spectral | 75.093 ms | 67.798 ms | 75.150 ms | 67.446 ms |
+| Stress majorization, 100 updates | 200.455 ms | 192.162 ms | 143.699 ms | 140.813 ms |
+| Spring, 100 updates | 159.299 ms | 156.932 ms | 54.089 ms | 46.723 ms |
+| Stress SGD, 5 epochs | n/a | n/a | 16.582 ms | 10.106 ms |
+| Stress, default SGD with 15 epochs | n/a | n/a | 25.987 ms | 21.048 ms |
 
 These are medians from Typst timing events, not differences between whole-process
-times. Importing the package alone spent a median 6.99 ms in Typst's `load
-plugin` event in the before run. The profiler does not subtract that or the
+times. Importing the package alone spent a median 6.21 ms in Typst's `load
+plugin` event in the current run. The profiler does not subtract that or the
 plain-document baseline. Typst 0.15.1 reports plugin exports only as `call
 plugin`, so the controlled document identifies which export each span measures.
 
@@ -33,16 +33,18 @@ SGD replaces factorization and repeated global solves with shuffled pair updates
 The 2D spring kernel now computes each force directly with fixed-size coordinates;
 its force model and 100-update limit are unchanged.
 
-The warm Typst SGD15 result is 21 ms, while matched native Rust computation is
+The warm Typst default SGD15 result is 21 ms, while matched native Rust computation is
 roughly 2 to 3 ms. Typst 0.15.1 executes plugins through the
 [`wasmi` interpreter](https://github.com/typst/typst/blob/v0.15.1/crates/typst-library/src/foundations/plugin.rs),
 and the plugin call also crosses the CBOR boundary. Native speed therefore does
 not imply single-digit millisecond execution inside Typst.
 
-## Matched native SGD comparison
+## Matched native SGD comparison (historical)
 
-The native comparison uses the same 100 nodes, edges, initial coordinates, seed,
-15 epochs, and epsilon 0.1 for Rust and the authors' C++
+This native comparison was recorded with the previous kernel build and was not
+rerun for the current plugin profile. Its algorithms and benchmark configuration
+are unchanged. It uses the same 100 nodes, edges, initial coordinates, seed, 15
+epochs, and epsilon 0.1 for Rust and the authors' C++
 [`s_gd2`](https://github.com/jxz12/s_gd2) implementation. Both optimize dense
 all-pairs stress. The Python wrapper is included in the C++ timing; Rust timings
 below are direct `compute` calls.
@@ -61,14 +63,15 @@ pairs without rescaling the coordinates. Equal seed values do not imply the
 same pair order because the implementations use different random generators. SGD15 is the measured
 speed-quality setting from Zheng, Pawar, and Goodman's
 [SGD graph drawing paper](https://arxiv.org/abs/1710.04626). It uses the same
-dense stress objective as the default majorization method, but it is a different
+dense stress objective as majorization, but it is a different
 optimizer with a different update schedule and convergence behavior. The table
 does not compare five-epoch quality.
 
-The package keeps majorization as the default for compatibility. Arbitrary
-dimensions, initial positions, and pins remain available. `stress-method:
-"sgd"` selects SGD; unpinned 2D requests use its specialized hot path, while
-other dimensions and pinned requests use the general implementation.
+The package defaults to SGD with 15 updates. Arbitrary dimensions, initial
+positions, and pins remain available. `stress-method: "majorization"` selects
+majorization with an automatic 100-update budget. An explicit `iterations`
+value overrides either budget. Unpinned 2D SGD requests use its specialized hot
+path, while other dimensions and pinned requests use the general implementation.
 
 For context, we inspected the official
 [OGDF `StressMinimization` documentation](https://ogdf.github.io/doc/ogdf/classogdf_1_1_stress_minimization.html)
@@ -87,11 +90,12 @@ Run the Typst matrix with:
 python3 scripts/profile_typst.py --repeats 3 --repeated-calls 5
 ```
 
-The [before](benchmarks/profile-100-before.json) and
+The [current](benchmarks/profile-100-current.json),
+[before](benchmarks/profile-100-before.json), and
 [after](benchmarks/profile-100-after.json) records contain raw wall times,
 trace spans, compiler and machine metadata, source hashes, and WASM hashes. The
-current plugin SHA-256 is
-`74fde0643c5c399dc21cd8cf8c7b18c9e6ab1b2cf2ccae30ae8f02e021f61e24`.
+before and after reports are historical. The current plugin SHA-256 is
+`55c735231dfdf15f3b45089150f318035459373bb4e8e5d0928c5b33c549a847`.
 
 The native reference scripts used an isolated temporary Python environment with
 `s_gd2` 1.8.1, `python-igraph` 1.0.0, and `igraph` 1.0.0. Their five-sample raw

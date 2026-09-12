@@ -15,8 +15,8 @@ pub enum Algorithm {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum StressMethod {
-    #[default]
     Majorization,
+    #[default]
     Sgd,
 }
 
@@ -30,7 +30,8 @@ pub struct Request {
     pub stress_method: StressMethod,
     pub dim: usize,
     pub seed: u64,
-    pub iterations: usize,
+    /// None selects 15 passes for stress SGD, or 100 updates otherwise.
+    pub iterations: Option<usize>,
     pub tolerance: f64,
     pub initial: Vec<Option<Vec<f64>>>,
     pub pins: Vec<Vec<bool>>,
@@ -50,10 +51,10 @@ impl Default for Request {
             nodes: 0,
             edges: Vec::new(),
             algorithm: Algorithm::Stress,
-            stress_method: StressMethod::Majorization,
+            stress_method: StressMethod::Sgd,
             dim: 2,
             seed: 1,
-            iterations: 100,
+            iterations: None,
             tolerance: 1e-5,
             initial: Vec::new(),
             pins: Vec::new(),
@@ -89,6 +90,17 @@ impl Request {
         }
     }
 
+    /// Effective update limit, preserving explicit caller overrides.
+    pub fn iteration_limit(&self) -> usize {
+        self.iterations.unwrap_or(
+            if self.algorithm == Algorithm::Stress && self.stress_method == StressMethod::Sgd {
+                15
+            } else {
+                100
+            },
+        )
+    }
+
     pub(crate) fn validate(&self) -> Result<(), String> {
         let fail = |s: &str| Err(format!("fast-layout-engine: {s}"));
         if self.dim == 0 || self.dim > 4096 {
@@ -103,7 +115,7 @@ impl Request {
         if matches!(self.algorithm, Algorithm::Stress | Algorithm::Spectral) && self.nodes > 4096 {
             return fail("stress and spectral currently support at most 4096 nodes; use spring for larger graphs");
         }
-        if self.iterations == 0 || self.iterations > 100_000 {
+        if self.iterations.is_some_and(|n| n == 0 || n > 100_000) {
             return fail("iterations must be between 1 and 100000");
         }
         if !self.tolerance.is_finite() || self.tolerance < 0.0 {
@@ -150,7 +162,7 @@ impl Request {
         {
             return fail("each pin mask must be empty or have dim booleans");
         }
-        if self.algorithm != Algorithm::Stress && self.stress_method != StressMethod::Majorization {
+        if self.algorithm != Algorithm::Stress && self.stress_method != StressMethod::Sgd {
             return fail("stress_method is only supported for stress");
         }
         let iterative = matches!(self.algorithm, Algorithm::Stress | Algorithm::Spring);

@@ -31,7 +31,7 @@ count preserves isolated nodes. Inputs are edge pairs, with no DOT syntax.
 
 | `algorithm` | Dimensions | Method |
 | --- | --- | --- |
-| `"stress"` | 1–4096 | Weighted stress; default majorization with constrained Cholesky solves, or pairwise SGD |
+| `"stress"` | 1–4096 | Weighted stress; default pairwise SGD, or majorization with constrained Cholesky solves |
 | `"spring"` | 1–4096 | Fruchterman–Reingold; Barnes–Hut acceleration in 2D and 3D |
 | `"spectral"` | 1–4096 | Generalized Laplacian eigenvectors; sparse partial iteration for larger graphs |
 | `"shell"` or `"circular"` | 2 | Equally spaced circular shells |
@@ -51,10 +51,10 @@ Typst names use hyphens. Rust and CBOR use underscores.
 | Option | Default | Meaning |
 | --- | --- | --- |
 | `algorithm` | `"stress"` | One of the names above |
-| `stress-method` | `"majorization"` | Stress optimizer: `"majorization"` or `"sgd"` |
+| `stress-method` | `"sgd"` | Stress optimizer: `"majorization"` or `"sgd"`; stress only |
 | `dim` | `2` | Coordinates per node |
 | `seed` | `1` | Deterministic initialization, collision handling, and SGD pair order |
-| `iterations` | `100` | Maximum numerical updates, from 1 to 100000 |
+| `iterations` | `none` | Maximum numerical updates, from 1 to 100000; 15 for stress SGD and 100 for other numerical methods when omitted |
 | `tolerance` | `1e-5` | Algorithm-specific stopping threshold, described below |
 | `initial` | `()` | Stress/spring positions in node order; `none` or omitted entries use seeded coordinates in [-1, 1] |
 | `pins` | `()` | Stress/spring boolean masks per node and coordinate; omitted or empty rows are free |
@@ -83,19 +83,24 @@ For example, this holds node 0 fixed and holds only node 1's x coordinate:
 )
 ```
 
-Majorization remains the default stress method with 100 updates. It uses
-constrained global solves and enforces a non-increasing objective. SGD updates
-shuffled node pairs on a decaying schedule and may reach a lower objective on
-some graphs. A useful low-cost recipe is 15 SGD updates:
+SGD is the default stress method with 15 updates. It updates shuffled node pairs
+on a decaying schedule and may reach a lower objective on some graphs.
+Majorization uses constrained global solves and enforces a non-increasing
+objective. Select it explicitly; its automatic budget is 100 updates:
 
 ```typst
-#let quick = layout(
+#let major = layout(
   100, edges,
   algorithm: "stress",
-  stress-method: "sgd",
-  iterations: 15,
+  stress-method: "majorization",
 )
 ```
+
+An explicit `iterations` value overrides the automatic budget for either method
+and for the other numerical algorithms. In Rust, use `iterations: None` for
+automatic selection or `iterations: Some(30)` for an explicit limit. `stress-method: "majorization"` is only
+valid with `algorithm: "stress"`; the default `"sgd"` value is ignored by other
+algorithms.
 
 ### Graph conventions
 

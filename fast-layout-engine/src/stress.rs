@@ -51,7 +51,7 @@ fn run_dim<const D: usize>(req: &Request) -> Result<Response, String> {
     }
     let mut rhs = vec![0.0; n * dim];
     let mut next = positions.clone();
-    for iteration in 1..=req.iterations {
+    for iteration in 1..=req.iteration_limit() {
         rhs.fill(0.0);
         for i in 0..n {
             for j in i + 1..n {
@@ -117,7 +117,7 @@ fn run_dim<const D: usize>(req: &Request) -> Result<Response, String> {
     Ok(response(
         positions,
         dim,
-        req.iterations,
+        req.iteration_limit(),
         false,
         Some(old_stress),
     ))
@@ -244,11 +244,12 @@ fn objective_dim<const D: usize>(positions: &[f64], dim: usize, distances: &[f64
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{compute, Algorithm};
+    use crate::{compute, Algorithm, StressMethod};
 
     #[test]
     fn weighted_path_recovers_target_distances() {
         let mut req = Request::new(3, vec![[0, 1], [1, 2]], Algorithm::Stress);
+        req.stress_method = StressMethod::Majorization;
         req.dim = 1;
         req.edge_weights = vec![2., 3.];
         req.initial = vec![Some(vec![0.]), Some(vec![1.]), Some(vec![2.])];
@@ -265,6 +266,7 @@ mod tests {
             vec![[0, 1], [1, 2], [2, 3], [3, 4], [4, 0]],
             Algorithm::Stress,
         );
+        req.stress_method = StressMethod::Majorization;
         req.dim = 3;
         req.initial = vec![
             Some(vec![0., 0., 0.]),
@@ -274,7 +276,7 @@ mod tests {
             Some(vec![0., -2., 1.]),
         ];
         req.pins = vec![vec![true, true, true], vec![true, false, true]];
-        req.iterations = 1;
+        req.iterations = Some(1);
         req.tolerance = 0.;
         let distances = Graph::new(&req).unwrap().distances();
         let mut old = objective(&req.initial_positions(), 3, &distances);
@@ -293,6 +295,7 @@ mod tests {
     fn coincident_free_node_separates_from_pin_in_either_order() {
         for pinned in 0..2 {
             let mut req = Request::new(2, vec![[0, 1]], Algorithm::Stress);
+            req.stress_method = StressMethod::Majorization;
             req.initial = vec![Some(vec![0., 0.]); 2];
             req.pins = vec![vec![false; 2]; 2];
             req.pins[pinned].fill(true);
@@ -305,6 +308,7 @@ mod tests {
     #[test]
     fn coincident_isolated_nodes_separate_without_nan() {
         let mut req = Request::new(4, vec![], Algorithm::Stress);
+        req.stress_method = StressMethod::Majorization;
         req.initial = vec![Some(vec![0., 0.]); 4];
         let out = compute(&req).unwrap();
         assert!(out.objective.unwrap() < 0.3);

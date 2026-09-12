@@ -66,28 +66,29 @@ Node indices start at zero. Position `i` belongs to node `i`, including isolated
 ```
 ], draw-graph(first, edges))
 
-The default stress method is majorization with at most 100 updates. The result contains `positions`, `iterations`, `converged`, and `objective`.
+The default stress method is SGD with at most 15 updates. The result contains `positions`, `iterations`, `converged`, and `objective`.
 
 == Choose a stress method
 
 Majorization uses constrained global solves and rejects updates that increase stress beyond roundoff. SGD visits shuffled node pairs with a decaying step schedule. It can reach a lower objective on some graphs, but it does not enforce a monotonic global objective. Fifteen SGD updates are a useful low-cost recipe.
 
-#let major = fast-layout.layout(8, edges, algorithm: "stress", seed: 7)
-#let quick = fast-layout.layout(8, edges, algorithm: "stress", stress-method: "sgd", iterations: 15, seed: 7)
+#let major = fast-layout.layout(8, edges, algorithm: "stress", stress-method: "majorization", seed: 7)
+#let quick = fast-layout.layout(8, edges, algorithm: "stress", seed: 7)
 #grid(
   columns: (1fr, 1fr), gutter: 10pt,
-  [*Default majorization* #v(3pt) #draw-graph(major, edges, width: 72mm, height: 38mm)],
-  [*15-update SGD* #v(3pt) #draw-graph(quick, edges, width: 72mm, height: 38mm, color: rgb("#dc2626"))],
+  [*Majorization (100-update automatic budget)* #v(3pt) #draw-graph(major, edges, width: 72mm, height: 38mm)],
+  [*Default SGD (15 updates)* #v(3pt) #draw-graph(quick, edges, width: 72mm, height: 38mm, color: rgb("#dc2626"))],
 )
 
 ```typst
-#let quick = layout(
+#let major = layout(
   8, edges,
   algorithm: "stress",
-  stress-method: "sgd",
-  iterations: 15,
+  stress-method: "majorization",
 )
 ```
+
+Omitting `iterations` gives SGD 15 updates and majorization 100. An explicit value overrides either automatic budget.
 
 Both methods use edge weights as target lengths. A weight of `2` asks for twice the path length of a weight of `1`.
 
@@ -199,10 +200,10 @@ The projection belongs to the drawing code. The returned positions still contain
   columns: (30mm, 32mm, 1fr), inset: 2.5pt, stroke: 0.35pt + luma(220),
   table.header([*Option*], [*Default*], [*Meaning*]),
   [`algorithm`], [`"stress"`], [Layout algorithm],
-  [`stress-method`], [`"majorization"`], [`majorization` or `sgd`; stress only],
+  [`stress-method`], [`"sgd"`], [`majorization` or `sgd`; stress only],
   [`dim`], [`2`], [Coordinates per node],
   [`seed`], [`1`], [Initialization, collision handling, and SGD pair order],
-  [`iterations`], [`100`], [Maximum numerical updates],
+  [`iterations`], [`none`], [15 for stress SGD; 100 for other numerical methods],
   [`tolerance`], [`1e-5`], [Stopping threshold],
   [`initial`, `pins`], [`()`], [Starts and coordinate masks for stress or spring],
   [`edge-weights`], [`()`], [Stress target lengths or spectral affinities],
@@ -270,4 +271,4 @@ The examples choose the smaller available-width and available-height ratio. That
 
 Invalid indices, incompatible options, non-finite values, and malformed trees return errors. Stress and spectral accept at most 4096 nodes. The general request boundary also caps nodes, edges, output coordinates, and encoded input size to prevent unreasonable allocations. These caps do not promise interactive runtime near the limit.
 
-Use spring for large 2D or 3D graphs. For weighted-distance layouts, compare the default majorization method with the 15-update SGD recipe on the graphs that matter to your document.
+Use spring for large 2D or 3D graphs. For weighted-distance layouts, compare the default 15-update SGD method with explicit majorization on the graphs that matter to your document.

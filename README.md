@@ -25,7 +25,7 @@ Use fast-layout for coordinates and CeTZ for drawing:
 #import "@preview/cetz:0.5.2"
 
 #let edges = ((0, 1), (1, 2), (2, 3), (3, 0))
-#let result = layout(4, edges, stress-method: "sgd", iterations: 15)
+#let result = layout(4, edges)
 #let points = result.positions
 
 #cetz.canvas(length: 1cm, {
@@ -40,8 +40,7 @@ Use fast-layout for coordinates and CeTZ for drawing:
 ```
 
 Node indices start at zero. Choose a layout with `algorithm`; use `dim` to set
-its output dimension. Stress defaults to majorization; the example selects SGD
-with 15 passes for faster computation.
+its output dimension. Stress defaults to SGD with 15 passes.
 
 ## Performance
 
@@ -51,11 +50,11 @@ a new layout.
 
 | Layout | First call | Warm call |
 | --- | ---: | ---: |
-| Stress SGD, 15 passes | 28.5 ms | 21.0 ms |
-| Stress majorization, 100 updates | 147.2 ms | 139.9 ms |
-| Spring, 100 updates | 53.1 ms | 46.9 ms |
-| Spectral | 75.2 ms | 67.7 ms |
-| Shell | 4.7 ms | 0.5 ms |
+| Stress (default SGD, 15 passes) | 26.0 ms | 21.0 ms |
+| Stress majorization, 100 updates | 143.7 ms | 140.8 ms |
+| Spring, 100 updates | 54.1 ms | 46.7 ms |
+| Spectral | 75.1 ms | 67.4 ms |
+| Shell | 4.3 ms | 0.3 ms |
 
 [Benchmark details](docs/performance-100.md)
 

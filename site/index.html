@@ -246,10 +246,10 @@
       stress: {
         name: "Stress", kind: "Numerical layout",
         summary: "Preserves graph-theoretic distances by minimizing mismatch between target and drawn distances.",
-        method: "Exact weighted stress majorization with reusable constrained Cholesky solves.",
+        method: "Default 15-update SGD. This displayed fixture explicitly uses weighted stress majorization with constrained Cholesky solves.",
         usecase: "Distance structure matters, including weighted or disconnected graphs.",
         tradeoff: "Dense setup costs O(n³) time and O(n²) memory.", dims: "1–4096",
-        fixture: "stress_weighted_connected_2d · 5 nodes · 6 updates",
+        fixture: "stress_weighted_connected_2d · explicit majorization · 5 nodes · 6 updates",
         positions: [[.7565,1.149],[.4168,.1961],[.355,-1.0993],[-.2934,-.5562],[-1.2349,.3104]],
         edges: [[0,1],[1,2],[2,3],[3,4],[0,4],[1,3]]
       },

@@ -87,3 +87,17 @@ A clean-target rebuild produced the identical 285,138-byte WASM recorded in
 The Git audit skill remains unavailable, so there is no delegated audit gate
 result. Read-only artifact inspection found the expected WASM, compiled manuals,
 and benchmark records. GitHub metadata confirms the repository remains private.
+
+## SGD default
+
+A fresh review found no material issue in the SGD default change. Optional
+iteration limits resolve to 15 for stress SGD and 100 for other methods;
+explicit limits remain intact and zero is rejected. Native and CBOR requests
+share this resolution. Rust callers now use `Some(limit)` for overrides.
+Majorization fixtures select their solver explicitly; fixture data is unchanged.
+
+All 44 native tests, the release jagmesh case, Clippy, both supported Typst
+versions, README snippets, and the package checker pass. The regenerated manual
+remains four pages and was visually inspected. The current profile records 135
+successful samples and the README uses its medians. Review confirmed the final
+documentation, defaults, and recorded WASM hash agree.

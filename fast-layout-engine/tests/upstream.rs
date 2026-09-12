@@ -1,4 +1,4 @@
-use fast_layout_engine::{compute, Algorithm, Request};
+use fast_layout_engine::{compute, Algorithm, Request, StressMethod};
 use serde::Deserialize;
 use serde_json::Value;
 
@@ -25,6 +25,9 @@ fn fixture(text: &str) -> Fixture {
     object.remove("name");
     object.remove("ideal_distances");
     object.remove("degree");
+    if object.get("algorithm").and_then(Value::as_str) == Some("stress") {
+        object.insert("stress_method".into(), "majorization".into());
+    }
     Fixture {
         request: serde_json::from_value(value).unwrap(),
         positions,
@@ -80,7 +83,7 @@ fn spring_matches_exact_fixed_initial_updates() {
     for text in [SPRING_2D, SPRING_3D] {
         let fixture = fixture(text);
         let response = compute(&fixture.request).unwrap();
-        assert_eq!(response.iterations, fixture.request.iterations);
+        assert_eq!(response.iterations, fixture.request.iteration_limit());
         assert!(!response.converged);
         close(
             &response.positions.concat(),
@@ -101,7 +104,7 @@ fn stress_matches_weighted_connected_and_disconnected_geometry() {
     ] {
         let fixture = fixture(text);
         let response = compute(&fixture.request).unwrap();
-        assert_eq!(response.iterations, fixture.request.iterations);
+        assert_eq!(response.iterations, fixture.request.iteration_limit());
         assert!(!response.converged);
         close(&pairwise(&response.positions), &fixture.distances, 2e-8);
         let scale = fixture.objective.unwrap().abs().max(1.0);
@@ -231,8 +234,9 @@ fn jagmesh_request(dim: usize) -> Request {
         })
         .collect();
     let mut request = Request::new(936, edges, Algorithm::Stress);
+    request.stress_method = StressMethod::Majorization;
     request.dim = dim;
-    request.iterations = 10;
+    request.iterations = Some(10);
     request.tolerance = 0.0;
     request.initial = (1..=936)
         .map(|i| {
@@ -277,7 +281,7 @@ fn wheel_is_deterministic_with_fixed_initial_positions() {
     ];
     for algorithm in [Algorithm::Stress, Algorithm::Spring] {
         let mut request = Request::new(5, edges.clone(), algorithm);
-        request.iterations = 4;
+        request.iterations = Some(4);
         request.tolerance = 0.0;
         request.theta = (algorithm == Algorithm::Spring).then_some(0.0);
         request.initial = (1..=5)

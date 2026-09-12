@@ -161,12 +161,12 @@ fn request(n: usize, algorithm: Algorithm, args: &Args) -> Request {
     };
     Request {
         dim,
-        iterations: args.iterations,
+        iterations: Some(args.iterations),
         tolerance: args.tolerance,
         stress_method: if algorithm == Algorithm::Stress {
             args.stress_method
         } else {
-            StressMethod::Majorization
+            StressMethod::Sgd
         },
         initial,
         theta: (algorithm == Algorithm::Spring).then_some(args.theta),
@@ -216,7 +216,7 @@ fn row(
         nodes: request.nodes,
         edges: request.edges.len(),
         dim: request.dim,
-        iterations_requested: request.iterations,
+        iterations_requested: request.iteration_limit(),
         repeats,
         tolerance: request.tolerance,
         stress_method: format!("{:?}", request.stress_method).to_lowercase(),

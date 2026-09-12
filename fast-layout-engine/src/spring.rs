@@ -34,7 +34,7 @@ fn run_dim<const D: usize>(req: &Request) -> Result<Response, String> {
     let mut pair = (D != 2).then(|| vec![0.; dim]);
     let mut converged = false;
     let mut iterations = 0;
-    for iteration in 1..=req.iterations {
+    for iteration in 1..=req.iteration_limit() {
         forces.fill(0.);
         if let Some(tree) = tree.as_mut() {
             tree.rebuild(&p);

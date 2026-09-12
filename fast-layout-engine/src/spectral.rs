@@ -51,7 +51,7 @@ pub(crate) fn run(req: &Request) -> Result<Response, String> {
                 eigen::partial(
                     &matrix,
                     count,
-                    req.iterations,
+                    req.iteration_limit(),
                     if req.tolerance == 0. {
                         1e-10
                     } else {
@@ -221,7 +221,7 @@ mod tests {
     #[test]
     fn one_partial_iteration_reports_unconverged() {
         let mut request = weighted_sparse_request(160, 3);
-        request.iterations = 1;
+        request.iterations = Some(1);
         let response = compute(&request).unwrap();
         assert_eq!(response.iterations, 1);
         assert!(!response.converged);

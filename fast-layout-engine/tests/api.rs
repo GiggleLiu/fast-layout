@@ -73,9 +73,53 @@ fn cbor_matches_native_and_is_byte_deterministic() {
 }
 
 #[test]
+fn automatic_defaults_match_explicit_settings_across_native_and_cbor() {
+    for (algorithm, method, limit) in [
+        (Algorithm::Stress, StressMethod::Sgd, 15),
+        (Algorithm::Stress, StressMethod::Majorization, 100),
+        (Algorithm::Spring, StressMethod::Sgd, 100),
+        (Algorithm::Spectral, StressMethod::Sgd, 100),
+    ] {
+        let mut value = serde_json::json!({
+            "nodes": 4, "edges": [[0, 1], [1, 2], [2, 3]], "tolerance": 0.0,
+        });
+        // The default stress case deliberately omits both selector fields.
+        if algorithm != Algorithm::Stress {
+            value["algorithm"] = serde_json::to_value(algorithm).unwrap();
+        }
+        if method == StressMethod::Majorization {
+            value["stress_method"] = serde_json::to_value(method).unwrap();
+        }
+        let request: Request = serde_json::from_value(value.clone()).unwrap();
+        assert_eq!(request.iteration_limit(), limit);
+        let mut explicit = path_request(algorithm);
+        explicit.stress_method = method;
+        explicit.iterations = Some(limit);
+        explicit.tolerance = 0.;
+        let expected = compute(&explicit).unwrap();
+        assert_eq!(compute(&request).unwrap(), expected);
+        let mut input = Vec::new();
+        ciborium::into_writer(&value, &mut input).unwrap();
+        let output = layout(&input).unwrap();
+        let decoded: Response = ciborium::from_reader(output.as_slice()).unwrap();
+        assert_eq!(decoded, expected);
+        if algorithm != Algorithm::Spectral {
+            assert_eq!(decoded.iterations, limit);
+            explicit.iterations = Some(7);
+            assert_eq!(compute(&explicit).unwrap().iterations, 7);
+        }
+    }
+    let mut request = path_request(Algorithm::Stress);
+    request.iterations = Some(0);
+    assert!(compute(&request)
+        .unwrap_err()
+        .contains("iterations must be between"));
+}
+
+#[test]
 fn rejects_unknown_or_inapplicable_stress_methods() {
     let mut request = path_request(Algorithm::Spring);
-    request.stress_method = StressMethod::Sgd;
+    request.stress_method = StressMethod::Majorization;
     assert!(compute(&request)
         .unwrap_err()
         .contains("stress_method is only supported for stress"));

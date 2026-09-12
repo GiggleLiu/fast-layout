@@ -33,6 +33,7 @@
   3,
   ((0, 1), (1, 2)),
   algorithm: "stress",
+  stress-method: "majorization",
   edge-weights: (1.0, 2.0),
   initial: ((-1.3333333333333333, 0.0), (-0.3333333333333333, 0.0), (1.6666666666666667, 0.0)),
   iterations: 2,
