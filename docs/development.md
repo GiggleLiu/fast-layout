@@ -19,7 +19,7 @@ regenerates the single PDF manual.
 
 `make package` stages `_dist/preview/fast-layout/0.1.0/`. This contains the
 manifest, public Typst files, WASM, README, licenses, and the linked PDF manual.
-Tests, build scripts, reference snapshots, benchmark records, and
+Tests, build scripts, reference scripts, benchmark records, and
 the introduction website stay in the development repository. The manifest
 excludes the manual files from the compiler's download bundle while keeping
 them available on Typst Universe.
@@ -36,13 +36,22 @@ rejects inaccessible URLs. Add it when there is a public source repository.
 ## Benchmarks and reference tests
 
 `make bench-typst` runs the [warm package comparison](warm-comparison.md).
-`make bench` measures native kernels. `scripts/profile_typst.py` provides a
-more detailed iteration/startup profile and writes scratch results under `_bench`.
+`make bench` measures native kernels. Warm benchmark traces and generated
+documents are written under `_bench/warm-comparison/`.
 The [native reference comparison](performance-100.md) documents optional C++
 benchmarks. Historical experiments remain in Git history.
 
-The [test port map](test-port-map.md) explains the retained Julia snapshot and
-numerical fixtures. Regeneration scripts are under `scripts/reference/`.
+The [test port map](test-port-map.md) records Julia provenance and numerical
+fixtures. To regenerate them, use Julia 1.12 and fetch the pinned NetworkLayout.jl
+commit into Julia's package cache:
+
+```sh
+julia --project=scripts/reference -e 'using Pkg; Pkg.instantiate()'
+OPENBLAS_NUM_THREADS=1 julia --project=scripts/reference scripts/reference/generate.jl
+```
+
+The first command requires network access. Ordinary Rust tests use the committed
+fixtures and need no Julia installation or upstream checkout.
 The larger upstream reference case is separate from the routine test suite:
 
 ```sh

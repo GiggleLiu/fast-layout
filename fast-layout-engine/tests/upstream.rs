@@ -210,7 +210,7 @@ fn singleton_spring_is_finite() {
 
 #[test]
 fn original_jagmesh_fixture_is_intact() {
-    let data = include_str!("../../upstream/NetworkLayout.jl/test/jagmesh1.mtx");
+    let data = include_str!("fixtures/jagmesh1.mtx");
     let entries: Vec<[usize; 2]> = data
         .lines()
         .map(|line| {
@@ -223,7 +223,7 @@ fn original_jagmesh_fixture_is_intact() {
 }
 
 fn jagmesh_request(dim: usize) -> Request {
-    let data = include_str!("../../upstream/NetworkLayout.jl/test/jagmesh1.mtx");
+    let data = include_str!("fixtures/jagmesh1.mtx");
     let edges = data
         .lines()
         .map(|line| {
