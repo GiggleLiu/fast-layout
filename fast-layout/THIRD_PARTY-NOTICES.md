@@ -7,7 +7,7 @@ Expat License. `NETWORKLAYOUT-LICENSE.md` reproduces its complete notice,
 including the notices it carries for GraphLayout.jl, PlotRecipes.jl, and
 GraphPlot.jl.
 
-The optional stress SGD optimizer is independently implemented from Zheng,
+The default stress SGD optimizer is independently implemented from Zheng,
 Pawar, and Goodman, [Graph Drawing by Stochastic Gradient Descent](https://arxiv.org/abs/1710.04626)
 (2019). The authors' [C++ `(sgd)²` implementation](https://github.com/jxz12/s_gd2)
 is used as a benchmark reference. Its source is not included in this package.
@@ -17,8 +17,9 @@ Copyright (c) 2026 Jinguo Liu, under the MIT License.
 
 The shipped WASM uses the following Cargo packages. Versions come from
 `Cargo.lock`; license names come from each installed crate manifest. The
-corresponding license files copied from those crate releases are under
-`licenses/<crate>-<version>/`.
+complete license texts and their crate/version mappings are in
+[THIRD-PARTY-LICENSES.txt](THIRD-PARTY-LICENSES.txt). Identical texts are included
+once; all copyright notices are retained.
 
 | Packages | License declared by crate |
 | --- | --- |

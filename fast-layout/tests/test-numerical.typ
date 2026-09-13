@@ -14,10 +14,10 @@
   algorithm: "spring",
   initial: ((-1.0, 0.2), (-0.3, 0.8), (0.4, -0.7), (1.1, 0.1), (0.2, 1.3)),
   iterations: 8,
-  tolerance: 0.0,
-  theta: 0.0,
-  c: 2.0,
-  temperature: 2.0,
+  tolerance: 0,
+  theta: 0,
+  c: 2,
+  temperature: 2,
 )
 #let spring-expected = (
   (-1.565989815349752, -0.6115860655569684),
@@ -43,12 +43,12 @@
 #close(distance(stress.positions.at(1), stress.positions.at(2)), 2.0)
 #close(distance(stress.positions.at(0), stress.positions.at(2)), 3.0)
 
-// SGD uses the same weighted stress objective and preserves exact pins.
+// Integer numeric options must work through CBOR and preserve the ideal geometry.
 #let sgd = layout(
   3, ((0, 1), (1, 2)),
-  stress-method: "sgd", iterations: 15, tolerance: 0.0, dim: 3,
-  edge-weights: (1.0, 2.0),
-  initial: ((0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (3.0, 0.0, 0.0)),
+  stress-method: "sgd", iterations: 15, tolerance: 0, dim: 3,
+  edge-weights: (1, 2),
+  initial: ((0, 0, 0), (1, 0, 0), (3, 0, 0)),
   pins: ((true, true, true), (), ()),
 )
 #assert.eq(sgd.positions.at(0), (0.0, 0.0, 0.0))
@@ -58,7 +58,7 @@
 #assert(not sgd.converged)
 
 // A four-cycle's spectral embedding is a square, independent of rotation or reflection.
-#let spectral = layout(4, ((0, 1), (1, 2), (2, 3), (3, 0)), algorithm: "spectral")
+#let spectral = layout(4, ((0, 1), (1, 2), (2, 3), (3, 0)), algorithm: "spectral", node-weights: (1, 1, 1, 1))
 #let side = distance(spectral.positions.at(0), spectral.positions.at(1))
 #close(distance(spectral.positions.at(1), spectral.positions.at(2)), side)
 #close(distance(spectral.positions.at(2), spectral.positions.at(3)), side)
@@ -78,7 +78,7 @@
 #assert.eq(pinned.positions.at(0), (3.0, -2.0, 1.5))
 
 // Directed root selection and depth spacing for Buchheim trees.
-#let tree = layout(4, ((2, 0), (2, 1), (1, 3)), algorithm: "buchheim", root: 2)
+#let tree = layout(4, ((2, 0), (2, 1), (1, 3)), algorithm: "buchheim", root: 2, node-sizes: (1, 1, 1, 1))
 #assert.eq(tree.positions, ((-1.0, -2.0), (1.0, -2.0), (0.0, 0.0), (1.0, -4.0)))
 
 Numerical layout checks passed.

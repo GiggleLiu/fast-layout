@@ -9,7 +9,7 @@ from pathlib import Path
 import statistics
 import subprocess
 
-from bench_typst import ROOT, graph, machine_info, typst_array
+from bench_common import ROOT, graph, machine_info, typst_array
 from profile_typst import run_case
 
 
