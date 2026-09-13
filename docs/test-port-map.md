@@ -1,8 +1,17 @@
 # NetworkLayout.jl test port map
 
-Reference: NetworkLayout.jl 0.4.10 at commit
-`073192ac737ff3309d7a1204fdd99ea361232d2b`. Julia uses one-based indices;
-Rust fixtures use zero-based indices.
+Reference: [NetworkLayout.jl 0.4.10 at commit
+`073192ac737ff3309d7a1204fdd99ea361232d2b`](https://github.com/JuliaGraphs/NetworkLayout.jl/tree/073192ac737ff3309d7a1204fdd99ea361232d2b).
+Julia uses one-based indices; Rust fixtures use zero-based indices.
+
+The optional Julia reference environment fetches this exact commit. We retain
+the generated JSON fixtures and the unchanged upstream
+[`test/jagmesh1.mtx`](https://github.com/JuliaGraphs/NetworkLayout.jl/blob/073192ac737ff3309d7a1204fdd99ea361232d2b/test/jagmesh1.mtx)
+in `fast-layout-engine/tests/fixtures/`. The matrix file's SHA-256 is
+`88da6828587dba25012fb680885e1edf010e779636298151a26c253d7bc2372c`.
+Upstream attribution and the full [MIT license](../fast-layout/NETWORKLAYOUT-LICENSE.md)
+remain in the package. See [development instructions](development.md#benchmarks-and-reference-tests)
+to regenerate the fixtures.
 
 | Upstream test | Rust coverage | Status |
 | --- | --- | --- |
@@ -20,7 +29,7 @@ Rust fixtures use zero-based indices.
 | Buchheim original varying-size tree | `buchheim_varying_size.json` | Ported |
 | Buchheim binary tree | Tree geometry assertions | Ported |
 | Buchheim invalid tree requirements | Multiple-parent, root, cycle, and unreachable tests | Ported and expanded |
-| Graphs extension glue | Indexed edge-list construction tests | Replaced by the Rust-native graph input contract; extension retained only to run Julia reference code |
+| Graphs extension glue | Indexed edge-list construction tests | Replaced by the Rust-native graph input contract |
 | Square-adjacency assertion | Request node count and edge-bound validation | Replaced by the indexed-edge API, which has no adjacency shape |
 | Symmetric adjacency conversion | Graph duplicate/reverse-edge normalization tests | Ported to undirected edge normalization; conflicting duplicate weights are rejected |
 | Initial position and pin sanitization | Request validation and per-coordinate pin tests | Ported to typed Rust input |

@@ -32,7 +32,8 @@ the same requests. Quality must also match the fixed Julia fixtures: Spring
 coordinates within `2e-10`, unpinned Stress pairwise distances and objective
 within `2e-8`, and Spectral generalized-eigen residuals below `2e-9`.
 
-Run the benchmark with:
+After [installing the Julia reference environment](development.md#benchmarks-and-reference-tests),
+run the benchmark with:
 
 ```sh
 OPENBLAS_NUM_THREADS=1 julia --project=scripts/reference scripts/reference/benchmark.jl
