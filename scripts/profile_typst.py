@@ -10,7 +10,7 @@ import subprocess
 import time
 from pathlib import Path
 
-from bench_typst import ROOT, graph, machine_info, typst_array
+from bench_common import ROOT, graph, machine_info, typst_array
 
 OUT = ROOT / "_bench/profile-100"
 WASM = ROOT / "fast-layout/plugin/fast_layout_engine.wasm"
@@ -189,7 +189,7 @@ def main():
     parser.add_argument("--repeated-calls", type=int, default=5)
     parser.add_argument("--timeout", type=float, default=30.0)
     parser.add_argument(
-        "--output", default="docs/benchmarks/profile-100-current.json"
+        "--output", default="_bench/profile-100.json"
     )
     args = parser.parse_args()
     if args.repeats < 1 or args.repeated_calls < 2 or args.timeout <= 0:

@@ -1,6 +1,7 @@
 target/
 _pkgroot/
 _bench/
+_dist/
 *.pdf
 !fast-layout/manual.pdf
 .DS_Store

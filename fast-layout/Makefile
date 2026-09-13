@@ -31,7 +31,7 @@ WORKSPACE_ROOT = $(abspath ..)
 REPRO_RUSTFLAGS = --remap-path-prefix=$(CARGO_HOME_DIR)=/cargo --remap-path-prefix=$(WORKSPACE_ROOT)=/build --remap-path-prefix=$(RUST_SYSROOT)/lib/rustlib/src/rust=/rustc/$(RUST_COMMIT)
 
 plugin:
-	RUSTFLAGS="$(REPRO_RUSTFLAGS)" cargo build --manifest-path ../Cargo.toml -p fast-layout-engine --release --target wasm32-unknown-unknown
+	RUSTFLAGS="$(REPRO_RUSTFLAGS)" cargo build --locked --manifest-path ../Cargo.toml -p fast-layout-engine --release --target wasm32-unknown-unknown
 	@mkdir -p plugin
 	cp ../target/wasm32-unknown-unknown/release/fast_layout_engine.wasm $(WASM_OUT)
 

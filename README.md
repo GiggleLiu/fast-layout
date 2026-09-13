@@ -28,6 +28,9 @@ cd fast-layout
 make install
 ```
 
+Requires Typst 0.14.2 or newer. The compiled WASM is included; Rust is only
+needed when rebuilding the engine.
+
 ## Draw a graph
 
 Use fast-layout for coordinates and CeTZ for drawing:
@@ -83,4 +86,8 @@ cyclic benchmark graph.
 The original algorithms and tests are adapted from
 [NetworkLayout.jl](https://github.com/JuliaGraphs/NetworkLayout.jl) by Abhijith
 Anilkumar and contributors. Its [MIT license](fast-layout/NETWORKLAYOUT-LICENSE.md)
-is retained. See [third-party notices](THIRD_PARTY-NOTICES.md) for all attribution.
+is retained. See [third-party notices](fast-layout/THIRD_PARTY-NOTICES.md) for all attribution.
+
+## Development
+
+See [building, testing, and preparing a submission](docs/development.md).

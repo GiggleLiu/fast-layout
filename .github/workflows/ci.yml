@@ -22,10 +22,10 @@ jobs:
           typst-version: ${{ matrix.typst }}
       - run: rustup component add clippy
       - run: cargo fmt --all --check
-      - run: cargo clippy --workspace --all-targets -- -D warnings
+      - run: cargo clippy --locked --workspace --all-targets -- -D warnings
       - run: make test
       - name: Check rebuilt WASM
         if: matrix.typst == '0.14.2'
         run: git diff --exit-code -- fast-layout/plugin/fast_layout_engine.wasm
-      - name: typst-package-check
-        run: docker run --rm -v "$PWD/fast-layout:/data" ghcr.io/typst/package-check check
+      - name: Check submission bundle and README examples
+        run: make check-package

@@ -5,15 +5,33 @@ Typst WASM plugin. No Julia, Python, Graphviz, or native math runtime is needed.
 Drawing belongs to the calling document. The manual uses
 [CeTZ](https://typst.app/universe/package/cetz/) 0.5.2 for rendering.
 
-[Manual (PDF)](manual.pdf) · [Download](https://github.com/GiggleLiu/fast-layout/raw/refs/heads/main/fast-layout/manual.pdf)
+[Download the manual (PDF)](manual.pdf)
 
 The original algorithms and behavioral tests are adapted from
 [NetworkLayout.jl](https://github.com/JuliaGraphs/NetworkLayout.jl) 0.4.10.
 We thank its contributors and retain their [MIT license](NETWORKLAYOUT-LICENSE.md)
 and attribution in [third-party notices](THIRD_PARTY-NOTICES.md).
 
-This package is local and has not been published to Typst Universe. Run
-`make install` from the repository to use this import in your own documents.
+Requires Typst 0.14.2 or newer. Compute positions, then draw them with CeTZ:
+
+```typst
+#import "@preview/fast-layout:0.1.0": layout
+#import "@preview/cetz:0.5.2"
+
+#let edges = ((0, 1), (1, 2), (2, 3), (3, 0))
+#let points = layout(4, edges).positions
+#cetz.canvas(length: 1cm, {
+  import cetz.draw: *
+  for (a, b) in edges {
+    line(points.at(a), points.at(b))
+  }
+  for point in points {
+    circle(point, radius: 3pt, fill: white)
+  }
+})
+```
+
+Use `dim` for higher-dimensional numerical layouts:
 
 ```typst
 #import "@preview/fast-layout:0.1.0": layout
@@ -75,6 +93,7 @@ an error.
 For example, this holds node 0 fixed and holds only node 1's x coordinate:
 
 ```typst
+#import "@preview/fast-layout:0.1.0": layout
 #let result = layout(
   3, ((0, 1), (1, 2)),
   initial: ((0, 0), (2, 1), none),
@@ -89,8 +108,9 @@ Majorization uses constrained global solves and enforces a non-increasing
 objective. Select it explicitly; its automatic budget is 100 updates:
 
 ```typst
+#import "@preview/fast-layout:0.1.0": layout
 #let major = layout(
-  100, edges,
+  4, ((0, 1), (1, 2), (2, 3), (3, 0)),
   algorithm: "stress",
   stress-method: "majorization",
 )
@@ -163,3 +183,16 @@ coordinates, and 32 MiB of encoded CBOR. These are allocation guards, not promis
 of interactive runtime. Stress majorization additionally caps its pair/factor matrices at
 512 MB; other buffers add memory. Extreme weight ratios may return a numerical
 conditioning error even when individual weights are valid.
+
+### Version information
+
+`fast-layout-version` is the package version string, currently `"0.1.0"`.
+`engine-version()` returns the bundled engine string, currently
+`"fast-layout-engine 0.1.0"`. Both are exported alongside `layout`.
+
+## License
+
+The Typst wrapper and layout implementation are covered by the [MIT license](LICENSE).
+The bundled WASM also contains dependencies under the licenses listed in
+[third-party notices](THIRD_PARTY-NOTICES.md), with complete texts in
+[THIRD-PARTY-LICENSES.txt](THIRD-PARTY-LICENSES.txt).

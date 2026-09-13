@@ -1,6 +1,9 @@
 // WASM bridge. Rendering stays in the calling Typst document.
 #let _engine = plugin("../plugin/fast_layout_engine.wasm")
 
+// CBOR distinguishes integers from floats; Rust's numeric fields expect floats.
+#let _float(value) = if type(value) == int { float(value) } else { value }
+
 /// Returns the bundled engine version string.
 #let engine-version() = str(_engine.version())
 
@@ -39,16 +42,16 @@
     dim: dim,
     seed: seed,
     iterations: iterations,
-    tolerance: tolerance,
-    initial: initial,
+    tolerance: _float(tolerance),
+    initial: initial.map(point => if point == none { none } else { point.map(_float) }),
     pins: pins,
-    edge_weights: edge-weights,
-    theta: theta,
-    c: c,
-    temperature: temperature,
-    node_weights: node-weights,
+    edge_weights: edge-weights.map(_float),
+    theta: _float(theta),
+    c: _float(c),
+    temperature: _float(temperature),
+    node_weights: node-weights.map(_float),
     shells: shells,
-    node_sizes: node-sizes,
+    node_sizes: node-sizes.map(_float),
     root: root,
   ))
   cbor(_engine.layout(request))

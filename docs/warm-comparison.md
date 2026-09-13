@@ -3,7 +3,7 @@
 Measured on 2026-09-13 with Typst 0.15.1 on an Intel Xeon Gold 6226R, Linux x86_64.
 Both packages ran on the same machine, serially, with cases interleaved over
 three repetitions. The graph has 100 nodes and 194 undirected edges, generated
-by `scripts/bench_typst.py::graph(100)`. Every case receives the same edge list;
+by `scripts/bench_common.py::graph(100)`. Every case receives the same edge list;
 shell uses the node count to place points on a circle.
 
 | Package / layout | Warm API | Warm WASM export |
@@ -32,6 +32,9 @@ Spectral and shell appear as additional, unpaired rows in the README. Buchheim
 is listed as supported but unmeasured: it requires a tree, so this cyclic graph
 cannot serve as its benchmark input. Unmeasured comparison cells do not imply
 that Graphviz lacks related layout functionality.
+
+The [native 100-node benchmark](performance-100.md) records a separate historical
+comparison of fast-layout's Rust SGD engine with `s_gd2`.
 
 ## What is warmed
 
