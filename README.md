@@ -62,20 +62,15 @@ the seed each time. Values are medians of 12 warm calls across three processes.
 These are profiled **complete layout API calls**, including input encoding and
 output decoding; plugin loading and drawing are excluded.
 
-| Package | Layout | Warm call |
-| --- | --- | ---: |
-| fast-layout 0.1.0 | Stress SGD, default 15 passes | 21.4 ms |
-| fast-layout 0.1.0 | Stress majorization, 100 updates | 140.5 ms |
-| fast-layout 0.1.0 | Spring, 100 updates | 47.0 ms |
-| fast-layout 0.1.0 | Spectral | 67.8 ms |
-| fast-layout 0.1.0 | Shell | 0.7 ms |
-| diagraph-layout 0.0.1 | Graphviz `neato` | 1,335.1 ms |
-| diagraph-layout 0.0.1 | Graphviz `fdp` | 11,019.5 ms |
-| diagraph-layout 0.0.1 | Graphviz `sfdp` | 517.6 ms |
+| Layout family | fast-layout 0.1.0 (ours) | diagraph-layout 0.0.1 (Graphviz) |
+| --- | --- | --- |
+| Stress minimization | SGD, default 15 passes: **21.4 ms**; majorization, 100 updates: **140.5 ms** | `neato`: **1,335.1 ms** |
+| Force-directed | Spring, 100 updates: **47.0 ms** | `fdp`: **11,019.5 ms**; multilevel `sfdp`: **517.6 ms** |
 
-On this graph, default stress SGD takes about 21 ms. diagraph-layout also computes
-node sizes and edge routes; its Graphviz engines use different algorithms and
-stopping rules. These timings compare package costs, not equal-quality layouts.
+Rows group related algorithms. diagraph-layout also computes node sizes and edge
+routes; iteration budgets and final quality are not matched. Spectral and shell
+timings are listed separately in the detailed report, without a paired Graphviz
+comparison.
 
 [Benchmark details and reproduction](docs/warm-comparison.md)
 

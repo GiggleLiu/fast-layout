@@ -22,6 +22,14 @@ encoding, WASM call, and result decoding. The WASM column isolates the `call
 plugin` span inside that API call. Medians are calculated independently; their
 difference is not an exact measurement of wrapper time.
 
+The README groups related methods into two package columns, marking fast-layout
+as ours. Stress SGD and majorization are compared with
+[`neato`](https://graphviz.org/docs/layouts/neato/), which minimizes stress.
+Spring is grouped with [`fdp`](https://graphviz.org/docs/layouts/fdp/) and its
+multilevel alternative [`sfdp`](https://graphviz.org/docs/layouts/sfdp/).
+These are algorithm families, not identical implementations or stopping rules.
+Spectral and shell remain unpaired in the full results above.
+
 ## What is warmed
 
 Each document calls one layout five times, with seeds 1 through 5. The first call
