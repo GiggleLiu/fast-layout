@@ -33,7 +33,8 @@ needed when rebuilding the engine.
 
 ## Draw a graph
 
-Use fast-layout for coordinates and CeTZ to draw this 100-vertex, 180-edge grid:
+Use fast-layout for coordinates and CeTZ to draw a connected random graph with
+100 vertices. Start with a path, then add seeded pseudorandom edges:
 
 ```typst
 #import "@preview/fast-layout:0.1.0": layout
@@ -41,14 +42,21 @@ Use fast-layout for coordinates and CeTZ to draw this 100-vertex, 180-edge grid:
 
 #set page(width: auto, height: auto, margin: 12pt, fill: white)
 
-#let edges = (
-  range(100).filter(i => calc.rem(i, 10) < 9).map(i => (i, i + 1))
-  + range(90).map(i => (i, i + 10))
-)
+#let edges = {
+  let edges = range(1, 100).map(i => (i - 1, i))
+  let seed = 1
+  for i in range(100) {
+    seed = calc.rem(seed * 48271, 2147483647)
+    let j = calc.rem(seed, 100)
+    let edge = (calc.min(i, j), calc.max(i, j))
+    if i != j and not edges.contains(edge) { edges.push(edge) }
+  }
+  edges
+}
 #let result = layout(100, edges)
 #let points = result.positions
 
-#cetz.canvas(length: 6mm, {
+#cetz.canvas(length: 12mm, {
   import cetz.draw: *
   for (a, b) in edges {
     line(points.at(a), points.at(b), stroke: 0.7pt + rgb("#94a3b8"))
@@ -59,7 +67,7 @@ Use fast-layout for coordinates and CeTZ to draw this 100-vertex, 180-edge grid:
 })
 ```
 
-![100-vertex grid drawn with CeTZ using the default stress layout](docs/graph-100.svg)
+![100-vertex connected random graph drawn with CeTZ using the default stress layout](docs/graph-100.svg)
 
 Node indices start at zero. Choose a layout with `algorithm`; use `dim` to set
 its output dimension. Stress defaults to SGD with 15 passes.
