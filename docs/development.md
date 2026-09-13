@@ -36,8 +36,8 @@ rejects inaccessible URLs. Add it when there is a public source repository.
 ## Benchmarks and reference tests
 
 `make bench-typst` runs the [warm package comparison](warm-comparison.md).
-`make bench` measures native kernels. `scripts/profile_typst.py` provides a
-more detailed iteration/startup profile and writes scratch results under `_bench`.
+`make bench` measures native kernels. Warm benchmark traces and generated
+documents are written under `_bench/warm-comparison/`.
 The [native reference comparison](performance-100.md) documents optional C++
 benchmarks. Historical experiments remain in Git history.
 
