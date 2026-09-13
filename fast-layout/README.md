@@ -1,11 +1,16 @@
 # fast-layout
 
-Graph coordinates from pure Rust, available as a native library and a bundled
-Typst WASM plugin. No Julia, Python, Graphviz, or native math runtime is needed.
+Compute fast layouts for graph plots with a bundled Rust/WASM engine.
+Recompute coordinates as you edit your document in live preview.
+Stress, spring, spectral, shell, and tree layouts return coordinates for drawing
+with CeTZ or another plotting package. No Julia, Python, Graphviz, or native
+math runtime is needed.
 Drawing belongs to the calling document. The manual uses
 [CeTZ](https://typst.app/universe/package/cetz/) 0.5.2 for rendering.
 
 [Download the manual (PDF)](manual.pdf)
+
+![100-vertex random graph drawn with CeTZ using the default stress layout](images/graph-100.svg)
 
 The original algorithms and behavioral tests are adapted from
 [NetworkLayout.jl](https://github.com/JuliaGraphs/NetworkLayout.jl) 0.4.10.

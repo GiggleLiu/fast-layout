@@ -36,7 +36,7 @@ package: manual
 	  fast-layout/LICENSE fast-layout/NETWORKLAYOUT-LICENSE.md \
 	  fast-layout/THIRD_PARTY-NOTICES.md fast-layout/THIRD-PARTY-LICENSES.txt \
 	  fast-layout/manual.pdf "$(PACKAGE_DIR)/"
-	cp -R fast-layout/src fast-layout/plugin "$(PACKAGE_DIR)/"
+	cp -R fast-layout/src fast-layout/plugin fast-layout/images "$(PACKAGE_DIR)/"
 
 check-package: package
 	docker run --rm -v "$(PACKAGE_DIR):/data" ghcr.io/typst/package-check check

@@ -28,10 +28,9 @@ Before submitting, run `make test` and `make check-package`. Copy the staged
 directory to `packages/preview/fast-layout/0.1.0/` in a fork of `typst/packages`
 and open the package submission PR following the official
 [submission guidelines](https://github.com/typst/packages/blob/main/docs/README.md).
-Staging files does not publish them. This development repository is currently
-private; a submission to `typst/packages` publishes the submitted files. The
-optional `repository` manifest field is omitted because the package checker
-rejects inaccessible URLs. Add it when there is a public source repository.
+Staging files does not publish them. The public development repository contains
+the Rust sources and reproducible build instructions. The registry submission
+contains the package files and linked documentation.
 
 ## Benchmarks and reference tests
 
