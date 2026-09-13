@@ -28,7 +28,10 @@ as ours. Stress SGD and majorization are compared with
 Spring is grouped with [`fdp`](https://graphviz.org/docs/layouts/fdp/) and its
 multilevel alternative [`sfdp`](https://graphviz.org/docs/layouts/sfdp/).
 These are algorithm families, not identical implementations or stopping rules.
-Spectral and shell remain unpaired in the full results above.
+Spectral and shell appear as additional, unpaired rows in the README. Buchheim
+is listed as supported but unmeasured: it requires a tree, so this cyclic graph
+cannot serve as its benchmark input. Unmeasured comparison cells do not imply
+that Graphviz lacks related layout functionality.
 
 ## What is warmed
 

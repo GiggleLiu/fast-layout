@@ -66,11 +66,15 @@ output decoding; plugin loading and drawing are excluded.
 | --- | --- | --- |
 | Stress minimization | SGD, default 15 passes: **21.4 ms**; majorization, 100 updates: **140.5 ms** | `neato`: **1,335.1 ms** |
 | Force-directed | Spring, 100 updates: **47.0 ms** | `fdp`: **11,019.5 ms**; multilevel `sfdp`: **517.6 ms** |
+| Spectral | **67.8 ms** | Not benchmarked |
+| Circular / shell | **0.7 ms** | Not benchmarked |
+| Buchheim tidy tree | Supported; not benchmarked | Not benchmarked |
 
 Rows group related algorithms. diagraph-layout also computes node sizes and edge
-routes; iteration budgets and final quality are not matched. Spectral and shell
-timings are listed separately in the detailed report, without a paired Graphviz
-comparison.
+routes; iteration budgets and final quality are not matched. "Not benchmarked"
+means no warm measurement is available in this comparison, not that the package
+lacks related functionality. Buchheim requires a tree and is not timed on this
+cyclic benchmark graph.
 
 [Benchmark details and reproduction](docs/warm-comparison.md)
 
