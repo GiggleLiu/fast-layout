@@ -1,6 +1,6 @@
 # fast-layout
 
-Graph layouts for Typst, computed in pure Rust. Supports stress, spring, spectral,
+Fast graph layouts for Typst live previews, computed in pure Rust. Supports stress, spring, spectral,
 circular/shell, and Buchheim trees. Numerical layouts support 2D, 3D, and higher dimensions.
 
 [Download the manual (PDF)](https://github.com/GiggleLiu/fast-layout/raw/refs/heads/main/fast-layout/manual.pdf)
@@ -67,7 +67,7 @@ Use fast-layout for coordinates and CeTZ to draw a connected random graph with
 })
 ```
 
-![100-vertex connected random graph drawn with CeTZ using the default stress layout](docs/graph-100.svg)
+![100-vertex connected random graph drawn with CeTZ using the default stress layout](fast-layout/images/graph-100.svg)
 
 Node indices start at zero. Choose a layout with `algorithm`; use `dim` to set
 its output dimension. Stress defaults to SGD with 15 passes.
