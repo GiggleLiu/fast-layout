@@ -6,6 +6,18 @@ circular/shell, and Buchheim trees. Numerical layouts support 2D, 3D, and higher
 [Download the manual (PDF)](https://github.com/GiggleLiu/fast-layout/raw/refs/heads/main/fast-layout/manual.pdf)
 · [API reference](fast-layout/README.md)
 
+## Why another layout engine?
+
+fast-layout focuses on fast node coordinates for custom drawings with CeTZ:
+SGD stress, spectral layouts, configurable dimensions, and fixed coordinates.
+The same kernels are also available as a native Rust library.
+
+[diagraph-layout](https://typst.app/universe/package/diagraph-layout/) exposes
+Graphviz, including hierarchical `dot` layouts, node sizes, and edge routing.
+Choose it when you need those features; choose fast-layout when you want numerical
+positions and control the drawing yourself. The warm-call comparison below
+measures the cost of each package's layout API.
+
 ## Install
 
 Version 0.1.0 is available from this repository. Install it locally:
@@ -44,19 +56,28 @@ its output dimension. Stress defaults to SGD with 15 passes.
 
 ## Performance
 
-100 nodes, Typst 0.15.1, Intel Xeon Gold 6226R. Median plugin-call time over
-three runs; drawing is excluded. Warm calls reuse the loaded plugin and compute
-a new layout.
+100 nodes and 194 edges, Typst 0.15.1, Intel Xeon Gold 6226R. Both packages use
+**warm, uncached calls**: discard the first of five calls per process and change
+the seed each time. Values are medians of 12 warm calls across three processes.
+These are profiled **complete layout API calls**, including input encoding and
+output decoding; plugin loading and drawing are excluded.
 
-| Layout | First call | Warm call |
-| --- | ---: | ---: |
-| Stress (default SGD, 15 passes) | 26.0 ms | 21.0 ms |
-| Stress majorization, 100 updates | 143.7 ms | 140.8 ms |
-| Spring, 100 updates | 54.1 ms | 46.7 ms |
-| Spectral | 75.1 ms | 67.4 ms |
-| Shell | 4.3 ms | 0.3 ms |
+| Package | Layout | Warm call |
+| --- | --- | ---: |
+| fast-layout 0.1.0 | Stress SGD, default 15 passes | 21.4 ms |
+| fast-layout 0.1.0 | Stress majorization, 100 updates | 140.5 ms |
+| fast-layout 0.1.0 | Spring, 100 updates | 47.0 ms |
+| fast-layout 0.1.0 | Spectral | 67.8 ms |
+| fast-layout 0.1.0 | Shell | 0.7 ms |
+| diagraph-layout 0.0.1 | Graphviz `neato` | 1,335.1 ms |
+| diagraph-layout 0.0.1 | Graphviz `fdp` | 11,019.5 ms |
+| diagraph-layout 0.0.1 | Graphviz `sfdp` | 517.6 ms |
 
-[Benchmark details](docs/performance-100.md)
+On this graph, default stress SGD takes about 21 ms. diagraph-layout also computes
+node sizes and edge routes; its Graphviz engines use different algorithms and
+stopping rules. These timings compare package costs, not equal-quality layouts.
+
+[Benchmark details and reproduction](docs/warm-comparison.md)
 
 ## Acknowledgments
 

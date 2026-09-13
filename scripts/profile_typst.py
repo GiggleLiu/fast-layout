@@ -105,8 +105,8 @@ def trace_durations(events):
     return durations
 
 
-def run_case(name, source, repeat, timeout):
-    directory = OUT / name / f"run-{repeat + 1}"
+def run_case(name, source, repeat, timeout, output_dir=OUT):
+    directory = output_dir / name / f"run-{repeat + 1}"
     directory.mkdir(parents=True, exist_ok=True)
     doc = directory / "case.typ"
     doc.write_text(source)

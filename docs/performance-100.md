@@ -1,5 +1,9 @@
 # 100-node performance
 
+For the latest warm API comparison with diagraph-layout, see
+[the warm-call benchmark](warm-comparison.md). The profiles below record earlier
+measurements of this plugin build.
+
 This report measures the current 285,605-byte WASM plugin on a controlled
 100-node connected random graph with 194 edges. It separates the first plugin
 call in a fresh Typst process from later calls that reuse the loaded module but
