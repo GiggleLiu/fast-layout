@@ -33,26 +33,33 @@ needed when rebuilding the engine.
 
 ## Draw a graph
 
-Use fast-layout for coordinates and CeTZ for drawing:
+Use fast-layout for coordinates and CeTZ to draw this 100-vertex, 180-edge grid:
 
 ```typst
 #import "@preview/fast-layout:0.1.0": layout
 #import "@preview/cetz:0.5.2"
 
-#let edges = ((0, 1), (1, 2), (2, 3), (3, 0))
-#let result = layout(4, edges)
+#set page(width: auto, height: auto, margin: 12pt, fill: white)
+
+#let edges = (
+  range(100).filter(i => calc.rem(i, 10) < 9).map(i => (i, i + 1))
+  + range(90).map(i => (i, i + 10))
+)
+#let result = layout(100, edges)
 #let points = result.positions
 
-#cetz.canvas(length: 1cm, {
+#cetz.canvas(length: 6mm, {
   import cetz.draw: *
   for (a, b) in edges {
-    line(points.at(a), points.at(b))
+    line(points.at(a), points.at(b), stroke: 0.7pt + rgb("#94a3b8"))
   }
   for point in points {
-    circle(point, radius: 3pt, fill: white)
+    circle(point, radius: 2.5pt, fill: rgb("#2563eb"), stroke: none)
   }
 })
 ```
+
+![100-vertex grid drawn with CeTZ using the default stress layout](docs/graph-100.svg)
 
 Node indices start at zero. Choose a layout with `algorithm`; use `dim` to set
 its output dimension. Stress defaults to SGD with 15 passes.
